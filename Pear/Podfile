@@ -1,0 +1,14 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, "8.0"
+
+target "Pear" do
+
+pod 'Facebook-iOS-SDK', '~> 3.19'
+pod 'Parse', '~> 1.4'
+
+end
+
+target "PearTests" do
+
+end
+
