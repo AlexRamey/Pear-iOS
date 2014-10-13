@@ -18,6 +18,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //populate scrollView with PARCommentCards. . .
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,7 +33,6 @@
 {
     //Tell the game controller to load a new couple
     PARGameViewController *gameVC = (PARGameViewController *)[self presentingViewController];
-    
     [gameVC dismissViewControllerAnimated:YES completion:nil];
 }
 

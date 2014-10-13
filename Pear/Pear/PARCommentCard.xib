@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="k7a-Gj-p5M" customClass="PARCommentCard">
+            <rect key="frame" x="0.0" y="0.0" width="360" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D60-ZQ-p9M">
+                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="D60-ZQ-p9M" secondAttribute="height" multiplier="1:1" id="Ngs-H2-G0F"/>
+                    </constraints>
+                </view>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q1V-OI-tst">
+                    <rect key="frame" x="108" y="37" width="252" height="63"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="252" placeholderIntrinsicHeight="47" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV4-P8-Tn0">
+                            <rect key="frame" x="0.0" y="8" width="252" height="47"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="NV4-P8-Tn0" secondAttribute="trailing" id="2Df-lv-euA"/>
+                        <constraint firstItem="NV4-P8-Tn0" firstAttribute="top" secondItem="Q1V-OI-tst" secondAttribute="top" constant="8" id="AaJ-Se-u4W"/>
+                        <constraint firstItem="NV4-P8-Tn0" firstAttribute="leading" secondItem="Q1V-OI-tst" secondAttribute="leading" id="WgB-z5-uiq"/>
+                        <constraint firstAttribute="bottom" secondItem="NV4-P8-Tn0" secondAttribute="bottom" constant="8" id="kay-5d-Vlp"/>
+                    </constraints>
+                </scrollView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="244" placeholderIntrinsicHeight="21" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FH7-90-eGB">
+                    <rect key="frame" x="108" y="8" width="244" height="21"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="D60-ZQ-p9M" firstAttribute="top" secondItem="k7a-Gj-p5M" secondAttribute="top" id="3Cg-O4-wCJ"/>
+                <constraint firstItem="FH7-90-eGB" firstAttribute="top" secondItem="k7a-Gj-p5M" secondAttribute="top" constant="8" id="45q-G9-tjy"/>
+                <constraint firstAttribute="bottom" secondItem="Q1V-OI-tst" secondAttribute="bottom" id="BtD-BQ-A71"/>
+                <constraint firstAttribute="bottom" secondItem="D60-ZQ-p9M" secondAttribute="bottom" id="ByJ-Hp-Csd"/>
+                <constraint firstItem="Q1V-OI-tst" firstAttribute="top" secondItem="FH7-90-eGB" secondAttribute="bottom" constant="8" id="DTc-50-iAW"/>
+                <constraint firstItem="FH7-90-eGB" firstAttribute="leading" secondItem="D60-ZQ-p9M" secondAttribute="trailing" constant="8" id="GbW-lr-NQ7"/>
+                <constraint firstItem="D60-ZQ-p9M" firstAttribute="leading" secondItem="k7a-Gj-p5M" secondAttribute="leading" id="On2-Qb-QDb"/>
+                <constraint firstItem="Q1V-OI-tst" firstAttribute="leading" secondItem="FH7-90-eGB" secondAttribute="leading" id="RE9-Lg-8o0"/>
+                <constraint firstAttribute="trailing" secondItem="FH7-90-eGB" secondAttribute="trailing" constant="8" id="TKm-eU-H1s"/>
+                <constraint firstAttribute="trailing" secondItem="Q1V-OI-tst" secondAttribute="trailing" id="zze-Cp-7Ho"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="commentLabel" destination="NV4-P8-Tn0" id="b1U-I0-aAh"/>
+                <outlet property="nameLabel" destination="FH7-90-eGB" id="kEe-Ds-dPC"/>
+                <outlet property="profilePictureFillerView" destination="D60-ZQ-p9M" id="Ek8-1S-unT"/>
+            </connections>
+            <point key="canvasLocation" x="78" y="125"/>
+        </view>
+    </objects>
+</document>

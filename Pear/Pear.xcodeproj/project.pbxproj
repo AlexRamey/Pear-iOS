@@ -19,6 +19,10 @@
 		D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5944C19EB7BBA00B09260 /* PARDataStore.m */; };
 		D0F5945219EC314C00B09260 /* PARGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5945119EC314C00B09260 /* PARGameViewController.m */; };
 		D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5945519EC526700B09260 /* PARGameResultsViewController.m */; };
+		D0F5945919EC5F4C00B09260 /* PARCommentCard.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5945819EC5F4C00B09260 /* PARCommentCard.m */; };
+		D0F5945C19EC5F6C00B09260 /* PARCommentCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0F5945B19EC5F6C00B09260 /* PARCommentCard.xib */; };
+		D0F5945F19EC649E00B09260 /* PARWriteCommentCard.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5945E19EC649E00B09260 /* PARWriteCommentCard.m */; };
+		D0F5946119EC64B300B09260 /* PARWriteCommentCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0F5946019EC64B300B09260 /* PARWriteCommentCard.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,12 @@
 		D0F5945119EC314C00B09260 /* PARGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARGameViewController.m; sourceTree = "<group>"; };
 		D0F5945419EC526700B09260 /* PARGameResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARGameResultsViewController.h; sourceTree = "<group>"; };
 		D0F5945519EC526700B09260 /* PARGameResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARGameResultsViewController.m; sourceTree = "<group>"; };
+		D0F5945719EC5F4C00B09260 /* PARCommentCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARCommentCard.h; sourceTree = "<group>"; };
+		D0F5945819EC5F4C00B09260 /* PARCommentCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommentCard.m; sourceTree = "<group>"; };
+		D0F5945B19EC5F6C00B09260 /* PARCommentCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PARCommentCard.xib; sourceTree = "<group>"; };
+		D0F5945D19EC649E00B09260 /* PARWriteCommentCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARWriteCommentCard.h; sourceTree = "<group>"; };
+		D0F5945E19EC649E00B09260 /* PARWriteCommentCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARWriteCommentCard.m; sourceTree = "<group>"; };
+		D0F5946019EC64B300B09260 /* PARWriteCommentCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PARWriteCommentCard.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +120,7 @@
 				D0F5944E19EB7BC300B09260 /* Login */,
 				D0F5945319EC315900B09260 /* Pear Game */,
 				D0F5942B19EB0D3C00B09260 /* Main.storyboard */,
+				D0F5945A19EC5F5700B09260 /* Utility Views */,
 				D0F5944F19EB7BCE00B09260 /* Stores */,
 				D0F5942E19EB0D3C00B09260 /* Images.xcassets */,
 				D0F5943019EB0D3C00B09260 /* LaunchScreen.xib */,
@@ -181,6 +192,19 @@
 				D0F5945519EC526700B09260 /* PARGameResultsViewController.m */,
 			);
 			name = "Pear Game";
+			sourceTree = "<group>";
+		};
+		D0F5945A19EC5F5700B09260 /* Utility Views */ = {
+			isa = PBXGroup;
+			children = (
+				D0F5945719EC5F4C00B09260 /* PARCommentCard.h */,
+				D0F5945819EC5F4C00B09260 /* PARCommentCard.m */,
+				D0F5945B19EC5F6C00B09260 /* PARCommentCard.xib */,
+				D0F5945D19EC649E00B09260 /* PARWriteCommentCard.h */,
+				D0F5945E19EC649E00B09260 /* PARWriteCommentCard.m */,
+				D0F5946019EC64B300B09260 /* PARWriteCommentCard.xib */,
+			);
+			name = "Utility Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,6 +293,8 @@
 				D0F5942D19EB0D3C00B09260 /* Main.storyboard in Resources */,
 				D0F5943219EB0D3C00B09260 /* LaunchScreen.xib in Resources */,
 				D0F5942F19EB0D3C00B09260 /* Images.xcassets in Resources */,
+				D0F5946119EC64B300B09260 /* PARWriteCommentCard.xib in Resources */,
+				D0F5945C19EC5F6C00B09260 /* PARCommentCard.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,9 +348,11 @@
 				D0F5945219EC314C00B09260 /* PARGameViewController.m in Sources */,
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
 				D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */,
+				D0F5945919EC5F4C00B09260 /* PARCommentCard.m in Sources */,
 				D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */,
 				D0F5942119EB0D3C00B09260 /* main.m in Sources */,
 				D0F5944A19EB6FFF00B09260 /* PARLoginViewController.m in Sources */,
+				D0F5945F19EC649E00B09260 /* PARWriteCommentCard.m in Sources */,
 				D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
