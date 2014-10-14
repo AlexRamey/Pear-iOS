@@ -60,12 +60,23 @@
 -(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
     //button view is now in logged-in state
-    FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends?fields=name,gender,education"];
+    FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends?fields=name,gender,education,location"];
     [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSLog(@"Result: %@", result);
         NSArray *friends = [result objectForKey:@"data"];
         [PARDataStore sharedStore].friends = friends;
-        [self performSegueWithIdentifier:@"LoginToTab" sender:self];
+        
+        [[PARDataStore sharedStore] fetchCouplesWithCompletion:^(NSError *error) {
+            if (error)
+            {
+                if ([error.domain caseInsensitiveCompare:@"NO_MORE_COUPLES_DOMAIN"] == NSOrderedSame)
+                {
+                    
+                }
+            }
+            [self performSegueWithIdentifier:@"LoginToTab" sender:self];
+        }];
+        
     }];
 }
 

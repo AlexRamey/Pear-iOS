@@ -37,6 +37,8 @@
                                                metrics:nil
                                                views:NSDictionaryOfVariableBindings(commenterPic)]];
     
+    self.frame = CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.width);
+    
     return self;
 }
 

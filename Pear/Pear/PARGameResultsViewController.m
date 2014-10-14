@@ -8,6 +8,8 @@
 
 #import "PARGameResultsViewController.h"
 #import "PARGameViewController.h"
+#import "PARCommentCard.h"
+#import "PARWriteCommentCard.h"
 
 @interface PARGameResultsViewController ()
 
@@ -19,7 +21,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //Add write comment card to top of scroll view
+    PARWriteCommentCard *writeCard = [[PARWriteCommentCard alloc] init];
+    [_scrollView addSubview:writeCard];
+    
     //populate scrollView with PARCommentCards. . .
+    yOffset = writeCard.frame.size.height + 10;
+    
     
     
 }
@@ -34,6 +42,14 @@
     //Tell the game controller to load a new couple
     PARGameViewController *gameVC = (PARGameViewController *)[self presentingViewController];
     [gameVC dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - CommentViewCallback protocol methods
+
+-(void)commentCardCreatedWithHeight:(CGFloat)height
+{
+    yOffset += height + 10;
+    [_scrollView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, yOffset)];
 }
 
 /*

@@ -11,7 +11,7 @@
 
 @implementation PARCommentCard
 
--(id)initWithFacebookID:(NSString *)fbID name:(NSString *)name comment:(NSString *)comment
+-(id)initWithFacebookID:(NSString *)fbID name:(NSString *)name comment:(NSString *)comment offset: (CGFloat)offset callback:(id<CommentCardCallback>) callback
 {
     // Initialization code
     NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"PARCommentCard"
@@ -36,6 +36,12 @@
     
     _nameLabel.text = name;
     _commentLabel.text = comment;
+    
+    [_commentLabel sizeToFit];
+    
+    self.frame = CGRectMake(0,offset,[[UIScreen mainScreen] bounds].size.width, self.commentLabel.frame.size.height + self.commentLabel.frame.origin.y + 10);
+    
+    [callback commentCardCreatedWithHeight:self.frame.size.height];
     
     return self;
 }

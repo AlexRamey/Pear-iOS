@@ -110,8 +110,13 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="pearTab" id="Xfi-e0-0jL"/>
                     <connections>
+                        <outlet property="auxilaryLabel" destination="wZO-IG-415" id="nfF-RX-98k"/>
+                        <outlet property="downVote" destination="q3q-wu-iws" id="xvu-rj-zp4"/>
+                        <outlet property="femaleName" destination="hMD-rx-TUT" id="YYL-p9-6ke"/>
                         <outlet property="femaleProfileFillerView" destination="05x-ZP-oMv" id="k7e-7w-mLF"/>
+                        <outlet property="maleName" destination="FWh-FX-A2Y" id="bXb-Tr-oqt"/>
                         <outlet property="maleProfileFillerView" destination="m89-h5-HUc" id="9UJ-rQ-u5O"/>
+                        <outlet property="upVote" destination="mTc-Vy-xKR" id="WEn-Mu-Iaz"/>
                         <segue destination="yJe-l6-r8o" kind="presentation" identifier="GameToResults" animates="NO" id="cvT-Um-9MR"/>
                     </connections>
                 </viewController>
@@ -204,7 +209,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aRP-8u-tp8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-793" y="-121"/>
+            <point key="canvasLocation" x="-1031" y="-121"/>
         </scene>
         <!--Game Results View Controller-->
         <scene sceneID="qeh-9N-ZH8">

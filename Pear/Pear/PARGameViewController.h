@@ -26,4 +26,6 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *auxilaryLabel;
 
+@property (nonatomic, weak) NSDictionary *
+
 @end

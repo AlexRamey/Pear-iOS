@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Parse.h"
 
 @interface PARDataStore : NSObject
 
@@ -14,17 +15,17 @@
 @property (nonatomic, strong) NSArray *maleFriendIDs;
 @property (nonatomic, strong) NSArray *femaleFriendIDs;
 
-@property (nonatomic, strong) NSMutableArray *coupleIDsAlreadyVotedOn;
+@property (nonatomic, strong) NSMutableArray *coupleObjectsAlreadyVotedOn;
 
-@property (nonatomic, strong) NSMutableArray *existingCouplesLeftToVoteOn;
+@property (nonatomic, strong) NSMutableArray *couplesLeftToVoteOn;
 
 +(PARDataStore *)sharedStore;
 
--(void)getAllExistingCouplesWithCompletion:(void (^)(NSError *))completion;
+-(PFObject *)nextCoupleWithCompletion:(void (^)(NSError *))completion;
 
--(void)createNewCouplesWithCompletion:(void (^)(NSError *))completion;
+-(void)fetchCouplesWithCompletion:(void (^)(NSError *error)) completion;
 
--(void)addCoupleIDToCouplesAlreadyVotedOnList:(NSString *)coupleID;
+-(void)addCoupleToCouplesAlreadyVotedOnList:(NSDictionary *)coupleInfo;
 
 -(void)saveCouplesAlreadyVotedOn;
 

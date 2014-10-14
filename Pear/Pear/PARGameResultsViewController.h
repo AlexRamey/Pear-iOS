@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PARCommentCard.h"
 
-@interface PARGameResultsViewController : UIViewController
+@interface PARGameResultsViewController : UIViewController <CommentCardCallback>
+{
+    CGFloat yOffset;
+}
 
 @property (nonatomic, weak) IBOutlet UILabel *auxilaryLabel;
 
