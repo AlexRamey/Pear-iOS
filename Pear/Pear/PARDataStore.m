@@ -11,7 +11,6 @@
 
 @implementation PARDataStore
 
-static NSString * const COUPLE_IDS_ALREADY_VOTED_ON_KEY = @"COUPLE_IDS_ALREADY_VOTED_ON_KEY";
 static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY";
 
 +(PARDataStore *)sharedStore
@@ -37,8 +36,10 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         
         if (!_coupleObjectsAlreadyVotedOn)
         {
-            _coupleObjectsAlreadyVotedOn = [[NSMutableArray alloc] init];
+            _coupleObjectsAlreadyVotedOn = [[NSMutableDictionary alloc] init];
         }
+        
+        _potentialCouples = nil;
     }
     
     return self;
@@ -104,19 +105,13 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 
 -(void)getExistingCouplesWithCompletion:(void (^)(NSError *))completion
 {
-    NSMutableArray *coupleIDsAlreadyVotedOn = [[NSMutableArray alloc] init];
-    
-    for (NSDictionary *couple in _coupleObjectsAlreadyVotedOn)
-    {
-        [coupleIDsAlreadyVotedOn addObject:[couple objectForKey:@"coupleObjectID"]];
-    }
-    
     PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
     query.limit = 50;
     [query orderByDescending:@"Upvotes"];
     [query whereKey:@"Male" containedIn:_maleFriendIDs];
     [query whereKey:@"Female" containedIn:_femaleFriendIDs];
-    [query whereKey:@"objectId" notContainedIn:coupleIDsAlreadyVotedOn];
+    [query whereKey:@"objectId" notContainedIn:[_coupleObjectsAlreadyVotedOn allValues]];
+    //for testing purposes
     [query whereKey:@"Female" containedIn:@[@"100000460843014"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         for (PFObject *couple in objects)
@@ -129,13 +124,13 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 
 -(void)createNewCouplesWithCompletion:(void (^)(NSError *))completion
 {
-    //do nothing
-    completion(nil);
+    if (_potentialCouples)
+    {
+        
+        return; //don't generate the list again
+    }
     
-    //TODO: Use Core Data To Store Couples to boost Performance
-    /*
-    //create list of all possible couples
-    NSMutableArray *allPossibleCouples = [[NSMutableArray alloc] init];
+    _potentialCouples = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < [_friends count]; i++)
     {
@@ -161,17 +156,105 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
                         friend2 = temp;
                     }
                     
-                    //NSDictionary *newCouple =
+                    //get edu info: school id and year for male and female
+                    NSString *maleSchoolID = @"";
+                    NSString *maleSchoolYear = @"";
+                    NSString *femaleSchoolID = @"";
+                    NSString *femaleSchoolYear = @"";
+                    
+                    
+                    NSArray *maleEducation = [friend1 objectForKey:@"education"];
+                    NSDictionary *maleEdu = nil;
+                    if (maleEducation && [maleEducation count] > 0)
+                    {
+                        maleEdu = [maleEducation objectAtIndex:[maleEducation count] - 1];
+                    }
+                    
+                    if (maleEdu)
+                    {
+                        NSDictionary *school = [maleEdu objectForKey:@"school"];
+                        if ([school objectForKey:@"id"])
+                        {
+                            maleSchoolID = [school objectForKey:@"id"];
+                        }
+                        
+                        NSDictionary *year = [maleEdu objectForKey:@"year"];
+                        if ([year objectForKey:@"name"])
+                        {
+                            maleSchoolYear = [year objectForKey:@"name"];
+                        }
+                        
+                    }
+                    
+                    NSDictionary *femaleEdu = nil;
+                    NSArray *femaleEducation = [friend2 objectForKey:@"education"];
+                    if (femaleEducation && [femaleEducation count] > 0)
+                    {
+                        femaleEdu = [femaleEducation objectAtIndex:[femaleEducation count] - 1];
+                    }
+                    
+                    if (femaleEdu)
+                    {
+                        NSDictionary *school = [femaleEdu objectForKey:@"school"];
+                        if ([school objectForKey:@"id"])
+                        {
+                            femaleSchoolID = [school objectForKey:@"id"];
+                        }
+                        
+                        NSDictionary *year = [femaleEdu objectForKey:@"year"];
+                        if ([year objectForKey:@"name"])
+                        {
+                            femaleSchoolYear = [year objectForKey:@"name"];
+                        }
+                    }
+                    
+                    //create new couple dictionary with fields necessary to create PFObject<Couple> in Parse
+                    
+                    NSDictionary *newCouple = @{
+                                                @"Male" : [friend1 objectForKey:@"id"],
+                                                @"Female" : [friend2 objectForKey:@"id"],
+                                                @"MaleName" : [friend1 objectForKey:@"name"],
+                                                @"FemaleName" : [friend2 objectForKey:@"name"],
+                                                @"MaleEducationYear" : maleSchoolYear,
+                                                @"FemaleEducationYear" : femaleSchoolYear,
+                                                @"MaleEducation" : maleSchoolID,
+                                                @"FemaleEducation" : femaleSchoolID
+                                                };
+                    
+                    //figure out if it's one we've already voted on . . .
+                    NSString *key = [[friend1 objectForKey:@"id"] stringByAppendingString:[friend2 objectForKey:@"id"]];
+                    
+                    if (![_coupleObjectsAlreadyVotedOn objectForKey:key]) //if it's a new couple
+                    {
+                        [_potentialCouples addObject:newCouple];
+                    }
                 }
             }
         }
     }
-    */
+    
+    //scramble the array of _potentialCouples for now; potentially rank them in the future
+    NSUInteger count = [_potentialCouples count];
+    for (NSUInteger i = 0; i < count; ++i)
+    {
+        NSInteger remainingCount = count - i;
+        NSInteger exchangeIndex = i + arc4random_uniform(remainingCount);
+        [_potentialCouples exchangeObjectAtIndex:i withObjectAtIndex:exchangeIndex];
+    }
+}
+
+-(void)pushNewCouplesToParseWithCompletion:(void (^)(NSError *))completion
+{
+    //do nothing
 }
 
 -(void)addCoupleToCouplesAlreadyVotedOnList:(NSDictionary *)coupleInfo
 {
-    [_coupleObjectsAlreadyVotedOn addObject:coupleInfo];
+    NSString *maleID = [coupleInfo objectForKey:@"Male_ID"];
+    NSString *femaleID = [coupleInfo objectForKey:@"Female_ID"];
+    NSString *key = [maleID stringByAppendingString:femaleID];
+    
+    [_coupleObjectsAlreadyVotedOn setObject:[coupleInfo objectForKey:@"Couple_Object_ID"] forKey:key];
 }
 
 -(void)saveCouplesAlreadyVotedOn

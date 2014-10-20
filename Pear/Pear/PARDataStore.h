@@ -15,9 +15,11 @@
 @property (nonatomic, strong) NSArray *maleFriendIDs;
 @property (nonatomic, strong) NSArray *femaleFriendIDs;
 
-@property (nonatomic, strong) NSMutableArray *coupleObjectsAlreadyVotedOn;
+@property (nonatomic, strong) NSMutableDictionary *coupleObjectsAlreadyVotedOn;
 
 @property (nonatomic, strong) NSMutableArray *couplesLeftToVoteOn;
+
+@property (nonatomic, strong) NSMutableArray *potentialCouples;
 
 +(PARDataStore *)sharedStore;
 
