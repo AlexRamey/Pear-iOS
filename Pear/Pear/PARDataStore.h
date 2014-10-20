@@ -10,6 +10,9 @@
 #import "Parse.h"
 
 @interface PARDataStore : NSObject
+{
+    int pushIndex;
+}
 
 @property (nonatomic, strong) NSArray *friends;
 @property (nonatomic, strong) NSArray *maleFriendIDs;

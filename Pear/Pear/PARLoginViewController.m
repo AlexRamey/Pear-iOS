@@ -71,7 +71,11 @@
             {
                 if ([error.domain caseInsensitiveCompare:@"NO_MORE_COUPLES_DOMAIN"] == NSOrderedSame)
                 {
-                    
+                    NSLog(@"NO MORE COUPLES LOGIN RESPONSE");
+                }
+                else
+                {
+                    NSLog(@"NETWORK ERROR LOGIN RESPONSE");
                 }
             }
             [self performSegueWithIdentifier:@"LoginToTab" sender:self];

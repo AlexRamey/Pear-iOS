@@ -27,9 +27,6 @@
     
     //populate scrollView with PARCommentCards. . .
     yOffset = writeCard.frame.size.height + 10;
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

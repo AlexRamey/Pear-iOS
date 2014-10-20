@@ -40,6 +40,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         }
         
         _potentialCouples = nil;
+        pushIndex = 0;
     }
     
     return self;
@@ -85,20 +86,23 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         if ([_couplesLeftToVoteOn count] == 0)
         {
             [self createNewCouplesWithCompletion:^(NSError *e) {
-                if ([_couplesLeftToVoteOn count] == 0)
+                
+                if (e)
                 {
-                    NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:@"NO_MORE_COUPLES_DOMAIN" code:000 userInfo:nil];
-                    completion(noMoreCouplesError);
+                    completion(e); //no couples left (only error thrown at this point)
                 }
                 else
                 {
-                    completion(e);
+                    [self getExistingCouplesWithCompletion:^(NSError *error2) {
+                        //if there is an error with the network request to getExistingCouples
+                        completion(error2);
+                    }];
                 }
             }];
         }
         else
         {
-            completion(error);
+            completion(error); //if there is an error with the network request to getExistingCouples
         }
     }];
 }
@@ -111,8 +115,12 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     [query whereKey:@"Male" containedIn:_maleFriendIDs];
     [query whereKey:@"Female" containedIn:_femaleFriendIDs];
     [query whereKey:@"objectId" notContainedIn:[_coupleObjectsAlreadyVotedOn allValues]];
+    
+    /*
     //for testing purposes
     [query whereKey:@"Female" containedIn:@[@"100000460843014"]];
+     */
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         for (PFObject *couple in objects)
         {
@@ -126,7 +134,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 {
     if (_potentialCouples)
     {
-        
+        [self pushNewCouplesToParseWithCompletion:completion];
         return; //don't generate the list again
     }
     
@@ -245,7 +253,45 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 
 -(void)pushNewCouplesToParseWithCompletion:(void (^)(NSError *))completion
 {
-    //do nothing
+    if (pushIndex == [_potentialCouples count]) //we've pushed all the couples up already
+    {
+        NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:@"NO_MORE_COUPLES_DOMAIN" code:000 userInfo:nil];
+        completion(noMoreCouplesError);
+    }
+    
+    int downloadCounter = 0;
+    __block int callbackCounter = 0;
+    //push up next 10 if 10 remain
+    int i = 0;
+    while (i < 10 && pushIndex < [_potentialCouples count])
+    {
+        NSDictionary *potentialCouple = [_potentialCouples objectAtIndex:pushIndex];
+        PFObject *couple = [PFObject objectWithClassName:@"Couples"];
+        couple[@"Male"] = [potentialCouple objectForKey:@"Male"];
+        couple[@"Female"] = [potentialCouple objectForKey:@"Female"];
+        couple[@"MaleName"] = [potentialCouple objectForKey:@"MaleName"];
+        couple[@"FemaleName"] = [potentialCouple objectForKey:@"FemaleName"];
+        couple[@"MaleEducationYear"] = [potentialCouple objectForKey:@"MaleEducationYear"];
+        couple[@"FemaleEducationYear"] = [potentialCouple objectForKey:@"FemaleEducationYear"];
+        couple[@"MaleEducation"] = [potentialCouple objectForKey:@"MaleEducation"];
+        couple[@"FemaleEducation"] = [potentialCouple objectForKey:@"FemaleEducation"];
+        
+        downloadCounter++;
+        
+        [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (++callbackCounter == downloadCounter)
+            {
+                completion(nil);
+            }
+            if (error)
+            {
+                NSLog(@"PARSE PUSH ERROR");
+            }
+        }];
+        
+        pushIndex++;
+        i++;
+    }
 }
 
 -(void)addCoupleToCouplesAlreadyVotedOnList:(NSDictionary *)coupleInfo
