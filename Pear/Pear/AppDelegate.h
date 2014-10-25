@@ -11,6 +11,10 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+extern NSString * const USER_FB_ID_KEY;
+
+extern NSString * const NEXT_COUPLE_TO_VOTE_ON_KEY;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;

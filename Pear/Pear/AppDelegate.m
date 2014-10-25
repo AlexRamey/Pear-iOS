@@ -18,6 +18,9 @@
 
 @implementation AppDelegate
 
+NSString * const USER_FB_ID_KEY = @"USER_FB_ID_KEY";
+
+NSString * const NEXT_COUPLE_TO_VOTE_ON_KEY = @"NEXT_COUPLE_TO_VOTE_ON_KEY";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     

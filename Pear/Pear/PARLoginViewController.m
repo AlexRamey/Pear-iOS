@@ -8,6 +8,7 @@
 
 #import "PARLoginViewController.h"
 #import "PARDataStore.h"
+#import "AppDelegate.h"
 
 @interface PARLoginViewController ()
 
@@ -33,7 +34,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions: @[@"public_profile", @"email", @"user_friends"]];
+    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions: @[@"public_profile", @"email"]];
+    loginView
     
     loginView.delegate = self;
     
@@ -54,29 +56,38 @@
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
     //Login View has fetched user info
-    [[NSUserDefaults standardUserDefaults] setObject:user.objectID forKey:@"USER_FB_ID"];
+    [[NSUserDefaults standardUserDefaults] setObject:user.objectID forKey:USER_FB_ID_KEY];
 }
 
 -(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
     //button view is now in logged-in state
-    FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends?fields=name,gender,education,location"];
+    //FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends?fields=name,gender,education,location"];
+    FBRequest *request = [FBRequest requestWithGraphPath:@"/me/friends"
+                                              parameters:[NSDictionary dictionaryWithObjectsAndKeys:@"20", @"limit", nil]
+                                              HTTPMethod:@"GET"];
+    //[request overrideVersionPartWith:@"v1.0"];
+    
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (!error) {
+            // Sucess! Include your code to handle the results here
+            NSLog(@"***** user friends with params: %@", result);
+        } else {
+            // An error occurred, we need to handle the error
+        }
+    }];
+    [FBSettings enablePlatformCompatibility: YES];
+    FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"/me/friends"];
+    //[friendsRequest overrideVersionPartWith:@"v1.0"];
     [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSLog(@"Result: %@", result);
         NSArray *friends = [result objectForKey:@"data"];
         [PARDataStore sharedStore].friends = friends;
         
-        [[PARDataStore sharedStore] fetchCouplesWithCompletion:^(NSError *error) {
+        [[PARDataStore sharedStore] nextCoupleWithCompletion:^(NSError *error) {
             if (error)
             {
-                if ([error.domain caseInsensitiveCompare:@"NO_MORE_COUPLES_DOMAIN"] == NSOrderedSame)
-                {
-                    NSLog(@"NO MORE COUPLES LOGIN RESPONSE");
-                }
-                else
-                {
-                    NSLog(@"NETWORK ERROR LOGIN RESPONSE");
-                }
+                //network error occurred . . .
             }
             [self performSegueWithIdentifier:@"LoginToTab" sender:self];
         }];

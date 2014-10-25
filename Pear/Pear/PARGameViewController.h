@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Parse.h"
 #import "FacebookSDK.h"
 
 @interface PARGameViewController : UIViewController
@@ -26,6 +27,6 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *auxilaryLabel;
 
-//@property (nonatomic, weak) NSDictionary *
+@property (nonatomic, weak) PFObject *currentCouple;
 
 @end

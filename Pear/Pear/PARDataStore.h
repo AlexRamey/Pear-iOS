@@ -26,7 +26,7 @@
 
 +(PARDataStore *)sharedStore;
 
--(PFObject *)nextCoupleWithCompletion:(void (^)(NSError *))completion;
+-(void)nextCoupleWithCompletion:(void (^)(NSError *))completion;
 
 -(void)fetchCouplesWithCompletion:(void (^)(NSError *error)) completion;
 

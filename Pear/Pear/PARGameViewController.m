@@ -8,6 +8,7 @@
 
 #import "PARGameViewController.h"
 #import "PARGameResultsViewController.h"
+#import "PARDataStore.h"
 
 @interface PARGameViewController ()
 
@@ -18,6 +19,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view
+    
+    NSLog(@"VIEW DID LOAD");
+    
     maleView = [[FBProfilePictureView alloc] init];
     femaleView = [[FBProfilePictureView alloc] init];
     
@@ -55,6 +59,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    //get the next couple from the store . . .
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,6 +81,10 @@
         //upvote behavior
     }
     
+    PARDataStore *sharedStore = [PARDataStore sharedStore];
+    
+    //tell store couple you voted on
+    
     [self performSegueWithIdentifier:@"GameToResults" sender:self];
 }
 
@@ -83,7 +93,7 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{    
+{
     PARGameResultsViewController *vc = (PARGameResultsViewController *)sender;
 }
 

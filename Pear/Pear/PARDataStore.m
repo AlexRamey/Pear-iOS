@@ -8,6 +8,7 @@
 
 #import "PARDataStore.h"
 #import "FacebookSDK.h"
+#import "AppDelegate.h"
 
 @implementation PARDataStore
 
@@ -39,6 +40,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
             _coupleObjectsAlreadyVotedOn = [[NSMutableDictionary alloc] init];
         }
         
+        _couplesLeftToVoteOn = nil;
         _potentialCouples = nil;
         pushIndex = 0;
     }
@@ -73,9 +75,42 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     _femaleFriendIDs = femaleFriendIDs;
 }
 
--(PFObject *)nextCoupleWithCompletion:(void (^)(NSError *))completion
+-(void)nextCoupleWithCompletion:(void (^)(NSError *))completion
 {
-    return nil;
+    if (_couplesLeftToVoteOn && [_couplesLeftToVoteOn count] > 0)
+    {
+        PFObject *nextVote = [_couplesLeftToVoteOn objectAtIndex:0];
+        [_couplesLeftToVoteOn removeObjectAtIndex:0];
+        [[NSUserDefaults standardUserDefaults] setObject:nextVote forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+        completion(nil);
+    }
+    else
+    {
+        [self fetchCouplesWithCompletion:^(NSError *error) {
+            if (error)
+            {
+                if ([error.domain caseInsensitiveCompare:@"NO_MORE_COUPLES_DOMAIN"] == NSOrderedSame)
+                {
+                    NSLog(@"No More Couples Response");
+                    [[NSUserDefaults standardUserDefaults] setObject:@{@"Error" : @"NO_MORE_COUPLES_DOMAIN"} forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                    completion(nil);
+                }
+                else
+                {
+                    NSLog(@"NETWORK ERROR LOGIN RESPONSE");
+                    [[NSUserDefaults standardUserDefaults] setObject:@{@"Error" : @"Network"} forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                    completion(error);
+                }
+            }
+            else
+            {
+                PFObject *nextVote = [_couplesLeftToVoteOn objectAtIndex:0];
+                [_couplesLeftToVoteOn removeObjectAtIndex:0];
+                [[NSUserDefaults standardUserDefaults] setObject:nextVote forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                completion(nil);
+            }
+        }];
+    }
 }
 
 -(void)fetchCouplesWithCompletion:(void (^)(NSError *))completion
@@ -170,7 +205,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
                     NSString *femaleSchoolID = @"";
                     NSString *femaleSchoolYear = @"";
                     
-                    
                     NSArray *maleEducation = [friend1 objectForKey:@"education"];
                     NSDictionary *maleEdu = nil;
                     if (maleEducation && [maleEducation count] > 0)
@@ -249,6 +283,8 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         NSInteger exchangeIndex = i + arc4random_uniform(remainingCount);
         [_potentialCouples exchangeObjectAtIndex:i withObjectAtIndex:exchangeIndex];
     }
+    
+    [self pushNewCouplesToParseWithCompletion:completion];
 }
 
 -(void)pushNewCouplesToParseWithCompletion:(void (^)(NSError *))completion
