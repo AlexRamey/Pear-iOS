@@ -157,7 +157,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     //[query orderByDescending:@"Upvotes"];
     [query whereKey:@"Male" containedIn:_maleFriendIDs];
     [query whereKey:@"Female" containedIn:_femaleFriendIDs];
-    //[query whereKey:@"objectId" notContainedIn:[_coupleObjectsAlreadyVotedOn allValues]];
+    [query whereKey:@"objectId" notContainedIn:[_coupleObjectsAlreadyVotedOn allValues]];
     
     
     //for testing purposes
