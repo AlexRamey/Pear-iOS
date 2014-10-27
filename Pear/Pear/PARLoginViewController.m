@@ -25,6 +25,7 @@
     if (self)
     {
         //custom initialization
+        [FBSettings enablePlatformCompatibility: YES];
     }
     
     return self;
@@ -34,8 +35,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions: @[@"public_profile", @"email"]];
-    loginView
+    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions: @[@"public_profile", @"email", @"user_friends"]];
     
     loginView.delegate = self;
     
@@ -62,23 +62,9 @@
 -(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
     //button view is now in logged-in state
-    //FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends?fields=name,gender,education,location"];
-    FBRequest *request = [FBRequest requestWithGraphPath:@"/me/friends"
-                                              parameters:[NSDictionary dictionaryWithObjectsAndKeys:@"20", @"limit", nil]
-                                              HTTPMethod:@"GET"];
-    //[request overrideVersionPartWith:@"v1.0"];
     
-    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        if (!error) {
-            // Sucess! Include your code to handle the results here
-            NSLog(@"***** user friends with params: %@", result);
-        } else {
-            // An error occurred, we need to handle the error
-        }
-    }];
-    [FBSettings enablePlatformCompatibility: YES];
-    FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"/me/friends"];
-    //[friendsRequest overrideVersionPartWith:@"v1.0"];
+    FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends?fields=name,gender,education,location"];
+    
     [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSLog(@"Result: %@", result);
         NSArray *friends = [result objectForKey:@"data"];
