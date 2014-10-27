@@ -17,16 +17,61 @@
 
 @implementation PARGameResultsViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
+    maleView = [[FBProfilePictureView alloc] init];
+    femaleView = [[FBProfilePictureView alloc] init];
+    
+    maleView.profileID = _male;
+    femaleView.profileID = _female;
+    
+    [_maleProfileFillerView addSubview:maleView];
+    [_femaleProfileFillerView addSubview:femaleView];
+    
+    [maleView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_maleProfileFillerView addConstraints:[NSLayoutConstraint
+                                            constraintsWithVisualFormat:@"H:|-0-[maleView]-0-|"
+                                            options:NSLayoutFormatDirectionLeadingToTrailing
+                                            metrics:nil
+                                            views:NSDictionaryOfVariableBindings(maleView)]];
+    [_maleProfileFillerView addConstraints:[NSLayoutConstraint
+                                            constraintsWithVisualFormat:@"V:|-0-[maleView]-0-|"
+                                            options:NSLayoutFormatDirectionLeadingToTrailing
+                                            metrics:nil
+                                            views:NSDictionaryOfVariableBindings(maleView)]];
+    
+    [femaleView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_femaleProfileFillerView addConstraints:[NSLayoutConstraint
+                                              constraintsWithVisualFormat:@"H:|-0-[femaleView]-0-|"
+                                              options:NSLayoutFormatDirectionLeadingToTrailing
+                                              metrics:nil
+                                              views:NSDictionaryOfVariableBindings(femaleView)]];
+    [_femaleProfileFillerView addConstraints:[NSLayoutConstraint
+                                              constraintsWithVisualFormat:@"V:|-0-[femaleView]-0-|"
+                                              options:NSLayoutFormatDirectionLeadingToTrailing
+                                              metrics:nil
+                                              views:NSDictionaryOfVariableBindings(femaleView)]];
+    
+    _maleNameLabel.text = _maleName;
+    _femaleNameLabel.text = _femaleName;
+    
+    _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
+    /*
     //Add write comment card to top of scroll view
     PARWriteCommentCard *writeCard = [[PARWriteCommentCard alloc] init];
     [_scrollView addSubview:writeCard];
     
     //populate scrollView with PARCommentCards. . .
     yOffset = writeCard.frame.size.height + 10;
+     */
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning {

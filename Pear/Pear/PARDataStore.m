@@ -81,7 +81,11 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     {
         PFObject *nextVote = [_couplesLeftToVoteOn objectAtIndex:0];
         [_couplesLeftToVoteOn removeObjectAtIndex:0];
-        [[NSUserDefaults standardUserDefaults] setObject:nextVote forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+        
+        NSMutableDictionary *nextCouple = [[nextVote dictionaryWithValuesForKeys:@[@"Downvotes", @"Female", @"FemaleEducation",@"FemaleName", @"Male", @"MaleEducation", @"MaleEducationYear", @"MaleLocation", @"MaleName", @"Upvotes"]] mutableCopy];
+        [nextCouple setObject:nextVote.objectId forKey:@"ObjectId"];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:nextCouple] forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
         completion(nil);
     }
     else
@@ -107,11 +111,10 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
                 PFObject *nextVote = [_couplesLeftToVoteOn objectAtIndex:0];
                 [_couplesLeftToVoteOn removeObjectAtIndex:0];
                 
-                NSDictionary *nextCouple = [nextVote dictionaryWithValuesForKeys:@[@"Downvotes", @"Female", @"FemaleEducation",@"FemaleName", @"Male", @"MaleEducation", @"MaleEducationYear", @"MaleLocation", @"MaleName", @"Upvotes"]];
+                NSMutableDictionary *nextCouple = [[nextVote dictionaryWithValuesForKeys:@[@"Downvotes", @"Female", @"FemaleEducation",@"FemaleName", @"Male", @"MaleEducation", @"MaleEducationYear", @"MaleLocation", @"MaleName", @"Upvotes"]] mutableCopy];
+                [nextCouple setObject:nextVote.objectId forKey:@"ObjectId"];
                 
-                NSLog(@"Next Couple: %@", nextCouple);
-                
-                [[NSUserDefaults standardUserDefaults] setObject:nextCouple forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:nextCouple] forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
                 completion(nil);
             }
         }];
@@ -367,11 +370,11 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 
 -(void)addCoupleToCouplesAlreadyVotedOnList:(NSDictionary *)coupleInfo
 {
-    NSString *maleID = [coupleInfo objectForKey:@"Male_ID"];
-    NSString *femaleID = [coupleInfo objectForKey:@"Female_ID"];
+    NSString *maleID = [coupleInfo objectForKey:@"Male"];
+    NSString *femaleID = [coupleInfo objectForKey:@"Female"];
     NSString *key = [maleID stringByAppendingString:femaleID];
     
-    [_coupleObjectsAlreadyVotedOn setObject:[coupleInfo objectForKey:@"Couple_Object_ID"] forKey:key];
+    [_coupleObjectsAlreadyVotedOn setObject:[coupleInfo objectForKey:@"ObjectId"] forKey:key];
 }
 
 -(void)saveCouplesAlreadyVotedOn

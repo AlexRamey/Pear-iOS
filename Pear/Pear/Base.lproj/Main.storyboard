@@ -55,13 +55,13 @@
                                     <action selector="voteCast:" destination="x9d-w7-p0Z" eventType="touchUpInside" id="AsW-R3-oB8"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FEMALE NAME" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMD-rx-TUT">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FEMALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="hMD-rx-TUT">
                                 <rect key="frame" x="304" y="383" width="280" height="19"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FWh-FX-A2Y">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="FWh-FX-A2Y">
                                 <rect key="frame" x="16" y="383" width="280" height="19"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -110,14 +110,13 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="pearTab" id="Xfi-e0-0jL"/>
                     <connections>
-                        <outlet property="auxilaryLabel" destination="wZO-IG-415" id="nfF-RX-98k"/>
                         <outlet property="downVote" destination="q3q-wu-iws" id="xvu-rj-zp4"/>
                         <outlet property="femaleName" destination="hMD-rx-TUT" id="YYL-p9-6ke"/>
                         <outlet property="femaleProfileFillerView" destination="05x-ZP-oMv" id="k7e-7w-mLF"/>
                         <outlet property="maleName" destination="FWh-FX-A2Y" id="bXb-Tr-oqt"/>
                         <outlet property="maleProfileFillerView" destination="m89-h5-HUc" id="9UJ-rQ-u5O"/>
                         <outlet property="upVote" destination="mTc-Vy-xKR" id="WEn-Mu-Iaz"/>
-                        <segue destination="yJe-l6-r8o" kind="presentation" identifier="GameToResults" animates="NO" id="cvT-Um-9MR"/>
+                        <segue destination="yJe-l6-r8o" kind="presentation" identifier="GameToResults" id="cvT-Um-9MR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Fu-kN-4IW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -234,13 +233,13 @@
                                     <constraint firstAttribute="width" secondItem="veJ-ab-duF" secondAttribute="height" multiplier="1:1" id="Ls9-2s-4of"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FEMALE NAME" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M13-0q-jMT">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FEMALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="M13-0q-jMT">
                                 <rect key="frame" x="304" y="383" width="280" height="19"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ySU-U3-eCQ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="ySU-U3-eCQ">
                                 <rect key="frame" x="16" y="383" width="280" height="19"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -304,7 +303,9 @@
                     <tabBarItem key="tabBarItem" title="" image="pearTab" id="YqC-mp-PDW"/>
                     <connections>
                         <outlet property="auxilaryLabel" destination="CPz-AQ-bWD" id="izn-NH-RXC"/>
+                        <outlet property="femaleNameLabel" destination="M13-0q-jMT" id="hJO-w6-vLI"/>
                         <outlet property="femaleProfileFillerView" destination="lda-4q-hU7" id="sbU-hA-ltT"/>
+                        <outlet property="maleNameLabel" destination="ySU-U3-eCQ" id="DRT-bq-dAP"/>
                         <outlet property="maleProfileFillerView" destination="veJ-ab-duF" id="g4j-Bu-n80"/>
                         <outlet property="nextButton" destination="IZW-Mz-2fS" id="62c-sx-5nR"/>
                         <outlet property="scrollView" destination="aVz-dB-mVX" id="4TB-W5-bVM"/>

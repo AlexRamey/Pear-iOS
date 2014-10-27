@@ -26,6 +26,8 @@
     
     FBProfilePictureView *commenterPic = [[FBProfilePictureView alloc] initWithProfileID:userFBID pictureCropping:FBProfilePictureCroppingSquare];
     
+    [_profilePicFillerView addSubview:commenterPic];
+    
     [commenterPic setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_profilePicFillerView addConstraints:[NSLayoutConstraint
                                                constraintsWithVisualFormat:@"H:|-0-[commenterPic]-0-|"

@@ -14,6 +14,13 @@
 {
     FBProfilePictureView *maleView;
     FBProfilePictureView *femaleView;
+    NSString *maleId;
+    NSString *femaleId;
+    NSString *maleName;
+    NSString *femaleName;
+    NSString *objectId;
+    int downVotes;
+    int upVotes;
 }
 
 @property (nonatomic, weak) IBOutlet UIView *maleProfileFillerView;
@@ -24,9 +31,5 @@
 
 @property (nonatomic, weak) IBOutlet UIButton *upVote;
 @property (nonatomic, weak) IBOutlet UIButton *downVote;
-
-@property (nonatomic, weak) IBOutlet UILabel *auxilaryLabel;
-
-@property (nonatomic, weak) PFObject *currentCouple;
 
 @end
