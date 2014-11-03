@@ -40,19 +40,44 @@
                                                metrics:nil
                                                views:NSDictionaryOfVariableBindings(commenterPic)]];
     
-    self.frame = CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.width);
+    [_commentArea setDelegate:self];
+    
+    self.frame = CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, 50.0);
     
     return self;
 }
 
 #pragma mark - UITextViewDelegate Methods
 
--(BOOL)textViewShouldEndEditing:(UITextView *)textView
-{
-    //push comment up to parse . . .
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
-    [textView resignFirstResponder];
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
     return YES;
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    //TODO: Define a constant offset based on origin of profilePicFillerView . . .
+    //probably use NSUserDefaults . . .
+    
+    //move view up
+    self.superview.superview.frame = CGRectMake(self.superview.superview.frame.origin.x, self.superview.superview.frame.origin.y - 60, self.superview.superview.frame.size.width, self.superview.superview.frame.size.height);
+    
+    textView.text = @"";
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    //move view back down
+    self.superview.superview.frame = CGRectMake(self.superview.superview.frame.origin.x, self.superview.superview.frame.origin.y + 60, self.superview.superview.frame.size.width, self.superview.superview.frame.size.height);
+    
+    //push comment up to parse . . .
+    //refresh view . . .
+    NSLog(@"Push Comment Up");
 }
 
 /*

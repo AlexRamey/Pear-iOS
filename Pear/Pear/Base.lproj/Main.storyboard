@@ -75,6 +75,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="q3q-wu-iws" firstAttribute="trailing" secondItem="m89-h5-HUc" secondAttribute="trailing" id="29C-R0-9hP"/>
                             <constraint firstItem="wZO-IG-415" firstAttribute="trailing" secondItem="zGb-ZM-Eq4" secondAttribute="trailingMargin" id="7n4-97-jxk"/>
@@ -107,19 +108,35 @@
                                 <exclude reference="fNu-TF-cbp"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="D44-rP-eQm" appends="YES" id="N8G-WG-1ya"/>
+                            <outletCollection property="gestureRecognizers" destination="xWx-MJ-65f" appends="YES" id="1xa-Sv-vje"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="pearTab" id="Xfi-e0-0jL"/>
                     <connections>
+                        <outlet property="downSwipeRecognizer" destination="xWx-MJ-65f" id="gx4-rJ-neC"/>
                         <outlet property="downVote" destination="q3q-wu-iws" id="xvu-rj-zp4"/>
                         <outlet property="femaleName" destination="hMD-rx-TUT" id="YYL-p9-6ke"/>
                         <outlet property="femaleProfileFillerView" destination="05x-ZP-oMv" id="k7e-7w-mLF"/>
                         <outlet property="maleName" destination="FWh-FX-A2Y" id="bXb-Tr-oqt"/>
                         <outlet property="maleProfileFillerView" destination="m89-h5-HUc" id="9UJ-rQ-u5O"/>
+                        <outlet property="upSwipeRecognizer" destination="D44-rP-eQm" id="1RB-Nu-nho"/>
                         <outlet property="upVote" destination="mTc-Vy-xKR" id="WEn-Mu-Iaz"/>
-                        <segue destination="yJe-l6-r8o" kind="presentation" identifier="GameToResults" id="cvT-Um-9MR"/>
+                        <segue destination="yJe-l6-r8o" kind="presentation" identifier="GameToResults" modalTransitionStyle="flipHorizontal" id="cvT-Um-9MR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Fu-kN-4IW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="D44-rP-eQm">
+                    <connections>
+                        <action selector="voteCast:" destination="x9d-w7-p0Z" id="FkR-oZ-aVg"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="xWx-MJ-65f">
+                    <connections>
+                        <action selector="voteCast:" destination="x9d-w7-p0Z" id="1Tp-XY-MZO"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-226" y="-769"/>
         </scene>
@@ -246,22 +263,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVz-dB-mVX">
-                                <rect key="frame" x="16" y="464" width="568" height="128"/>
+                                <rect key="frame" x="16" y="410" width="568" height="182"/>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IZW-Mz-2fS">
-                                <rect key="frame" x="225" y="417" width="150" height="39"/>
-                                <color key="backgroundColor" red="0.22226391619999999" green="0.70962213009999997" blue="0.21696423619999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="jID-Vq-41Q"/>
-                                    <constraint firstAttribute="height" constant="39" id="x3s-K3-GAk"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="Next"/>
-                                <connections>
-                                    <action selector="nextCouple:" destination="yJe-l6-r8o" eventType="touchUpInside" id="okX-dC-KiQ"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 out of 43 people think this is a good couple" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPz-AQ-bWD">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 out of 43 people think this is a good couple" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPz-AQ-bWD">
                                 <rect key="frame" x="16" y="62" width="568" height="19"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -269,6 +273,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="aVz-dB-mVX" firstAttribute="trailing" secondItem="hvV-1A-pCz" secondAttribute="trailingMargin" id="ASp-C2-KGk"/>
                             <constraint firstItem="M13-0q-jMT" firstAttribute="trailing" secondItem="lda-4q-hU7" secondAttribute="trailing" id="AnE-Yk-Fgs"/>
@@ -276,16 +281,14 @@
                             <constraint firstItem="ySU-U3-eCQ" firstAttribute="width" secondItem="veJ-ab-duF" secondAttribute="width" id="KqL-f8-fqv"/>
                             <constraint firstItem="VKf-xz-aQ7" firstAttribute="top" secondItem="aVz-dB-mVX" secondAttribute="bottom" constant="8" id="OnS-fX-5Oa"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="leading" secondItem="veJ-ab-duF" secondAttribute="trailing" constant="8" id="Shx-b5-F8W"/>
-                            <constraint firstItem="IZW-Mz-2fS" firstAttribute="top" secondItem="ySU-U3-eCQ" secondAttribute="bottom" constant="15" id="TCp-b3-lnV"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="trailing" secondItem="hvV-1A-pCz" secondAttribute="trailingMargin" id="Tv2-6j-X3V"/>
                             <constraint firstItem="veJ-ab-duF" firstAttribute="top" secondItem="bVK-GK-j9t" secondAttribute="bottom" constant="75" id="Y6R-wO-ruA"/>
-                            <constraint firstItem="aVz-dB-mVX" firstAttribute="top" secondItem="IZW-Mz-2fS" secondAttribute="bottom" constant="8" id="aHL-08-LGd"/>
-                            <constraint firstAttribute="centerX" secondItem="IZW-Mz-2fS" secondAttribute="centerX" id="fZ6-ea-n8c"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="top" secondItem="bVK-GK-j9t" secondAttribute="bottom" constant="75" id="gJc-xT-p99"/>
                             <constraint firstItem="veJ-ab-duF" firstAttribute="height" secondItem="lda-4q-hU7" secondAttribute="height" id="llI-WE-6Ju"/>
                             <constraint firstItem="CPz-AQ-bWD" firstAttribute="trailing" secondItem="hvV-1A-pCz" secondAttribute="trailingMargin" id="lpB-FA-YKR"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="width" secondItem="veJ-ab-duF" secondAttribute="width" id="lsC-9p-CxV"/>
                             <constraint firstItem="aVz-dB-mVX" firstAttribute="leading" secondItem="hvV-1A-pCz" secondAttribute="leadingMargin" id="mxQ-AW-xIm"/>
+                            <constraint firstItem="aVz-dB-mVX" firstAttribute="top" secondItem="ySU-U3-eCQ" secondAttribute="bottom" constant="8" id="o4a-Ne-n9m"/>
                             <constraint firstItem="M13-0q-jMT" firstAttribute="width" secondItem="lda-4q-hU7" secondAttribute="width" id="qd7-ld-eER"/>
                             <constraint firstItem="M13-0q-jMT" firstAttribute="top" secondItem="lda-4q-hU7" secondAttribute="bottom" constant="8" id="qmV-qd-8md"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="top" secondItem="CPz-AQ-bWD" secondAttribute="bottom" constant="14" id="tAo-Pq-lhL"/>
@@ -299,6 +302,9 @@
                                 <exclude reference="AnE-Yk-Fgs"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="8Kg-Kt-Qvx" appends="YES" id="pay-gq-JAY"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="pearTab" id="YqC-mp-PDW"/>
                     <connections>
@@ -307,11 +313,15 @@
                         <outlet property="femaleProfileFillerView" destination="lda-4q-hU7" id="sbU-hA-ltT"/>
                         <outlet property="maleNameLabel" destination="ySU-U3-eCQ" id="DRT-bq-dAP"/>
                         <outlet property="maleProfileFillerView" destination="veJ-ab-duF" id="g4j-Bu-n80"/>
-                        <outlet property="nextButton" destination="IZW-Mz-2fS" id="62c-sx-5nR"/>
                         <outlet property="scrollView" destination="aVz-dB-mVX" id="4TB-W5-bVM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XkE-5Z-qjk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="8Kg-Kt-Qvx">
+                    <connections>
+                        <action selector="nextCouple:" destination="yJe-l6-r8o" id="CBM-Lk-m1k"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="408" y="-769"/>
         </scene>

@@ -21,6 +21,8 @@
 {
     [super viewWillAppear:animated];
     
+    gradient.colors = _colors;
+    
     maleView = [[FBProfilePictureView alloc] init];
     femaleView = [[FBProfilePictureView alloc] init];
     
@@ -58,20 +60,23 @@
     _femaleNameLabel.text = _femaleName;
     
     _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
-    /*
+    
     //Add write comment card to top of scroll view
     PARWriteCommentCard *writeCard = [[PARWriteCommentCard alloc] init];
     [_scrollView addSubview:writeCard];
     
     //populate scrollView with PARCommentCards. . .
     yOffset = writeCard.frame.size.height + 10;
-     */
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    gradient = [CAGradientLayer layer];
+    gradient.frame = self.view.bounds;
+    [self.view.layer insertSublayer:gradient atIndex:0];
     
+    [_gestureRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight];
 }
 
 - (void)didReceiveMemoryWarning {

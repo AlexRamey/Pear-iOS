@@ -15,6 +15,7 @@
     FBProfilePictureView *maleView;
     FBProfilePictureView *femaleView;
     CGFloat yOffset;
+    CAGradientLayer *gradient;
 }
 
 @property (nonatomic, strong) NSString *male;
@@ -33,7 +34,12 @@
 @property (nonatomic, weak) IBOutlet UIView *maleProfileFillerView;
 @property (nonatomic, weak) IBOutlet UIView *femaleProfileFillerView;
 
-@property (nonatomic, weak) IBOutlet UIButton *nextButton;
+@property (nonatomic, weak) UISwipeGestureRecognizer *gestureRecognizer;
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
+
+@property (nonatomic, strong) NSArray *colors;
+
+
+
 
 @end

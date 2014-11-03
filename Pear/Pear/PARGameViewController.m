@@ -10,6 +10,7 @@
 #import "PARGameResultsViewController.h"
 #import "PARDataStore.h"
 #import "AppDelegate.h"
+#import "FacebookSDK.h"
 
 @interface PARGameViewController ()
 
@@ -21,13 +22,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view
     
-    NSLog(@"VIEW DID LOAD");
+    gradient = [CAGradientLayer layer];
+    gradient.frame = self.view.bounds;
+    [self.view.layer insertSublayer:gradient atIndex:0];
     
     maleView = [[FBProfilePictureView alloc] init];
     femaleView = [[FBProfilePictureView alloc] init];
-    
-    maleView.profileID = @"1557246102";
-    femaleView.profileID = @"1557246102";
     
     [_maleProfileFillerView addSubview:maleView];
     [_femaleProfileFillerView addSubview:femaleView];
@@ -55,21 +55,26 @@
                                             options:NSLayoutFormatDirectionLeadingToTrailing
                                             metrics:nil
                                             views:NSDictionaryOfVariableBindings(femaleView)]];
+    [_upSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionUp];
+    [_downSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionDown];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
     //get the next couple from the store . . .
     
     NSDictionary *coupleToVoteOn = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]];
     
+    //TODO: Make sure there exists a couple in the defaults . . .
+    
     objectId = [coupleToVoteOn objectForKey:@"ObjectId"];
     maleId = [coupleToVoteOn objectForKey:@"Male"];
     femaleId = [coupleToVoteOn objectForKey:@"Female"];
-    maleName = [coupleToVoteOn objectForKey:@"MaleName"];
-    femaleName = [coupleToVoteOn objectForKey:@"FemaleName"];
+    mName = [coupleToVoteOn objectForKey:@"MaleName"];
+    fName = [coupleToVoteOn objectForKey:@"FemaleName"];
     
     if ([[coupleToVoteOn objectForKey:@"Upvotes"] isKindOfClass:[NSNumber class]])
     {
@@ -89,11 +94,29 @@
         downVotes = 0;
     }
     
+    //TODO: find imageView subview and clear it
+    /*
+    NSArray *subviews = [maleView subviews];
+    for (int i = 0; i < [subviews count]; i++)
+    {
+        NSLog(@"Subview %d: %@", i, [[subviews objectAtIndex:i] class]);
+        
+        if ([[subviews objectAtIndex:i] class] == [UIImageView class])
+        {
+            UIImageView *maleProfileImageView = (UIImageView *)[subviews objectAtIndex:i];
+        }
+        else
+        {
+            
+        }
+        
+    }
+    */
     maleView.profileID = maleId;
     femaleView.profileID = femaleId;
     
-    _maleName.text = maleName;
-    _femaleName.text = femaleName;
+    _maleName.text = mName;
+    _femaleName.text = fName;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -103,22 +126,32 @@
 
 -(IBAction)voteCast:(id)sender
 {
-    UIButton *voteBtn =  (UIButton *)sender;
+    UIButton *voteBtn = nil;
+    UISwipeGestureRecognizer *gestureRecognizer = nil;
+    
+    if ([sender class] == [UIButton class])
+    {
+        voteBtn = (UIButton *)sender;
+    }
+    else
+    {
+        gestureRecognizer = (UISwipeGestureRecognizer *)sender;
+    }
     
     PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
     
-    if (voteBtn.frame.origin.x == _downVote.frame.origin.x)
+    if ((voteBtn && voteBtn.frame.origin.x == _downVote.frame.origin.x) || (gestureRecognizer && gestureRecognizer.direction == UISwipeGestureRecognizerDirectionDown))
     {
         // downvote behavior
         downVotes++;
         
-        [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
-            
-            // Now let's update it with some new data. In this case, only cheatMode and score
-            // will get sent to the cloud. playerName hasn't changed.
-            [couple incrementKey:@"Downvotes"];
-            [couple saveInBackground];
-            
+        [UIView animateWithDuration:.5f animations:^{
+            gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor redColor] CGColor], nil];
+        } completion:^(BOOL finished) {
+            [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
+                [couple incrementKey:@"Downvotes"];
+                [couple saveInBackground];
+            }];
         }];
     }
     else
@@ -126,13 +159,14 @@
         //upvote behavior
         upVotes++;
         
-        [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
-            
-            // Now let's update it with some new data. In this case, only cheatMode and score
-            // will get sent to the cloud. playerName hasn't changed.
-            [couple incrementKey:@"Upvotes"];
-            [couple saveInBackground];
-            
+        [UIView animateWithDuration:.5f animations:^{
+            gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor greenColor] CGColor], nil];
+        } completion:^(BOOL finished) {
+            [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
+                [couple incrementKey:@"Upvotes"];
+                [couple saveInBackground];
+                
+            }];
         }];
     }
     
@@ -142,6 +176,8 @@
     
     //Load the next couple
     [sharedStore nextCoupleWithCompletion:^(NSError *e) {
+        //puts the next couple into the defaults . . .
+        
         //TODO: ADD Error Handling . . .
         
         [self performSegueWithIdentifier:@"GameToResults" sender:self];
@@ -157,15 +193,15 @@
     PARGameResultsViewController *vc = (PARGameResultsViewController *)segue.destinationViewController;
     
     [vc setMale:maleId];
-    [vc setMaleName:maleName];
+    [vc setMaleName:mName];
     
     [vc setFemale:femaleId];
-    [vc setFemaleName:femaleName];
+    [vc setFemaleName:fName];
     
     [vc setUpvotes:[NSNumber numberWithInt:upVotes]];
     [vc setDownvotes:[NSNumber numberWithInt:downVotes]];
     
-    
+    [vc setColors:gradient.colors];
 }
 
 @end

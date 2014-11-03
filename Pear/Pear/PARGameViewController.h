@@ -16,11 +16,12 @@
     FBProfilePictureView *femaleView;
     NSString *maleId;
     NSString *femaleId;
-    NSString *maleName;
-    NSString *femaleName;
+    NSString *mName;
+    NSString *fName;
     NSString *objectId;
     int downVotes;
     int upVotes;
+    CAGradientLayer *gradient;
 }
 
 @property (nonatomic, weak) IBOutlet UIView *maleProfileFillerView;
@@ -31,5 +32,8 @@
 
 @property (nonatomic, weak) IBOutlet UIButton *upVote;
 @property (nonatomic, weak) IBOutlet UIButton *downVote;
+
+@property (nonatomic, weak) IBOutlet UISwipeGestureRecognizer *upSwipeRecognizer;
+@property (nonatomic, weak) IBOutlet UISwipeGestureRecognizer *downSwipeRecognizer;
 
 @end
