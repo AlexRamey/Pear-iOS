@@ -52,6 +52,8 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 {
     _friends = friendsList;
     
+    //TODO: Guard against same gender pairings
+    
     NSMutableArray *maleFriendIDs = [[NSMutableArray alloc] init];
     NSMutableArray *femaleFriendIDs = [[NSMutableArray alloc] init];
     
@@ -190,14 +192,14 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         NSDictionary* friend1 = [_friends objectAtIndex:i];
         NSString *friend1Gender = [friend1 objectForKey:@"gender"];
         
-        if ([friend1Gender caseInsensitiveCompare:@"male"] == NSOrderedSame ||
-            [friend1Gender caseInsensitiveCompare:@"female"] == NSOrderedSame)
+        if (friend1Gender && ([friend1Gender caseInsensitiveCompare:@"male"] == NSOrderedSame ||
+            [friend1Gender caseInsensitiveCompare:@"female"] == NSOrderedSame))
         {
             for (int j = i + 1; j < [_friends count]; j++)
             {
                 NSDictionary* friend2 = [_friends objectAtIndex:j];
                 NSString *friend2Gender = [friend2 objectForKey:@"gender"];
-                if (([friend2Gender caseInsensitiveCompare:@"male"] == NSOrderedSame ||
+                if (friend2Gender && ([friend2Gender caseInsensitiveCompare:@"male"] == NSOrderedSame ||
                     [friend2Gender caseInsensitiveCompare:@"female"] == NSOrderedSame) && [friend1Gender caseInsensitiveCompare:friend2Gender] != NSOrderedSame) //viable new couple
                 {
                     //make friend1 refer to the male

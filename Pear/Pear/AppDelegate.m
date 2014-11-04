@@ -22,6 +22,8 @@ NSString * const USER_FB_ID_KEY = @"USER_FB_ID_KEY";
 
 NSString * const NEXT_COUPLE_TO_VOTE_ON_KEY = @"NEXT_COUPLE_TO_VOTE_ON_KEY";
 
+extern NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY = @"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY";
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     // Override point for customization after application launch.

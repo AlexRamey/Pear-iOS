@@ -55,6 +55,7 @@
                                             options:NSLayoutFormatDirectionLeadingToTrailing
                                             metrics:nil
                                             views:NSDictionaryOfVariableBindings(femaleView)]];
+    
     [_upSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionUp];
     [_downSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionDown];
 }

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AD94528D00084332AC355532 /* libPods-Pear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C287D5BBFD4FE6AD6425C7 /* libPods-Pear.a */; };
+		D0DEEA651A084C15006AD541 /* PARProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DEEA641A084C15006AD541 /* PARProfileViewController.m */; };
+		D0DEEA691A084CB6006AD541 /* PARSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DEEA681A084CB6006AD541 /* PARSettingsViewController.m */; };
 		D0F5942119EB0D3C00B09260 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942019EB0D3C00B09260 /* main.m */; };
 		D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942319EB0D3C00B09260 /* AppDelegate.m */; };
 		D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942519EB0D3C00B09260 /* Pear.xcdatamodeld */; };
@@ -38,6 +40,10 @@
 /* Begin PBXFileReference section */
 		43C287D5BBFD4FE6AD6425C7 /* libPods-Pear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DE8D1FF11264B66BF6E35B0 /* Pods-Pear.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pear.xcconfig"; path = "Pods/Pods-Pear.xcconfig"; sourceTree = "<group>"; };
+		D0DEEA631A084C15006AD541 /* PARProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARProfileViewController.h; sourceTree = "<group>"; };
+		D0DEEA641A084C15006AD541 /* PARProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARProfileViewController.m; sourceTree = "<group>"; };
+		D0DEEA671A084CB6006AD541 /* PARSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSettingsViewController.h; sourceTree = "<group>"; };
+		D0DEEA681A084CB6006AD541 /* PARSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSettingsViewController.m; sourceTree = "<group>"; };
 		D0F5941B19EB0D3C00B09260 /* Pear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F5941F19EB0D3C00B09260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0F5942019EB0D3C00B09260 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -93,6 +99,32 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D0DEEA5F1A08474A006AD541 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				D0F5942B19EB0D3C00B09260 /* Main.storyboard */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		D0DEEA661A084C1E006AD541 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				D0DEEA631A084C15006AD541 /* PARProfileViewController.h */,
+				D0DEEA641A084C15006AD541 /* PARProfileViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		D0DEEA6A1A084CBC006AD541 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D0DEEA671A084CB6006AD541 /* PARSettingsViewController.h */,
+				D0DEEA681A084CB6006AD541 /* PARSettingsViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		D0F5941219EB0D3B00B09260 = {
 			isa = PBXGroup;
 			children = (
@@ -119,7 +151,9 @@
 				D0F5944719EB0D8600B09260 /* Delegate */,
 				D0F5944E19EB7BC300B09260 /* Login */,
 				D0F5945319EC315900B09260 /* Pear Game */,
-				D0F5942B19EB0D3C00B09260 /* Main.storyboard */,
+				D0DEEA661A084C1E006AD541 /* Profile */,
+				D0DEEA6A1A084CBC006AD541 /* Settings */,
+				D0DEEA5F1A08474A006AD541 /* Storyboard */,
 				D0F5945A19EC5F5700B09260 /* Utility Views */,
 				D0F5944F19EB7BCE00B09260 /* Stores */,
 				D0F5942E19EB0D3C00B09260 /* Images.xcassets */,
@@ -347,10 +381,12 @@
 			files = (
 				D0F5945219EC314C00B09260 /* PARGameViewController.m in Sources */,
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
+				D0DEEA691A084CB6006AD541 /* PARSettingsViewController.m in Sources */,
 				D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */,
 				D0F5945919EC5F4C00B09260 /* PARCommentCard.m in Sources */,
 				D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */,
 				D0F5942119EB0D3C00B09260 /* main.m in Sources */,
+				D0DEEA651A084C15006AD541 /* PARProfileViewController.m in Sources */,
 				D0F5944A19EB6FFF00B09260 /* PARLoginViewController.m in Sources */,
 				D0F5945F19EC649E00B09260 /* PARWriteCommentCard.m in Sources */,
 				D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */,

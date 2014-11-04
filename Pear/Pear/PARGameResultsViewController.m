@@ -10,6 +10,7 @@
 #import "PARGameViewController.h"
 #import "PARCommentCard.h"
 #import "PARWriteCommentCard.h"
+#import "AppDelegate.h"
 
 @interface PARGameResultsViewController ()
 
@@ -64,9 +65,15 @@
     //Add write comment card to top of scroll view
     PARWriteCommentCard *writeCard = [[PARWriteCommentCard alloc] init];
     [_scrollView addSubview:writeCard];
+    yOffset = writeCard.frame.size.height + 10;
     
     //populate scrollView with PARCommentCards. . .
-    yOffset = writeCard.frame.size.height + 10;
+    for (int i = 0; i < 5; i++)
+    {
+        PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY] name:@"Author" comment:@"This is a test comment" offset:yOffset callback:self];
+            
+        [_scrollView addSubview:commentCard];
+    }
 }
 
 - (void)viewDidLoad {
@@ -76,7 +83,15 @@
     gradient.frame = self.view.bounds;
     [self.view.layer insertSublayer:gradient atIndex:0];
     
-    [_gestureRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight];
+    [_leftSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [_rightSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:_maleProfileFillerView.frame.origin.y] forKey:@"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY"];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tapRecognizer.numberOfTapsRequired = 1;
+    tapRecognizer.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:tapRecognizer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,9 +101,14 @@
 
 -(IBAction)nextCouple:(id)sender
 {
-    //Tell the game controller to load a new couple
     PARGameViewController *gameVC = (PARGameViewController *)[self presentingViewController];
     [gameVC dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(IBAction)viewTapped:(id)sender
+{
+    //end editing in case user is typing a commment and taps outside to be done
+    [self.view endEditing:YES];
 }
 
 #pragma mark - CommentViewCallback protocol methods

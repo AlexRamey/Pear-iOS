@@ -42,7 +42,7 @@
     
     [_commentArea setDelegate:self];
     
-    self.frame = CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, 50.0);
+    self.frame = CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, 60.0);
     
     return self;
 }
@@ -53,6 +53,11 @@
     
     if([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
+        
+        //push comment up to parse . . .
+        //refresh view . . .
+        NSLog(@"Push Comment Up");
+        
         return NO;
     }
     
@@ -61,23 +66,28 @@
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    //TODO: Define a constant offset based on origin of profilePicFillerView . . .
-    //probably use NSUserDefaults . . .
+    float offset = [[[NSUserDefaults standardUserDefaults] objectForKey:@"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY"] floatValue];
     
     //move view up
-    self.superview.superview.frame = CGRectMake(self.superview.superview.frame.origin.x, self.superview.superview.frame.origin.y - 60, self.superview.superview.frame.size.width, self.superview.superview.frame.size.height);
+    self.superview.superview.frame = CGRectMake(self.superview.superview.frame.origin.x, self.superview.superview.frame.origin.y - offset + 10, self.superview.superview.frame.size.width, self.superview.superview.frame.size.height);
     
-    textView.text = @"";
+    if ([textView.text caseInsensitiveCompare:@"express yo'self"] == NSOrderedSame)
+    {
+        textView.text = @""; //clear placeholder text if necessary
+    }
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
-    //move view back down
-    self.superview.superview.frame = CGRectMake(self.superview.superview.frame.origin.x, self.superview.superview.frame.origin.y + 60, self.superview.superview.frame.size.width, self.superview.superview.frame.size.height);
+    float offset = [[[NSUserDefaults standardUserDefaults] objectForKey:@"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY"] floatValue];
     
-    //push comment up to parse . . .
-    //refresh view . . .
-    NSLog(@"Push Comment Up");
+    //move view back down
+    self.superview.superview.frame = CGRectMake(self.superview.superview.frame.origin.x, self.superview.superview.frame.origin.y + offset - 10, self.superview.superview.frame.size.width, self.superview.superview.frame.size.height);
+    
+    if ([textView.text caseInsensitiveCompare:@""] == NSOrderedSame)
+    {
+        textView.text = @"express yo'self";
+    }
 }
 
 /*
