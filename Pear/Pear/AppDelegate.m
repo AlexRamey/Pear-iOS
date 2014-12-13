@@ -22,7 +22,11 @@ NSString * const USER_FB_ID_KEY = @"USER_FB_ID_KEY";
 
 NSString * const NEXT_COUPLE_TO_VOTE_ON_KEY = @"NEXT_COUPLE_TO_VOTE_ON_KEY";
 
-extern NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY = @"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY";
+NSString * const NO_MORE_COUPLES_DOMAIN = @"NO_MORE_COUPLES_DOMAIN";
+
+NSString * const NETWORK_ERROR_DOMAIN = @"NETWORK_ERROR_DOMAIN";
+
+NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY = @"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -68,6 +72,8 @@ extern NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY = @"GAME_RESULTS_PICTU
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
+    
+    NSLog(@"application openURL: sourceApplication: annotation: called. application = %@", application);
     
     // Call FBAppCall's handleOpenURL:sourceApplication to handle Facebook app responses
     BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];

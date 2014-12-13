@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5jx-YL-mQO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5jx-YL-mQO">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -140,11 +140,11 @@
             </objects>
             <point key="canvasLocation" x="-226" y="-769"/>
         </scene>
-        <!--Profile-->
+        <!--Wishlist-->
         <scene sceneID="4tT-P2-Bkj">
             <objects>
                 <navigationController id="OAM-Yc-Ffd" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="DXZ-kI-yNb"/>
+                    <tabBarItem key="tabBarItem" title="Wishlist" image="wishlistTab" id="DXZ-kI-yNb"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="VeR-q7-uhJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -157,10 +157,10 @@
             </objects>
             <point key="canvasLocation" x="304" y="-121"/>
         </scene>
-        <!--Profile-->
+        <!--Wishlist-->
         <scene sceneID="q6A-do-XJb">
             <objects>
-                <viewController id="Eiw-xw-Pke" sceneMemberID="viewController">
+                <viewController id="Eiw-xw-Pke" customClass="PARWishlistViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lFc-HN-jyg"/>
                         <viewControllerLayoutGuide type="bottom" id="L9j-QH-8g3"/>
@@ -170,16 +170,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile" id="cm1-WI-dzV"/>
+                    <navigationItem key="navigationItem" title="Wishlist" id="cm1-WI-dzV"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h0f-jJ-aEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="954" y="-121"/>
         </scene>
-        <!--Settings-->
+        <!--Stats-->
         <scene sceneID="9EK-9q-dr4">
             <objects>
-                <viewController id="SB0-pp-PJm" sceneMemberID="viewController">
+                <viewController id="SB0-pp-PJm" customClass="PARStatsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zPx-Iu-ax7"/>
                         <viewControllerLayoutGuide type="bottom" id="nng-LQ-qxj"/>
@@ -187,10 +187,32 @@
                     <view key="view" contentMode="scaleToFill" id="SC4-Gt-1ge">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqx-Lv-Tej">
+                                <rect key="frame" x="225" y="513" width="150" height="30"/>
+                                <color key="backgroundColor" red="0.082523978661472944" green="0.25873612865072415" blue="0.8595145089285714" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="facebookLogout:" destination="SB0-pp-PJm" eventType="touchUpInside" id="cP3-1D-Y9n"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nng-LQ-qxj" firstAttribute="top" secondItem="Tqx-Lv-Tej" secondAttribute="bottom" constant="8" id="Blw-nb-jzK"/>
+                            <constraint firstAttribute="centerX" secondItem="Tqx-Lv-Tej" secondAttribute="centerX" id="S0R-T1-dk2"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" id="hQ4-Vg-olv"/>
-                    <navigationItem key="navigationItem" title="Settings" id="TLk-6Z-pZi"/>
+                    <navigationItem key="navigationItem" title="Stats" id="TLk-6Z-pZi"/>
+                    <connections>
+                        <outlet property="logoutBtn" destination="Tqx-Lv-Tej" id="g5P-nw-cvR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nlh-3u-vRy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -216,11 +238,11 @@
             </objects>
             <point key="canvasLocation" x="-515" y="-121"/>
         </scene>
-        <!--Settings-->
+        <!--Stats-->
         <scene sceneID="6v5-UO-3cx">
             <objects>
                 <navigationController id="vSN-ty-SdA" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" id="zke-Ov-zh4"/>
+                    <tabBarItem key="tabBarItem" title="Stats" image="statsTab" id="zke-Ov-zh4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DNz-gd-ihz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -378,6 +400,8 @@
         <image name="downVote" width="32" height="32"/>
         <image name="pear" width="60" height="60"/>
         <image name="pearTab" width="25" height="25"/>
+        <image name="statsTab" width="25" height="25"/>
         <image name="upVote" width="32" height="32"/>
+        <image name="wishlistTab" width="25" height="25"/>
     </resources>
 </document>

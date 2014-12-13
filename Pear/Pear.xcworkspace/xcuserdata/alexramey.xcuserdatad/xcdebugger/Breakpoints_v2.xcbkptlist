@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "-getExistingCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -72,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "-fetchCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -88,11 +88,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "-fetchCouplesWithCompletion:"
             landmarkType = "5">
             <Locations>
@@ -134,11 +134,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "-getExistingCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -150,11 +150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
             landmarkName = "-createNewCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -166,11 +166,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "-createNewCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -182,11 +182,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "-createNewCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -198,11 +198,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "-createNewCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -214,7 +214,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "-createNewCouplesWithCompletion:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pear/PARDataStore.m"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "192"
@@ -230,7 +246,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "195"
@@ -246,27 +262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
-            landmarkName = "-createNewCouplesWithCompletion:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "320"
-            endingLineNumber = "320"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -278,11 +278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "319"
-            endingLineNumber = "319"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -294,11 +294,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
+            startingLineNumber = "324"
+            endingLineNumber = "324"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -310,11 +310,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
+            startingLineNumber = "353"
+            endingLineNumber = "353"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -326,11 +326,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "357"
-            endingLineNumber = "357"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
             <Locations>
@@ -372,11 +372,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -388,11 +388,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -404,11 +404,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "-fetchCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -420,11 +420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "-fetchCouplesWithCompletion:"
             landmarkType = "5">
             <Locations>
@@ -466,11 +466,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "-getExistingCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -482,11 +482,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "-getExistingCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -498,11 +498,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "361"
-            endingLineNumber = "361"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -514,11 +514,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "-fetchCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -540,11 +540,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "340"
-            endingLineNumber = "340"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -556,11 +556,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
             landmarkName = "-pushNewCouplesToParseWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -572,11 +572,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "243"
+            endingLineNumber = "243"
             landmarkName = "-createNewCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -588,11 +588,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436751820.658671"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "-createNewCouplesWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -604,12 +604,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "436750937.779802"
+            timestampString = "440184415.498211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "-createNewCouplesWithCompletion:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pear/PARDataStore.m"
+            timestampString = "440184415.498211"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "-nextCoupleWithCompletion:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pear/PARStatsViewController.m"
+            timestampString = "440188088.267434"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "-facebookLogout:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

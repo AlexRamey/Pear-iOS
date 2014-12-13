@@ -1,28 +1,26 @@
 //
-//  PARProfileViewController.m
+//  PARStatsViewController.m
 //  Pear
 //
-//  Created by Alex Ramey on 11/3/14.
+//  Created by Alex Ramey on 12/13/14.
 //  Copyright (c) 2014 Pear. All rights reserved.
 //
 
-#import "PARProfileViewController.h"
+#import "PARStatsViewController.h"
 
-@interface PARProfileViewController ()
+@interface PARStatsViewController ()
 
 @end
 
-@implementation PARProfileViewController
+@implementation PARStatsViewController
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    
     if (self)
     {
         //custom initialization
     }
-    
     return self;
 }
 
@@ -34,6 +32,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - FBLogout
+-(IBAction)facebookLogout:(id)sender
+{
+    FBSession* session = [FBSession activeSession];
+    [session closeAndClearTokenInformation];
+    [session close];
+    [FBSession setActiveSession:nil];
+    
+    [self.parentViewController.parentViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*

@@ -1,18 +1,28 @@
 //
-//  PARSettingsViewController.m
+//  PARWishlistViewController.m
 //  Pear
 //
-//  Created by Alex Ramey on 11/3/14.
+//  Created by Alex Ramey on 12/13/14.
 //  Copyright (c) 2014 Pear. All rights reserved.
 //
 
-#import "PARSettingsViewController.h"
+#import "PARWishlistViewController.h"
 
-@interface PARSettingsViewController ()
+@interface PARWishlistViewController ()
 
 @end
 
-@implementation PARSettingsViewController
+@implementation PARWishlistViewController
+
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        //custom initialization
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

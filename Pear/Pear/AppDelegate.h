@@ -15,6 +15,10 @@ extern NSString * const USER_FB_ID_KEY;
 
 extern NSString * const NEXT_COUPLE_TO_VOTE_ON_KEY;
 
+extern NSString * const NO_MORE_COUPLES_DOMAIN;
+
+extern NSString * const NETWORK_ERROR_DOMAIN;
+
 extern NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY;
 
 @property (strong, nonatomic) UIWindow *window;

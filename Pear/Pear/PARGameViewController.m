@@ -11,6 +11,7 @@
 #import "PARDataStore.h"
 #import "AppDelegate.h"
 #import "FacebookSDK.h"
+#import "AppDelegate.h"
 
 @interface PARGameViewController ()
 
@@ -65,11 +66,51 @@
     [super viewWillAppear:animated];
     
     gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
-    //get the next couple from the store . . .
     
+    //Reset UI
+    NSArray *subviews = [maleView subviews];
+    for (int i = 0; i < [subviews count]; i++)
+    {
+        if ([[subviews objectAtIndex:i] class] == [UIImageView class])
+        {
+            UIImageView *maleProfileImageView = (UIImageView *)[subviews objectAtIndex:i];
+            maleProfileImageView.image = nil;
+        }
+    }
+    subviews = [femaleView subviews];
+    for (int i = 0; i < [subviews count]; i++)
+    {
+        if ([[subviews objectAtIndex:i] class] == [UIImageView class])
+        {
+            UIImageView *femaleProfileImageView = (UIImageView *)[subviews objectAtIndex:i];
+            femaleProfileImageView.image = nil;
+        }
+    }
+    
+    maleView.profileID = nil;
+    femaleView.profileID = nil;
+    
+    _maleName.text = @"";
+    _femaleName.text = @"";
+    
+    
+    //Get Next Couple
     NSDictionary *coupleToVoteOn = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]];
     
-    //TODO: Make sure there exists a couple in the defaults . . .
+    NSString *error = [coupleToVoteOn objectForKey:@"Error"];
+    
+    if (error)
+    {
+        if ([error caseInsensitiveCompare:NO_MORE_COUPLES_DOMAIN] == NSOrderedSame)
+        {
+            
+        }
+        else // error --> NETWORK_ERROR_DOMAIN
+        {
+            
+        }
+        return;
+    }
     
     objectId = [coupleToVoteOn objectForKey:@"ObjectId"];
     maleId = [coupleToVoteOn objectForKey:@"Male"];
@@ -95,24 +136,6 @@
         downVotes = 0;
     }
     
-    //TODO: find imageView subview and clear it
-    /*
-    NSArray *subviews = [maleView subviews];
-    for (int i = 0; i < [subviews count]; i++)
-    {
-        NSLog(@"Subview %d: %@", i, [[subviews objectAtIndex:i] class]);
-        
-        if ([[subviews objectAtIndex:i] class] == [UIImageView class])
-        {
-            UIImageView *maleProfileImageView = (UIImageView *)[subviews objectAtIndex:i];
-        }
-        else
-        {
-            
-        }
-        
-    }
-    */
     maleView.profileID = maleId;
     femaleView.profileID = femaleId;
     
@@ -179,7 +202,8 @@
     [sharedStore nextCoupleWithCompletion:^(NSError *e) {
         //puts the next couple into the defaults . . .
         
-        //TODO: ADD Error Handling . . .
+        //if (e) it means network error
+        //either way (network or no more couples), error will be stored in Defaults and caught by this view controller when it tries to load the next couple in viewWillAppear
         
         [self performSegueWithIdentifier:@"GameToResults" sender:self];
     }];

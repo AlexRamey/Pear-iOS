@@ -95,16 +95,14 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         [self fetchCouplesWithCompletion:^(NSError *error) {
             if (error)
             {
-                if ([error.domain caseInsensitiveCompare:@"NO_MORE_COUPLES_DOMAIN"] == NSOrderedSame)
+                if ([error.domain caseInsensitiveCompare:NO_MORE_COUPLES_DOMAIN] == NSOrderedSame)
                 {
-                    NSLog(@"No More Couples Response");
-                    [[NSUserDefaults standardUserDefaults] setObject:@{@"Error" : @"NO_MORE_COUPLES_DOMAIN"} forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                    [[NSUserDefaults standardUserDefaults] setObject:@{@"Error" : NO_MORE_COUPLES_DOMAIN} forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
                     completion(nil);
                 }
                 else
                 {
-                    NSLog(@"NETWORK ERROR LOGIN RESPONSE");
-                    [[NSUserDefaults standardUserDefaults] setObject:@{@"Error" : @"Network"} forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                    [[NSUserDefaults standardUserDefaults] setObject:@{@"Error" : NETWORK_ERROR_DOMAIN} forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
                     completion(error);
                 }
             }
@@ -156,7 +154,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 {
     PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
     query.limit = 50;
-    //[query orderByDescending:@"Upvotes"];
+    [query orderByDescending:@"Upvotes"];
     [query whereKey:@"Male" containedIn:_maleFriendIDs];
     [query whereKey:@"Female" containedIn:_femaleFriendIDs];
     [query whereKey:@"objectId" notContainedIn:[_coupleObjectsAlreadyVotedOn allValues]];
@@ -172,7 +170,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         {
             [_couplesLeftToVoteOn addObject:couple];
         }
-        NSLog(@"Parse Objects Count %lu", (unsigned long)[objects count]);
         completion(error);
     }];
 }
@@ -288,8 +285,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
                         [newCouple setObject:femaleSchoolYear forKey:@"FemaleEducationYear"];
                     }
                     
-                    
-                    
                     //figure out if it's one we've already voted on . . .
                     NSString *key = [[localMalePtr objectForKey:@"id"] stringByAppendingString:[localFemalePtr objectForKey:@"id"]];
                     
@@ -318,7 +313,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 {
     if (pushIndex == [_potentialCouples count]) //we've pushed all the couples up already
     {
-        NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:@"NO_MORE_COUPLES_DOMAIN" code:000 userInfo:nil];
+        NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:NO_MORE_COUPLES_DOMAIN code:000 userInfo:nil];
         completion(noMoreCouplesError);
     }
     

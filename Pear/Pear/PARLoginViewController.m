@@ -73,6 +73,7 @@
         [[PARDataStore sharedStore] nextCoupleWithCompletion:^(NSError *error) {
             if (error)
             {
+                //TODO: Implement This
                 //network error occurred . . .
             }
             [self performSegueWithIdentifier:@"LoginToTab" sender:self];
@@ -83,7 +84,7 @@
 
 -(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
 {
-    //button view is no in logged-out state
+    //button view is now in logged-out state
 }
 
 // Handle possible errors that can occur during login
