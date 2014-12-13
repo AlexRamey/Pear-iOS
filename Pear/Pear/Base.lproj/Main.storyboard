@@ -160,7 +160,7 @@
         <!--Wishlist-->
         <scene sceneID="q6A-do-XJb">
             <objects>
-                <viewController id="Eiw-xw-Pke" customClass="PARWishlistViewController" sceneMemberID="viewController">
+                <viewController id="Eiw-xw-Pke" customClass="PARWishlistCollectionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lFc-HN-jyg"/>
                         <viewControllerLayoutGuide type="bottom" id="L9j-QH-8g3"/>
@@ -168,13 +168,90 @@
                     <view key="view" contentMode="scaleToFill" id="1QI-ZE-tcB">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V4D-4x-kqc">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dNe-lu-0Gi">
+                                    <size key="itemSize" width="90" height="80"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="yAe-xx-TkR">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="90" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="Eiw-xw-Pke" id="hcd-r8-k8p"/>
+                                    <outlet property="delegate" destination="Eiw-xw-Pke" id="Mhm-NT-awh"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="V4D-4x-kqc" firstAttribute="top" secondItem="lFc-HN-jyg" secondAttribute="bottom" id="Lgf-e4-c2W"/>
+                            <constraint firstItem="L9j-QH-8g3" firstAttribute="top" secondItem="V4D-4x-kqc" secondAttribute="bottom" id="fcu-k4-1QF"/>
+                            <constraint firstItem="V4D-4x-kqc" firstAttribute="leading" secondItem="1QI-ZE-tcB" secondAttribute="leadingMargin" constant="-16" id="unG-bz-x9b"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="V4D-4x-kqc" secondAttribute="trailing" constant="-16" id="zlN-fm-iBy"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Wishlist" id="cm1-WI-dzV"/>
+                    <navigationItem key="navigationItem" title="Wishlist" id="cm1-WI-dzV">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="rvY-Z5-zJX">
+                            <connections>
+                                <segue destination="uBK-x9-Rpb" kind="show" id="GxE-Vw-B5f"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="V4D-4x-kqc" id="JqA-aC-0QR"/>
+                        <segue destination="3On-bn-CaA" kind="show" identifier="wishstatus" id="Q2x-n3-Baa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h0f-jJ-aEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="954" y="-121"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="o3z-Nx-Cxv">
+            <objects>
+                <viewController id="uBK-x9-Rpb" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jI3-ib-Ueo"/>
+                        <viewControllerLayoutGuide type="bottom" id="IzY-8m-dg0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OnB-Tg-2YV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GJc-6d-IkK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1670" y="-423"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="5bs-BK-bD7">
+            <objects>
+                <viewController id="3On-bn-CaA" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uiZ-r8-5nF"/>
+                        <viewControllerLayoutGuide type="bottom" id="8zs-Hp-Nay"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="s2g-ot-jOk">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XKi-Lf-vrk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1670" y="222"/>
         </scene>
         <!--Stats-->
         <scene sceneID="9EK-9q-dr4">
@@ -190,7 +267,10 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqx-Lv-Tej">
                                 <rect key="frame" x="225" y="513" width="150" height="30"/>
-                                <color key="backgroundColor" red="0.082523978661472944" green="0.25873612865072415" blue="0.8595145089285714" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="sdP-lV-buE"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <state key="normal" title="Logout">
