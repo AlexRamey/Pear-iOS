@@ -8,6 +8,7 @@
 
 #import "PARLoginViewController.h"
 #import "PARDataStore.h"
+#import "PFFacebookUtils.h"
 #import "AppDelegate.h"
 
 @interface PARLoginViewController ()
@@ -31,19 +32,22 @@
     return self;
 }
 
-- (void)viewDidLoad {
+-(void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions: @[@"public_profile", @"email", @"user_friends"]];
-    
-    loginView.delegate = self;
-    
-    // Align the button in the center horizontally, and near the bottom vertically
-    loginView.frame = CGRectMake(self.view.center.x - (loginView.frame.size.width / 2), self.view.bounds.size.height * .80, loginView.frame.size.width, loginView.frame.size.height);
-    [self.view addSubview:loginView];
-    
     self.view.backgroundColor = UIColorFromRGB(0x00cc66);
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    _loginBtn.enabled = YES;
+    if ([PFUser currentUser] && // Check if user is cached
+        [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) { // Check if user is linked to Facebook
+        [_activityIndicator startAnimating];
+        [self retrieveUserInfoAndTransition:nil];
+        _loginBtn.enabled = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,18 +55,134 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - FBLoginViewDelegate methods
-
--(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
-{
-    //Login View has fetched user info
-    [[NSUserDefaults standardUserDefaults] setObject:user.objectID forKey:USER_FB_ID_KEY];
+- (IBAction)loginButtonTouchHandler:(id)sender  {
+    //disable loginBtn
+    _loginBtn.enabled = NO;
+    // Set permissions required from the facebook user account
+    NSArray *permissionsArray = @[@"public_profile", @"email", @"user_friends"];
+    
+    // Login PFUser using Facebook
+    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+        PFUser *newUser = nil;
+        
+        if (!user) {
+            _loginBtn.enabled = YES;
+            NSString *errorMessage = nil;
+            if (!error) {
+                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+                errorMessage = @"Uh oh. The user cancelled the Facebook login.";
+            } else {
+                NSLog(@"Uh oh. An error occurred: %@", error);
+                errorMessage = [error localizedDescription];
+            }
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"Dismiss", nil];
+            [alert show];
+        } else {
+            if (user.isNew) {
+                NSLog(@"User with facebook signed up and logged in!");
+                newUser = user;
+            } else {
+                NSLog(@"User with facebook logged in!");
+            }
+            
+            [self retrieveUserInfoAndTransition:newUser];
+        }
+    }];
+    
+    [_activityIndicator startAnimating]; // Show loading indicator until login is finished
 }
 
--(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
+-(void)retrieveUserInfoAndTransition:(PFUser *)newUser
 {
-    //button view is now in logged-in state
-    
+    FBRequest *request = [FBRequest requestForMe];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (!error) {
+            // result is a dictionary with the user's Facebook data
+            NSDictionary *userData = (NSDictionary *)result;
+            
+            NSLog(@"User Data: %@", userData);
+            
+            if (newUser)
+            {
+                NSArray *education = userData[@"education"];
+                if (education)
+                {
+                    NSDictionary *mostRecent = [education lastObject];
+                    if (mostRecent)
+                    {
+                        NSDictionary *school = mostRecent[@"school"];
+                        if (school)
+                        {
+                            if (school[@"id"])
+                            {
+                                newUser[@"Education"] = school[@"id"];
+                            }
+                            if (school[@"name"])
+                            {
+                                newUser[@"EducationName"] = school[@"name"];
+                            }
+                        }
+                        
+                        NSDictionary *year = mostRecent[@"year"];
+                        if (year)
+                        {
+                            if (year[@"name"])
+                            {
+                                newUser[@"EducationYear"] = year[@"name"];
+                            }
+                        }
+                    }
+                }
+                
+                if (userData[@"name"])
+                {
+                    newUser[@"Name"] = userData[@"name"];
+                }
+                
+                if (userData[@"gender"])
+                {
+                    newUser[@"Gender"] = userData[@"gender"];
+                }
+                
+                if (userData[@"email"])
+                {
+                    newUser[@"email"] = userData[@"email"];
+                }
+                
+                if (userData[@"id"])
+                {
+                    newUser[@"FBID"] = userData[@"id"];
+                }
+                
+                [newUser saveInBackground];
+            }
+            
+            NSString *facebookID = userData[@"id"];
+            [[NSUserDefaults standardUserDefaults] setObject:facebookID forKey:USER_FB_ID_KEY];
+            [self requestFriendsAndTransition];
+        }
+        else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
+                  isEqualToString: @"OAuthException"])
+        {
+            [PFUser logOut];
+            _loginBtn.enabled = YES;
+            [_activityIndicator stopAnimating];
+        }
+        else
+        {
+            NSLog(@"Some other error: %@", error);
+            _loginBtn.enabled = YES;
+            [_activityIndicator stopAnimating];
+        }
+    }];
+}
+
+-(void)requestFriendsAndTransition
+{
     FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends?fields=name,gender,education,location"];
     
     [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
@@ -77,60 +197,11 @@
                 //network error occurred . . .
             }
             [self performSegueWithIdentifier:@"LoginToTab" sender:self];
+            [_activityIndicator stopAnimating];
         }];
         
     }];
 }
-
--(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
-{
-    //button view is now in logged-out state
-}
-
-// Handle possible errors that can occur during login
-- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
-    NSString *alertMessage, *alertTitle;
-    
-    // If the user should perform an action outside of you app to recover,
-    // the SDK will provide a message for the user, you just need to surface it.
-    // This conveniently handles cases like Facebook password change or unverified Facebook accounts.
-    if ([FBErrorUtility shouldNotifyUserForError:error]) {
-        alertTitle = @"Facebook error";
-        alertMessage = [FBErrorUtility userMessageForError:error];
-        
-        // This code will handle session closures that happen outside of the app
-        // You can take a look at our error handling guide to know more about it
-        // https://developers.facebook.com/docs/ios/errors
-    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession) {
-        alertTitle = @"Session Error";
-        alertMessage = @"Your current session is no longer valid. Please log in again.";
-        
-        // If the user has cancelled a login, we will do nothing.
-        // You can also choose to show the user a message if cancelling login will result in
-        // the user not being able to complete a task they had initiated in your app
-        // (like accessing FB-stored information or posting to Facebook)
-    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
-        NSLog(@"user cancelled login");
-        
-        // For simplicity, this sample handles other errors with a generic message
-        // You can checkout our error handling guide for more detailed information
-        // https://developers.facebook.com/docs/ios/errors
-    } else {
-        alertTitle  = @"Something went wrong";
-        alertMessage = @"Please try again later.";
-        NSLog(@"Unexpected error:%@", error);
-    }
-    
-    if (alertMessage) {
-        [[[UIAlertView alloc] initWithTitle:alertTitle
-                                    message:alertMessage
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil] show];
-    }
-}
-
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

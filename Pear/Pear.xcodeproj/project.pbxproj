@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		AD94528D00084332AC355532 /* libPods-Pear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C287D5BBFD4FE6AD6425C7 /* libPods-Pear.a */; };
 		D031DB881A3CBA2E000C37C0 /* PARStatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DB871A3CBA2E000C37C0 /* PARStatsViewController.m */; };
-		D031DB8E1A3CC2CE000C37C0 /* PARWishlistCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DB8D1A3CC2CE000C37C0 /* PARWishlistCollectionViewController.m */; };
+		D031DB971A3D223C000C37C0 /* PARWishlistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DB951A3D223C000C37C0 /* PARWishlistCell.m */; };
+		D031DB981A3D223C000C37C0 /* PARWishlistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D031DB961A3D223C000C37C0 /* PARWishlistCell.xib */; };
+		D031DB9B1A3D225E000C37C0 /* PARWishlistController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DB9A1A3D225E000C37C0 /* PARWishlistController.m */; };
 		D0F5942119EB0D3C00B09260 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942019EB0D3C00B09260 /* main.m */; };
 		D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942319EB0D3C00B09260 /* AppDelegate.m */; };
 		D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942519EB0D3C00B09260 /* Pear.xcdatamodeld */; };
@@ -42,8 +44,11 @@
 		6DE8D1FF11264B66BF6E35B0 /* Pods-Pear.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pear.xcconfig"; path = "Pods/Pods-Pear.xcconfig"; sourceTree = "<group>"; };
 		D031DB861A3CBA2E000C37C0 /* PARStatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARStatsViewController.h; sourceTree = "<group>"; };
 		D031DB871A3CBA2E000C37C0 /* PARStatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARStatsViewController.m; sourceTree = "<group>"; };
-		D031DB8C1A3CC2CE000C37C0 /* PARWishlistCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARWishlistCollectionViewController.h; sourceTree = "<group>"; };
-		D031DB8D1A3CC2CE000C37C0 /* PARWishlistCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARWishlistCollectionViewController.m; sourceTree = "<group>"; };
+		D031DB941A3D223C000C37C0 /* PARWishlistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARWishlistCell.h; sourceTree = "<group>"; };
+		D031DB951A3D223C000C37C0 /* PARWishlistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARWishlistCell.m; sourceTree = "<group>"; };
+		D031DB961A3D223C000C37C0 /* PARWishlistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PARWishlistCell.xib; sourceTree = "<group>"; };
+		D031DB991A3D225E000C37C0 /* PARWishlistController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARWishlistController.h; sourceTree = "<group>"; };
+		D031DB9A1A3D225E000C37C0 /* PARWishlistController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARWishlistController.m; sourceTree = "<group>"; };
 		D0F5941B19EB0D3C00B09260 /* Pear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F5941F19EB0D3C00B09260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0F5942019EB0D3C00B09260 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -110,8 +115,11 @@
 		D0DEEA661A084C1E006AD541 /* Wishlist */ = {
 			isa = PBXGroup;
 			children = (
-				D031DB8C1A3CC2CE000C37C0 /* PARWishlistCollectionViewController.h */,
-				D031DB8D1A3CC2CE000C37C0 /* PARWishlistCollectionViewController.m */,
+				D031DB991A3D225E000C37C0 /* PARWishlistController.h */,
+				D031DB9A1A3D225E000C37C0 /* PARWishlistController.m */,
+				D031DB941A3D223C000C37C0 /* PARWishlistCell.h */,
+				D031DB951A3D223C000C37C0 /* PARWishlistCell.m */,
+				D031DB961A3D223C000C37C0 /* PARWishlistCell.xib */,
 			);
 			name = Wishlist;
 			sourceTree = "<group>";
@@ -328,6 +336,7 @@
 				D0F5943219EB0D3C00B09260 /* LaunchScreen.xib in Resources */,
 				D0F5942F19EB0D3C00B09260 /* Images.xcassets in Resources */,
 				D0F5946119EC64B300B09260 /* PARWriteCommentCard.xib in Resources */,
+				D031DB981A3D223C000C37C0 /* PARWishlistCell.xib in Resources */,
 				D0F5945C19EC5F6C00B09260 /* PARCommentCard.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,10 +388,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D031DB9B1A3D225E000C37C0 /* PARWishlistController.m in Sources */,
 				D0F5945219EC314C00B09260 /* PARGameViewController.m in Sources */,
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
 				D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */,
-				D031DB8E1A3CC2CE000C37C0 /* PARWishlistCollectionViewController.m in Sources */,
 				D031DB881A3CBA2E000C37C0 /* PARStatsViewController.m in Sources */,
 				D0F5945919EC5F4C00B09260 /* PARCommentCard.m in Sources */,
 				D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */,
@@ -390,6 +399,7 @@
 				D0F5944A19EB6FFF00B09260 /* PARLoginViewController.m in Sources */,
 				D0F5945F19EC649E00B09260 /* PARWriteCommentCard.m in Sources */,
 				D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */,
+				D031DB971A3D223C000C37C0 /* PARWishlistCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "FacebookSDK.h"
 #import "Parse.h"
+#import "PFFacebookUtils.h"
 #import "PARLoginViewController.h"
 #import "PARDataStore.h"
 
@@ -38,6 +39,8 @@ NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY = @"GAME_RESULTS_PICTURE_ORIG
     PARLoginViewController *vc = [storyboard instantiateInitialViewController];
     self.window.rootViewController = vc;
     
+    [PFFacebookUtils initializeFacebook];
+    
     return YES;
 }
 
@@ -58,11 +61,13 @@ NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY = @"GAME_RESULTS_PICTURE_ORIG
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
+    [[PFFacebookUtils session] close];
     [self saveContext];
 }
 
@@ -73,6 +78,10 @@ NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY = @"GAME_RESULTS_PICTURE_ORIG
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
     
+    return [FBAppCall handleOpenURL:url
+                  sourceApplication:sourceApplication
+                        withSession:[PFFacebookUtils session]];
+    /*
     NSLog(@"application openURL: sourceApplication: annotation: called. application = %@", application);
     
     // Call FBAppCall's handleOpenURL:sourceApplication to handle Facebook app responses
@@ -81,6 +90,7 @@ NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY = @"GAME_RESULTS_PICTURE_ORIG
     // You can add your app-specific url handling code here if needed
     
     return wasHandled;
+    */
 }
 
 #pragma mark - Core Data stack

@@ -11,4 +11,7 @@
 
 @interface PARLoginViewController : UIViewController <FBLoginViewDelegate>
 
+@property (nonatomic, weak) IBOutlet UIButton *loginBtn;
+@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
+
 @end

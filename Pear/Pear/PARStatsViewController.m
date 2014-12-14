@@ -7,6 +7,7 @@
 //
 
 #import "PARStatsViewController.h"
+#import "Parse.h"
 
 @interface PARStatsViewController ()
 
@@ -37,10 +38,7 @@
 #pragma mark - FBLogout
 -(IBAction)facebookLogout:(id)sender
 {
-    FBSession* session = [FBSession activeSession];
-    [session closeAndClearTokenInformation];
-    [session close];
-    [FBSession setActiveSession:nil];
+    [PFUser logOut]; // Log out
     
     [self.parentViewController.parentViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }

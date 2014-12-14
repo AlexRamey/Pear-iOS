@@ -1,5 +1,5 @@
 //
-//  PARWishlistCollectionViewController.h
+//  PARWishlistCell.h
 //  Pear
 //
 //  Created by Alex Ramey on 12/13/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PARWishlistCollectionViewController : UICollectionViewController
+@interface PARWishlistCell : UICollectionViewCell
 
 @end

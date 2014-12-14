@@ -1,18 +1,18 @@
 //
-//  PARWishlistCollectionViewController.m
+//  PARWishlistController.m
 //  Pear
 //
 //  Created by Alex Ramey on 12/13/14.
 //  Copyright (c) 2014 Pear. All rights reserved.
 //
 
-#import "PARWishlistCollectionViewController.h"
+#import "PARWishlistController.h"
 
-@interface PARWishlistCollectionViewController ()
+@interface PARWishlistController ()
 
 @end
 
-@implementation PARWishlistCollectionViewController
+@implementation PARWishlistController
 
 static NSString * const reuseIdentifier = @"Cell";
 
