@@ -13,6 +13,8 @@
 
 extern NSString * const USER_FB_ID_KEY;
 
+extern NSString * const USER_GENDER_KEY;
+
 extern NSString * const NEXT_COUPLE_TO_VOTE_ON_KEY;
 
 extern NSString * const NO_MORE_COUPLES_DOMAIN;

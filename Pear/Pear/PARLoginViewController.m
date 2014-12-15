@@ -163,6 +163,16 @@
             
             NSString *facebookID = userData[@"id"];
             [[NSUserDefaults standardUserDefaults] setObject:facebookID forKey:USER_FB_ID_KEY];
+            NSString *userGender = userData[@"gender"];
+            if (userGender)
+            {
+                [[NSUserDefaults standardUserDefaults] setObject:userGender forKey:USER_GENDER_KEY];
+            }
+            else //if no gender is provided, assume male
+            {
+                [[NSUserDefaults standardUserDefaults] setObject:@"male" forKey:USER_GENDER_KEY];
+            }
+            
             [self requestFriendsAndTransition];
         }
         else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]

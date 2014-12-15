@@ -17,6 +17,8 @@
 @property (nonatomic, strong) NSArray *friends;
 @property (nonatomic, strong) NSArray *maleFriendIDs;
 @property (nonatomic, strong) NSArray *femaleFriendIDs;
+@property (nonatomic, strong) NSArray *maleFriendNames;
+@property (nonatomic, strong) NSArray *femaleFriendNames;
 
 @property (nonatomic, strong) NSMutableDictionary *coupleObjectsAlreadyVotedOn;
 

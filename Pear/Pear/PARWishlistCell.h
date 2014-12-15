@@ -10,4 +10,7 @@
 
 @interface PARWishlistCell : UICollectionViewCell
 
+-(void)loadProfilePictureForFBID:(NSString *)facebookID;
+-(void)addLabelWithName:(NSString *)name;
+
 @end

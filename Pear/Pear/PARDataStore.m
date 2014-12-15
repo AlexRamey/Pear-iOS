@@ -57,15 +57,20 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     NSMutableArray *maleFriendIDs = [[NSMutableArray alloc] init];
     NSMutableArray *femaleFriendIDs = [[NSMutableArray alloc] init];
     
+    NSMutableArray *maleFriendNames = [[NSMutableArray alloc] init];
+    NSMutableArray *femaleFriendNames = [[NSMutableArray alloc] init];
+    
     for (NSDictionary<FBGraphUser>* friend in friendsList)
     {
         if ([[friend objectForKey:@"gender"] caseInsensitiveCompare:@"male"] == NSOrderedSame)
         {
             [maleFriendIDs addObject:[friend objectForKey:@"id"]];
+            [maleFriendNames addObject:[friend objectForKey:@"name"]];
         }
         else if ([[friend objectForKey:@"gender"] caseInsensitiveCompare:@"female"] == NSOrderedSame)
         {
             [femaleFriendIDs addObject:[friend objectForKey:@"id" ]];
+            [femaleFriendNames addObject:[friend objectForKey:@"name"]];
         }
         else
         {
@@ -75,6 +80,8 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     
     _maleFriendIDs = maleFriendIDs;
     _femaleFriendIDs = femaleFriendIDs;
+    _maleFriendNames = maleFriendNames;
+    _femaleFriendNames = femaleFriendNames;
 }
 
 -(void)nextCoupleWithCompletion:(void (^)(NSError *))completion

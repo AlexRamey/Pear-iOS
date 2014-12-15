@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PARWishlistController : UICollectionViewController
+@interface PARWishlistController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
+
+@property (nonatomic, strong) NSDictionary *wishList;
 
 @end

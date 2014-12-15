@@ -164,6 +164,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="kh3-aL-bPk">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kPg-pj-uyJ">
                             <size key="itemSize" width="50" height="50"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -201,10 +202,10 @@
             </objects>
             <point key="canvasLocation" x="859" y="-121"/>
         </scene>
-        <!--View Controller-->
+        <!--Make a Wish-->
         <scene sceneID="o3z-Nx-Cxv">
             <objects>
-                <viewController id="uBK-x9-Rpb" sceneMemberID="viewController">
+                <viewController title="Make a Wish" automaticallyAdjustsScrollViewInsets="NO" id="uBK-x9-Rpb" customClass="PARAddWishController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jI3-ib-Ueo"/>
                         <viewControllerLayoutGuide type="bottom" id="IzY-8m-dg0"/>
@@ -212,8 +213,27 @@
                     <view key="view" contentMode="scaleToFill" id="OnB-Tg-2YV">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2gL-kA-Gd0">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="uBK-x9-Rpb" id="219-mb-z9P"/>
+                                    <outlet property="delegate" destination="uBK-x9-Rpb" id="usO-VD-Idz"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2gL-kA-Gd0" firstAttribute="leading" secondItem="OnB-Tg-2YV" secondAttribute="leadingMargin" constant="-16" id="2Ze-GP-qqY"/>
+                            <constraint firstItem="IzY-8m-dg0" firstAttribute="top" secondItem="2gL-kA-Gd0" secondAttribute="bottom" id="Ctd-rT-Di5"/>
+                            <constraint firstItem="2gL-kA-Gd0" firstAttribute="top" secondItem="jI3-ib-Ueo" secondAttribute="bottom" id="EeK-vF-3A8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2gL-kA-Gd0" secondAttribute="trailing" constant="-16" id="omf-aZ-SML"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="2gL-kA-Gd0" id="EPQ-1b-nrw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GJc-6d-IkK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

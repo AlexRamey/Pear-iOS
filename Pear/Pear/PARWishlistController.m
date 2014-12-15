@@ -7,6 +7,7 @@
 //
 
 #import "PARWishlistController.h"
+#import "PARWishlistCell.h"
 
 @interface PARWishlistController ()
 
@@ -14,7 +15,8 @@
 
 @implementation PARWishlistController
 
-static NSString * const reuseIdentifier = @"Cell";
+static NSString * const reuseIdentifier = @"WishlistCell";
+static NSString * const wishlistKey = @"WISHLIST_DEFAULTS_KEY";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,9 +25,21 @@ static NSString * const reuseIdentifier = @"Cell";
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    [self.collectionView registerClass:[PARWishlistCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    _wishList = [[NSUserDefaults standardUserDefaults] objectForKey:wishlistKey];
+    
+    if (!_wishList)
+    {
+        _wishList = [[NSDictionary alloc] init];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,22 +60,42 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete method implementation -- Return the number of sections
-    return 0;
+    return 1;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete method implementation -- Return the number of items in the section
-    return 0;
+    return 5;
+    //return [_wishList count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    PARWishlistCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     // Configure the cell
+    [cell setBackgroundColor:[UIColor redColor]];
+    [cell loadProfilePictureForFBID:@"1230104186"];
     
     return cell;
+}
+
+#pragma mark <UICollectionViewDelegateFlowLayout>
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    float dimension = ([UIScreen mainScreen].bounds.size.width - 31) / 2.0;
+    
+    return CGSizeMake(dimension, dimension);
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(20.0, 10.0, 20.0, 10.0);
+}
+
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 15.0;
 }
 
 #pragma mark <UICollectionViewDelegate>
