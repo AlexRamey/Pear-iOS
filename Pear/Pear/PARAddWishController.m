@@ -90,33 +90,204 @@ static NSString * const reuseIdentifider = @"CELL";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     PARWish *wish = [_potentialWishes objectAtIndex:indexPath.row];
     
     NSArray *keys = [_wishList allKeys];
-    
-    UIAlertView *alert;
     
     for (int i = 0; i < [keys count]; i++)
     {
         if ([[keys objectAtIndex:i] caseInsensitiveCompare:wish.facebookID] == NSOrderedSame)
         {
             NSString *msg = [NSString stringWithFormat:@"%@ is already on your wishlist!", wish.wishName];
-            alert = [[UIAlertView alloc] initWithTitle:@"Done." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Done." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
             return;
         }
     }
     
-    [_wishList setValue:wish.wishName forKey:wish.facebookID];
-    [[NSUserDefaults standardUserDefaults] setObject:_wishList forKey:WISHLIST_DEFAULTS_KEY];
-    
     //1. Query Parse to See if Couple Already Exists, if so we're good
     
-    //2. If not, Push Couple to Parse and on Success notify data store in case it was a potentail couple
+    PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
+    query.limit = 5;
     
-    NSString *msg = [NSString stringWithFormat:@"%@ was added to your wishlist!", wish.wishName];
-    alert = [[UIAlertView alloc] initWithTitle:@"Done." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alert show];
+    NSString *userFBID = [[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY];
+    NSString *userGender = [[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY];
+    
+    if ([userGender caseInsensitiveCompare:@"male"] == NSOrderedSame)
+    {
+        [query whereKey:@"Male" containedIn:@[userFBID]];
+        [query whereKey:@"Female" containedIn:@[wish.facebookID]];
+    }
+    else
+    {
+        [query whereKey:@"Male" containedIn:@[wish.facebookID]];
+        [query whereKey:@"Female" containedIn:@[userFBID]];
+    }
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        NSLog(@"Objects: %@", objects);
+        if ([objects count] > 0) //Couple already exists so we're good
+        {
+            NSString *msg = [NSString stringWithFormat:@"%@ was added to your wishlist!", wish.wishName];
+            UIAlertView *goodAlert = [[UIAlertView alloc] initWithTitle:@"Done." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [goodAlert show];
+            
+        }
+        else if (objects) //no error and couple doesn't exist --> PUSH
+        {
+            //Push couple to parse
+            NSArray *friends = [[PARDataStore sharedStore] friends];
+            NSDictionary *wishFriend = nil;
+            
+            for (int i = 0; i < [friends count]; i++)
+            {
+                NSDictionary *friend = [friends objectAtIndex:i];
+                if ([[friend objectForKey:@"id"] caseInsensitiveCompare:wish.facebookID] == NSOrderedSame)
+                {
+                    wishFriend = friend;
+                }
+            }
+            
+            NSDictionary *localMalePtr = nil;
+            NSDictionary *localFemalePtr = nil;
+            
+            if ([userGender caseInsensitiveCompare:@"male"] == NSOrderedSame)
+            {
+                localMalePtr = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DATA_KEY];
+                localFemalePtr = wishFriend;
+            }
+            else
+            {
+                localMalePtr = wishFriend;
+                localFemalePtr = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DATA_KEY];
+            }
+            
+            //get edu info: school id and year for male and female
+            NSString *maleSchoolID = nil;
+            NSNumber *maleSchoolYear = nil;
+            NSString *femaleSchoolID = nil;
+            NSNumber *femaleSchoolYear = nil;
+            
+            NSArray *maleEducation = [localMalePtr objectForKey:@"education"];
+            NSDictionary *maleEdu = nil;
+            if (maleEducation && [maleEducation count] > 0)
+            {
+                maleEdu = [maleEducation objectAtIndex:[maleEducation count] - 1];
+            }
+            
+            if (maleEdu)
+            {
+                NSDictionary *school = [maleEdu objectForKey:@"school"];
+                if ([school objectForKey:@"id"])
+                {
+                    maleSchoolID = [school objectForKey:@"id"];
+                }
+                
+                NSDictionary *year = [maleEdu objectForKey:@"year"];
+                if ([year objectForKey:@"name"])
+                {
+                    maleSchoolYear = [NSNumber numberWithInt:[[year objectForKey:@"name"] intValue]];
+                }
+                
+            }
+            
+            NSDictionary *femaleEdu = nil;
+            NSArray *femaleEducation = [localFemalePtr objectForKey:@"education"];
+            if (femaleEducation && [femaleEducation count] > 0)
+            {
+                femaleEdu = [femaleEducation objectAtIndex:[femaleEducation count] - 1];
+            }
+            
+            if (femaleEdu)
+            {
+                NSDictionary *school = [femaleEdu objectForKey:@"school"];
+                if ([school objectForKey:@"id"])
+                {
+                    femaleSchoolID = [school objectForKey:@"id"];
+                }
+                
+                NSDictionary *year = [femaleEdu objectForKey:@"year"];
+                if ([year objectForKey:@"name"])
+                {
+                    femaleSchoolYear = [NSNumber numberWithInt:[[year objectForKey:@"name"] intValue]];
+                }
+            }
+            
+            //create new couple dictionary with fields necessary to create PFObject<Couple> in Parse
+            
+            NSMutableDictionary *newCouple = [[NSMutableDictionary alloc] init];
+            [newCouple setObject:[localMalePtr objectForKey:@"id"] forKey:@"Male"];
+            [newCouple setObject:[localFemalePtr objectForKey:@"id"] forKey:@"Female"];
+            [newCouple setObject:[localMalePtr objectForKey:@"name"] forKey:@"MaleName"];
+            [newCouple setObject:[localFemalePtr objectForKey:@"name"] forKey:@"FemaleName"];
+            
+            if (maleSchoolID)
+            {
+                [newCouple setObject:maleSchoolID forKey:@"MaleEducation"];
+            }
+            if (maleSchoolYear)
+            {
+                [newCouple setObject:maleSchoolYear forKey:@"MaleEducationYear"];
+            }
+            if (femaleSchoolID)
+            {
+                [newCouple setObject:femaleSchoolID forKey:@"FemaleEducation"];
+            }
+            if (femaleSchoolYear)
+            {
+                [newCouple setObject:femaleSchoolYear forKey:@"FemaleEducationYear"];
+            }
+            
+            PFObject *couple = [PFObject objectWithClassName:@"Couples"];
+            couple[@"Male"] = [newCouple objectForKey:@"Male"];
+            couple[@"Female"] = [newCouple objectForKey:@"Female"];
+            couple[@"MaleName"] = [newCouple objectForKey:@"MaleName"];
+            couple[@"FemaleName"] = [newCouple objectForKey:@"FemaleName"];
+            
+            if ([newCouple objectForKey:@"MaleEducationYear"])
+            {
+                couple[@"MaleEducationYear"] = [newCouple objectForKey:@"MaleEducationYear"];
+            }
+            if ([newCouple objectForKey:@"FemaleEducationYear"])
+            {
+                couple[@"FemaleEducationYear"] = [newCouple objectForKey:@"FemaleEducationYear"];
+            }
+            if ([newCouple objectForKey:@"MaleEducation"])
+            {
+                couple[@"MaleEducation"] = [newCouple objectForKey:@"MaleEducation"];
+            }
+            if ([newCouple objectForKey:@"FemaleEducation"])
+            {
+                couple[@"FemaleEducation"] = [newCouple objectForKey:@"FemaleEducation"];
+            }
+           
+            [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded)
+                {
+                    [_wishList setValue:wish.wishName forKey:wish.facebookID];
+                    [[NSUserDefaults standardUserDefaults] setObject:_wishList forKey:WISHLIST_DEFAULTS_KEY];
+                    
+                    NSString *msg = [NSString stringWithFormat:@"%@ was added to your wishlist!", wish.wishName];
+                    UIAlertView *goodAlert = [[UIAlertView alloc] initWithTitle:@"Done." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [goodAlert show];
+                }
+                else
+                {
+                    NSString *msg = [NSString stringWithFormat:@"Failed to add %@ to your wishlist!", wish.wishName];
+                    UIAlertView *badAlert = [[UIAlertView alloc] initWithTitle:@"Error." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [badAlert show];
+                }
+            }];
+        }
+        else //error on first query to check if couple exist yet
+        {
+            NSString *msg = [NSString stringWithFormat:@"Failed to add %@ to your wishlist!", wish.wishName];
+            UIAlertView *badAlert = [[UIAlertView alloc] initWithTitle:@"Error." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [badAlert show];
+        }
+    }];
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -164,13 +335,13 @@ static NSString * const reuseIdentifider = @"CELL";
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -478,20 +478,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     }
 }
 
--(void)removePotentialCoupleWithMaleID:(NSString *)maleID femaleID:(NSString *)femaleID
-{
-    for (int i = pushIndex; i < [_potentialCouples count]; i++)
-    {
-        NSDictionary *couple = [_potentialCouples objectAtIndex:i];
-        if ([[couple objectForKey:@"Male"] caseInsensitiveCompare:maleID] == NSOrderedSame
-            && [[couple objectForKey:@"Female"] caseInsensitiveCompare:femaleID] == NSOrderedSame)
-        {
-            [_potentialCouples removeObject:couple];
-            return;
-        }
-    }
-}
-
 -(void)addCoupleToCouplesAlreadyVotedOnList:(NSDictionary *)coupleInfo
 {
     NSString *maleID = [coupleInfo objectForKey:@"Male"];

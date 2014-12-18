@@ -106,6 +106,8 @@
             
             NSLog(@"User Data: %@", userData);
             
+            [[NSUserDefaults standardUserDefaults] setObject:userData forKey:USER_DATA_KEY];
+            
             if (newUser)
             {
                 NSArray *education = userData[@"education"];
