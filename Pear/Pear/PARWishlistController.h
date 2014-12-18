@@ -11,5 +11,6 @@
 @interface PARWishlistController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSDictionary *wishList;
+@property (nonatomic, strong) NSArray *sortedKeys;
 
 @end

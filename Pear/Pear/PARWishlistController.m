@@ -8,6 +8,7 @@
 
 #import "PARWishlistController.h"
 #import "PARWishlistCell.h"
+#import "AppDelegate.h"
 
 @interface PARWishlistController ()
 
@@ -16,7 +17,6 @@
 @implementation PARWishlistController
 
 static NSString * const reuseIdentifier = @"WishlistCell";
-static NSString * const wishlistKey = @"WISHLIST_DEFAULTS_KEY";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,12 +34,21 @@ static NSString * const wishlistKey = @"WISHLIST_DEFAULTS_KEY";
 {
     [super viewWillAppear:animated];
     
-    _wishList = [[NSUserDefaults standardUserDefaults] objectForKey:wishlistKey];
+    _wishList = [[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY];
     
     if (!_wishList)
     {
         _wishList = [[NSDictionary alloc] init];
     }
+    
+    _sortedKeys = [[_wishList allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSString *id1 = (NSString *)obj1;
+        NSString *id2 = (NSString *)obj2;
+        
+        return [[_wishList objectForKey:id1] caseInsensitiveCompare:[_wishList objectForKey:id2]];
+    }];
+    
+    [self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,17 +73,16 @@ static NSString * const wishlistKey = @"WISHLIST_DEFAULTS_KEY";
 }
 
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 5;
-    //return [_wishList count];
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return [_wishList count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PARWishlistCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     // Configure the cell
-    [cell setBackgroundColor:[UIColor redColor]];
-    [cell loadProfilePictureForFBID:@"1230104186"];
+    [cell loadProfilePictureForFBID:[_sortedKeys objectAtIndex:indexPath.row]];;
     
     return cell;
 }

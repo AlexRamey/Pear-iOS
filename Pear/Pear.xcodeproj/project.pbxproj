@@ -13,6 +13,7 @@
 		D031DB981A3D223C000C37C0 /* PARWishlistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D031DB961A3D223C000C37C0 /* PARWishlistCell.xib */; };
 		D031DB9B1A3D225E000C37C0 /* PARWishlistController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DB9A1A3D225E000C37C0 /* PARWishlistController.m */; };
 		D031DB9E1A3E97E4000C37C0 /* PARAddWishController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DB9D1A3E97E4000C37C0 /* PARAddWishController.m */; };
+		D031DBA11A43609F000C37C0 /* PARWish.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBA01A43609F000C37C0 /* PARWish.m */; };
 		D0F5942119EB0D3C00B09260 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942019EB0D3C00B09260 /* main.m */; };
 		D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942319EB0D3C00B09260 /* AppDelegate.m */; };
 		D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942519EB0D3C00B09260 /* Pear.xcdatamodeld */; };
@@ -52,6 +53,8 @@
 		D031DB9A1A3D225E000C37C0 /* PARWishlistController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARWishlistController.m; sourceTree = "<group>"; };
 		D031DB9C1A3E97E4000C37C0 /* PARAddWishController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARAddWishController.h; sourceTree = "<group>"; };
 		D031DB9D1A3E97E4000C37C0 /* PARAddWishController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARAddWishController.m; sourceTree = "<group>"; };
+		D031DB9F1A43609F000C37C0 /* PARWish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARWish.h; sourceTree = "<group>"; };
+		D031DBA01A43609F000C37C0 /* PARWish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARWish.m; sourceTree = "<group>"; };
 		D0F5941B19EB0D3C00B09260 /* Pear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F5941F19EB0D3C00B09260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0F5942019EB0D3C00B09260 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -122,6 +125,8 @@
 				D031DB9A1A3D225E000C37C0 /* PARWishlistController.m */,
 				D031DB9C1A3E97E4000C37C0 /* PARAddWishController.h */,
 				D031DB9D1A3E97E4000C37C0 /* PARAddWishController.m */,
+				D031DB9F1A43609F000C37C0 /* PARWish.h */,
+				D031DBA01A43609F000C37C0 /* PARWish.m */,
 				D031DB941A3D223C000C37C0 /* PARWishlistCell.h */,
 				D031DB951A3D223C000C37C0 /* PARWishlistCell.m */,
 				D031DB961A3D223C000C37C0 /* PARWishlistCell.xib */,
@@ -397,6 +402,7 @@
 				D0F5945219EC314C00B09260 /* PARGameViewController.m in Sources */,
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
 				D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */,
+				D031DBA11A43609F000C37C0 /* PARWish.m in Sources */,
 				D031DB9E1A3E97E4000C37C0 /* PARAddWishController.m in Sources */,
 				D031DB881A3CBA2E000C37C0 /* PARStatsViewController.m in Sources */,
 				D0F5945919EC5F4C00B09260 /* PARCommentCard.m in Sources */,

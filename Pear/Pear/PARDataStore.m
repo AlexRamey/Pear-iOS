@@ -324,13 +324,99 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         completion(noMoreCouplesError);
     }
     
+    completion(nil);
+    NSMutableArray *validPushCoupleOffsets = [[NSMutableArray alloc] init];
+    
+    NSUInteger maxOffset = [_potentialCouples count] - pushIndex - 1;
+    
+    __block int validPushCounter = 0;
+    __block int pushIndexOffset = 0;
+    
+    __weak PARDataStore *weakSelf = self;
+    
+    //retain cycle is broken below by nilling out block in recursive base case . . .
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Warc-retain-cycles"
+
+    __block void (^block)() = [^(){
+        PARDataStore *strongSelf = weakSelf;
+        
+        if (strongSelf)
+        {
+            [strongSelf executeQueryWithOffset:pushIndexOffset++ completion:^(BOOL exists, int offset) {
+                if (exists == NO)
+                {
+                    [validPushCoupleOffsets addObject:[NSNumber numberWithInt:offset]];
+                    validPushCounter++;
+                }
+                if (validPushCounter == 3 || pushIndexOffset > maxOffset) //we're done
+                {
+                    block = nil;
+                    if (validPushCounter == 0)
+                    {
+                        NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:NO_MORE_COUPLES_DOMAIN code:000 userInfo:nil];
+                        completion(noMoreCouplesError);
+                    }
+                    else
+                    {
+                        [strongSelf executeUploadsWithOffsets:validPushCoupleOffsets completion:completion];
+                    }
+                }
+                else
+                {
+                    block();
+                }
+            }];
+        }
+        else
+        {
+            NSError *e = [[NSError alloc] init];
+            completion(e);
+            
+            block = nil; //breaks the retain cycle
+        }
+        
+    } copy];
+    
+    #pragma clang diagnostic pop
+    
+    block();
+}
+
+-(void)executeQueryWithOffset:(int)offset completion:(void (^)(BOOL, int))completion
+{
+    NSDictionary *potentialCouple = [_potentialCouples objectAtIndex:pushIndex + offset];
+    PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
+    query.limit = 5;
+    [query whereKey:@"Male" containedIn:@[[potentialCouple objectForKey:@"Male"]]];
+    [query whereKey:@"Female" containedIn:@[[potentialCouple objectForKey:@"Female"]]];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) //consider pushIndex--
+        {
+            completion(YES, offset); //assume the worst (couple exists)
+        }
+        else if ([objects count] > 0)
+        {
+            completion(YES, offset); //couple exists
+        }
+        else
+        {
+            completion(NO, offset); //couple does not exist
+        }
+    }];
+}
+
+-(void)executeUploadsWithOffsets:(NSArray *)offsets completion:(void (^)(NSError *))completion
+{
     __block int uploadCounter = 0;
     __block int callbackCounter = 0;
-    //push up next 10 if 10 remain
+    __block BOOL oneSuccess = NO;
+    
     int i = 0;
-    while (i < 10 && pushIndex < [_potentialCouples count])
+    while (i < [offsets count])
     {
-        NSDictionary *potentialCouple = [_potentialCouples objectAtIndex:pushIndex];
+        NSDictionary *potentialCouple = [_potentialCouples objectAtIndex:pushIndex + [[offsets objectAtIndex:i] intValue]];
         PFObject *couple = [PFObject objectWithClassName:@"Couples"];
         couple[@"Male"] = [potentialCouple objectForKey:@"Male"];
         couple[@"Female"] = [potentialCouple objectForKey:@"Female"];
@@ -357,18 +443,48 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         uploadCounter++;
         
         [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            
+            if (succeeded)
+            {
+                oneSuccess = YES;
+            }
+            
             if (++callbackCounter == uploadCounter)
             {
-                completion(nil);
+                //update pushIndex
+                pushIndex = pushIndex + [[offsets lastObject] intValue] + 1;
+                
+                if (oneSuccess)
+                {
+                    completion(nil);
+                }
+                else
+                {
+                    NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:NO_MORE_COUPLES_DOMAIN code:000 userInfo:nil];
+                    completion(noMoreCouplesError);
+                }
+                
             }
+            
             if (error)
             {
                 NSLog(@"PARSE PUSH ERROR");
             }
         }];
-        
-        pushIndex++;
-        i++;
+    }
+}
+
+-(void)removePotentialCoupleWithMaleID:(NSString *)maleID femaleID:(NSString *)femaleID
+{
+    for (int i = pushIndex; i < [_potentialCouples count]; i++)
+    {
+        NSDictionary *couple = [_potentialCouples objectAtIndex:i];
+        if ([[couple objectForKey:@"Male"] caseInsensitiveCompare:maleID] == NSOrderedSame
+            && [[couple objectForKey:@"Female"] caseInsensitiveCompare:femaleID] == NSOrderedSame)
+        {
+            [_potentialCouples removeObject:couple];
+            return;
+        }
     }
 }
 

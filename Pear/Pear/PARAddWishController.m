@@ -8,6 +8,7 @@
 
 #import "PARAddWishController.h"
 #import "PARDataStore.h"
+#import "PARWish.h"
 #import "AppDelegate.h"
 
 @interface PARAddWishController ()
@@ -24,17 +25,36 @@ static NSString * const reuseIdentifider = @"CELL";
     
     if (self)
     {
+        
+        NSArray *otherGenderIDs;
+        NSArray *otherGenderNames;
         //custom initialization
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"female"] == NSOrderedSame)
         {
-            _otherGenderIDs = [[PARDataStore sharedStore] maleFriendIDs];
-            _otherGenderNames = [[PARDataStore sharedStore] maleFriendNames];
+            otherGenderIDs = [[PARDataStore sharedStore] maleFriendIDs];
+            otherGenderNames = [[PARDataStore sharedStore] maleFriendNames];
         }
         else
         {
-            _otherGenderIDs = [[PARDataStore sharedStore] femaleFriendIDs];
-            _otherGenderNames = [[PARDataStore sharedStore] femaleFriendNames];
+            otherGenderIDs = [[PARDataStore sharedStore] femaleFriendIDs];
+            otherGenderNames = [[PARDataStore sharedStore] femaleFriendNames];
         }
+        
+        NSMutableArray *potentialWishesMutable = [[NSMutableArray alloc] init];
+        for (int i = 0; i < [otherGenderNames count]; i++)
+        {
+            PARWish *wish = [[PARWish alloc] initWithName:[otherGenderNames objectAtIndex:i] facebookID:[otherGenderIDs objectAtIndex:i]];
+            [potentialWishesMutable addObject:wish];
+        }
+        
+        [potentialWishesMutable sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            PARWish *wish1 = (PARWish *)obj1;
+            PARWish *wish2 = (PARWish *)obj2;
+            
+            return [wish1.wishName compare: wish2.wishName];
+        }];
+        
+        _potentialWishes = potentialWishesMutable;
     }
     
     return self;
@@ -45,7 +65,20 @@ static NSString * const reuseIdentifider = @"CELL";
     // Do any additional setup after loading the view.
     
     [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reuseIdentifider];
+    [_tableView setEditing:YES];
+    [_tableView setAllowsSelectionDuringEditing:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
     
+    _wishList = [[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] mutableCopy];
+    
+    if (!_wishList)
+    {
+        _wishList = [[NSMutableDictionary alloc] init];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,12 +90,43 @@ static NSString * const reuseIdentifider = @"CELL";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    PARWish *wish = [_potentialWishes objectAtIndex:indexPath.row];
     
+    NSArray *keys = [_wishList allKeys];
+    
+    UIAlertView *alert;
+    
+    for (int i = 0; i < [keys count]; i++)
+    {
+        if ([[keys objectAtIndex:i] caseInsensitiveCompare:wish.facebookID] == NSOrderedSame)
+        {
+            NSString *msg = [NSString stringWithFormat:@"%@ is already on your wishlist!", wish.wishName];
+            alert = [[UIAlertView alloc] initWithTitle:@"Done." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    
+    [_wishList setValue:wish.wishName forKey:wish.facebookID];
+    [[NSUserDefaults standardUserDefaults] setObject:_wishList forKey:WISHLIST_DEFAULTS_KEY];
+    
+    //1. Query Parse to See if Couple Already Exists, if so we're good
+    
+    //2. If not, Push Couple to Parse and on Success notify data store in case it was a potentail couple
+    
+    NSString *msg = [NSString stringWithFormat:@"%@ was added to your wishlist!", wish.wishName];
+    alert = [[UIAlertView alloc] initWithTitle:@"Done." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return UITableViewCellEditingStyleInsert;
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -86,7 +150,7 @@ static NSString * const reuseIdentifider = @"CELL";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_otherGenderNames count];
+    return [_potentialWishes count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,7 +158,7 @@ static NSString * const reuseIdentifider = @"CELL";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifider];
     cell.editing = YES;
     
-    cell.textLabel.text = [_otherGenderNames objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[_potentialWishes objectAtIndex:indexPath.row] wishName];
     
     return cell;
 }

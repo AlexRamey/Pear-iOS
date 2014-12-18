@@ -23,6 +23,8 @@ extern NSString * const NETWORK_ERROR_DOMAIN;
 
 extern NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY;
 
+extern NSString * const WISHLIST_DEFAULTS_KEY;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;

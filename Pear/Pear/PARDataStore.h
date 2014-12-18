@@ -36,4 +36,6 @@
 
 -(void)saveCouplesAlreadyVotedOn;
 
+-(void)removePotentialCoupleWithMaleID:(NSString *)maleID femaleID:(NSString *)femaleID;
+
 @end

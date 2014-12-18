@@ -12,7 +12,8 @@
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong) NSArray *otherGenderIDs;
-@property (nonatomic, strong) NSArray *otherGenderNames;
+@property (nonatomic, strong) NSArray *potentialWishes;
+
+@property (nonatomic, strong) NSMutableDictionary *wishList;
 
 @end
