@@ -324,7 +324,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         completion(noMoreCouplesError);
     }
     
-    completion(nil);
     NSMutableArray *validPushCoupleOffsets = [[NSMutableArray alloc] init];
     
     NSUInteger maxOffset = [_potentialCouples count] - pushIndex - 1;
@@ -347,11 +346,13 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
                 if (exists == NO)
                 {
                     [validPushCoupleOffsets addObject:[NSNumber numberWithInt:offset]];
+                    NSLog(@"Successful Offset: %d", offset);
                     validPushCounter++;
                 }
                 if (validPushCounter == 3 || pushIndexOffset > maxOffset) //we're done
                 {
-                    block = nil;
+                    NSLog(@"We're Done Finding Good offsets");
+                   
                     if (validPushCounter == 0)
                     {
                         NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:NO_MORE_COUPLES_DOMAIN code:000 userInfo:nil];
@@ -361,10 +362,12 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
                     {
                         [strongSelf executeUploadsWithOffsets:validPushCoupleOffsets completion:completion];
                     }
+                    block = nil;
                 }
                 else
                 {
                     block();
+                    NSLog(@"Block Called Again");
                 }
             }];
         }
@@ -392,6 +395,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     [query whereKey:@"Female" containedIn:@[[potentialCouple objectForKey:@"Female"]]];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        NSLog(@"Objects: %@", objects);
         if (error) //consider pushIndex--
         {
             completion(YES, offset); //assume the worst (couple exists)
@@ -413,8 +417,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     __block int callbackCounter = 0;
     __block BOOL oneSuccess = NO;
     
-    int i = 0;
-    while (i < [offsets count])
+    for (int i = 0; i < [offsets count]; i++)
     {
         NSDictionary *potentialCouple = [_potentialCouples objectAtIndex:pushIndex + [[offsets objectAtIndex:i] intValue]];
         PFObject *couple = [PFObject objectWithClassName:@"Couples"];
@@ -447,6 +450,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
             if (succeeded)
             {
                 oneSuccess = YES;
+                NSLog(@"One Success");
             }
             
             if (++callbackCounter == uploadCounter)
