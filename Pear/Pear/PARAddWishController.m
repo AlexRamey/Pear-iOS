@@ -127,13 +127,14 @@ static NSString * const reuseIdentifider = @"CELL";
     }
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        NSLog(@"Objects: %@", objects);
         if ([objects count] > 0) //Couple already exists so we're good
         {
+            [_wishList setValue:wish.wishName forKey:wish.facebookID];
+            [[NSUserDefaults standardUserDefaults] setObject:_wishList forKey:WISHLIST_DEFAULTS_KEY];
+            
             NSString *msg = [NSString stringWithFormat:@"%@ was added to your wishlist!", wish.wishName];
             UIAlertView *goodAlert = [[UIAlertView alloc] initWithTitle:@"Done." message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [goodAlert show];
-            
         }
         else if (objects) //no error and couple doesn't exist --> PUSH
         {

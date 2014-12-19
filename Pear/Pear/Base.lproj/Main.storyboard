@@ -239,10 +239,10 @@
             </objects>
             <point key="canvasLocation" x="1606" y="-423"/>
         </scene>
-        <!--View Controller-->
+        <!--Stats View Controller-->
         <scene sceneID="5bs-BK-bD7">
             <objects>
-                <viewController id="3On-bn-CaA" sceneMemberID="viewController">
+                <viewController id="3On-bn-CaA" customClass="PARStatsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uiZ-r8-5nF"/>
                         <viewControllerLayoutGuide type="bottom" id="8zs-Hp-Nay"/>

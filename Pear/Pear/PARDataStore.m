@@ -492,6 +492,30 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     [NSKeyedArchiver archiveRootObject:_coupleObjectsAlreadyVotedOn toFile:[self filePathForKey:COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY]];
 }
 
+-(void)saveWishlist
+{
+    if (_userObject)
+    {
+        [_userObject setObject:[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] forKey:@"Wishlist"];
+        [_userObject saveInBackground];
+    }
+    else //probably will never happen (unless query to fetch wishlist at beginning failed)
+    {
+        PFQuery *query = [PFUser query];
+        query.limit = 1;
+        [query whereKey:@"FBID" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            NSLog(@"Objects: %@", objects);
+            if (!error && [objects count] > 0)
+            {
+                PFObject *userObject = [objects firstObject];
+                [userObject setObject:[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] forKey:@"Wishlist"];
+                [userObject saveInBackground];
+            }
+        }];
+    }
+}
+
 -(NSString *)filePathForKey:(NSString *)key
 {
     NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

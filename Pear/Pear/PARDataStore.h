@@ -26,6 +26,8 @@
 
 @property (nonatomic, strong) NSMutableArray *potentialCouples;
 
+@property (nonatomic, strong) PFObject *userObject;
+
 +(PARDataStore *)sharedStore;
 
 -(void)nextCoupleWithCompletion:(void (^)(NSError *))completion;
@@ -35,6 +37,8 @@
 -(void)addCoupleToCouplesAlreadyVotedOnList:(NSDictionary *)coupleInfo;
 
 -(void)saveCouplesAlreadyVotedOn;
+
+-(void)saveWishlist;
 
 -(void)removePotentialCoupleWithMaleID:(NSString *)maleID femaleID:(NSString *)femaleID;
 

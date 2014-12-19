@@ -175,7 +175,21 @@
                 [[NSUserDefaults standardUserDefaults] setObject:@"male" forKey:USER_GENDER_KEY];
             }
             
-            [self requestFriendsAndTransition];
+            //Attempt to retrieve wishlist
+            
+            PFQuery *userQuery = [PFUser query];
+            userQuery.limit = 1;
+            [userQuery whereKey:@"FBID" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+            [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if (!error && [objects count] > 0)
+                {
+                    PFObject *userObject = [objects firstObject];
+                    [[PARDataStore sharedStore] setUserObject:userObject];
+                    NSDictionary *wishlist = [userObject objectForKey:@"Wishlist"];
+                    [[NSUserDefaults standardUserDefaults] setObject:wishlist forKey:WISHLIST_DEFAULTS_KEY];
+                }
+                [self requestFriendsAndTransition];
+            }];
         }
         else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
                   isEqualToString: @"OAuthException"])

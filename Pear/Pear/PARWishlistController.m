@@ -82,7 +82,7 @@ static NSString * const reuseIdentifier = @"WishlistCell";
     PARWishlistCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     // Configure the cell
-    [cell loadProfilePictureForFBID:[_sortedKeys objectAtIndex:indexPath.row]];;
+    [cell loadProfilePictureForFBID:[_sortedKeys objectAtIndex:indexPath.row] andWishName:[_wishList objectForKey:[_sortedKeys objectAtIndex:indexPath.row]]];
     
     return cell;
 }

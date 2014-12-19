@@ -13,14 +13,23 @@
 
 -(id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
+    
+    // Initialization code
+    NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"PARWishlistCell"
+                                                         owner:self
+                                                       options:nil];
+    
+    self = [nibContents objectAtIndex:0];
     
     if (self)
     {
+        self.frame = frame;
+        
         // Initialization code
         FBProfilePictureView *profilePic = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
         
         [self addSubview:profilePic];
+        [self sendSubviewToBack:profilePic];
         
         [profilePic setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addConstraints:[NSLayoutConstraint
@@ -39,16 +48,33 @@
 }
 
 
--(void)loadProfilePictureForFBID:(NSString *)facebookID
+-(void)loadProfilePictureForFBID:(NSString *)facebookID andWishName:(NSString *)wishName
 {
-    FBProfilePictureView *pic = [[self subviews] lastObject];
-    [pic setProfileID:nil]; //so it will show silouhette while loading
-    [pic setProfileID:facebookID];
-}
-
--(void)addLabelWithName:(NSString *)name
-{
-    //TODO
+    FBProfilePictureView *pic = nil;
+    UILabel *wishNameLabel = nil;
+    
+    for (int i = 0; i < [[self subviews] count]; i++)
+    {
+        if ([[[self subviews] objectAtIndex:i] class] == [FBProfilePictureView class])
+        {
+            pic = [[self subviews] objectAtIndex:i];
+        }
+        else if ([[[self subviews] objectAtIndex:i] class] == [UILabel class])
+        {
+            wishNameLabel = [[self subviews] objectAtIndex:i];
+        }
+    }
+    
+    if (pic)
+    {
+        [pic setProfileID:nil]; //so it will show silouhette while loading
+        [pic setProfileID:facebookID];
+    }
+    
+    if (wishNameLabel)
+    {
+        wishNameLabel.text = wishName;
+    }
 }
 
 @end
