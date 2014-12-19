@@ -33,13 +33,8 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     
     if (self)
     {
-        _coupleObjectsAlreadyVotedOn = [[NSKeyedUnarchiver unarchiveObjectWithFile:[self filePathForKey:COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY]] mutableCopy];
         
-        if (!_coupleObjectsAlreadyVotedOn)
-        {
-            _coupleObjectsAlreadyVotedOn = [[NSMutableDictionary alloc] init];
-        }
-        
+        _coupleObjectsAlreadyVotedOn = [[NSMutableDictionary alloc] init];
         _couplesLeftToVoteOn = nil;
         _potentialCouples = nil;
         pushIndex = 0;
@@ -108,6 +103,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
                 {
                     _couplesDisliked = [[NSMutableArray alloc] init];
                 }
+                [self initializeCoupleObjectsAlreadyVotedOn];
                 completion(error);
             }
         }];
@@ -132,9 +128,25 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
                 {
                     _couplesDisliked = [[NSMutableArray alloc] init];
                 }
+                [self initializeCoupleObjectsAlreadyVotedOn];
                 completion(error);
             }
         }];
+    }
+}
+
+-(void)initializeCoupleObjectsAlreadyVotedOn
+{
+    for (PFObject *couple in _couplesLiked)
+    {
+        NSString *key = [couple[@"Male"] stringByAppendingString:couple[@"Female"]];
+        [_coupleObjectsAlreadyVotedOn setObject:couple.objectId forKey:key];
+    }
+    
+    for (PFObject *couple in _couplesDisliked)
+    {
+        NSString *key = [couple[@"Male"] stringByAppendingString:couple[@"Female"]];
+        [_coupleObjectsAlreadyVotedOn setObject:couple.objectId forKey:key];
     }
 }
 
@@ -158,25 +170,36 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
             {
                 if ([error.domain caseInsensitiveCompare:NO_MORE_COUPLES_DOMAIN] == NSOrderedSame)
                 {
-                    [[NSUserDefaults standardUserDefaults] setObject:@{@"Error" : NO_MORE_COUPLES_DOMAIN} forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:@{@"Error" : NO_MORE_COUPLES_DOMAIN}] forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
                     completion(nil);
                 }
                 else
                 {
-                    [[NSUserDefaults standardUserDefaults] setObject:@{@"Error" : NETWORK_ERROR_DOMAIN} forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:@{@"Error" : NETWORK_ERROR_DOMAIN}] forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
                     completion(error);
                 }
             }
             else
             {
-                PFObject *nextVote = [_couplesLeftToVoteOn objectAtIndex:0];
-                [_couplesLeftToVoteOn removeObjectAtIndex:0];
+                //maybe we pushed them to parse but Parse wasn't fast enough to immediately give them back to us . . .
+                if ([_couplesLeftToVoteOn count] > 0)
+                {
+                    PFObject *nextVote = [_couplesLeftToVoteOn objectAtIndex:0];
+                    [_couplesLeftToVoteOn removeObjectAtIndex:0];
+                    
+                    NSMutableDictionary *nextCouple = [[nextVote dictionaryWithValuesForKeys:@[@"Downvotes", @"Female", @"FemaleEducation",@"FemaleName", @"Male", @"MaleEducation", @"MaleEducationYear", @"MaleLocation", @"MaleName", @"Upvotes"]] mutableCopy];
+                    [nextCouple setObject:nextVote.objectId forKey:@"ObjectId"];
+                    
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:nextCouple] forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                    completion(nil);
+                }
+                else
+                {
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:@{@"Error" : NETWORK_ERROR_DOMAIN}] forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
+                    completion(error);
+                }
                 
-                NSMutableDictionary *nextCouple = [[nextVote dictionaryWithValuesForKeys:@[@"Downvotes", @"Female", @"FemaleEducation",@"FemaleName", @"Male", @"MaleEducation", @"MaleEducationYear", @"MaleLocation", @"MaleName", @"Upvotes"]] mutableCopy];
-                [nextCouple setObject:nextVote.objectId forKey:@"ObjectId"];
                 
-                [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:nextCouple] forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
-                completion(nil);
             }
         }];
     }
@@ -187,8 +210,9 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     _couplesLeftToVoteOn = [[NSMutableArray alloc] init];
     
     [self getExistingCouplesWithCompletion:^(NSError *error) {
-        if ([_couplesLeftToVoteOn count] == 0)
+        if ([_couplesLeftToVoteOn count] == 0 && !error)
         {
+            NSLog(@"Creating new couples");
             [self createNewCouplesWithCompletion:^(NSError *e) {
                 
                 if (e)
@@ -555,11 +579,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     NSString *key = [maleID stringByAppendingString:femaleID];
     
     [_coupleObjectsAlreadyVotedOn setObject:[coupleInfo objectForKey:@"ObjectId"] forKey:key];
-}
-
--(void)saveCouplesAlreadyVotedOn
-{
-    [NSKeyedArchiver archiveRootObject:_coupleObjectsAlreadyVotedOn toFile:[self filePathForKey:COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY]];
 }
 
 -(void)saveUser //must save wishlist and save couples liked / disliked relations

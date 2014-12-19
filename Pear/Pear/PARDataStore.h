@@ -41,8 +41,6 @@
 
 -(void)pullCouplesAlreadyVotedOnWithCompletion:(void (^)(NSError *))completion;
 
--(void)saveCouplesAlreadyVotedOn;
-
 -(void)saveUser;
 
 -(void)removePotentialCoupleWithMaleID:(NSString *)maleID femaleID:(NSString *)femaleID;

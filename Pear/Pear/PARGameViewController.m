@@ -19,6 +19,18 @@
 
 @implementation PARGameViewController
 
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    
+    if (self)
+    {
+        retryCounter = 0;
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view
@@ -101,16 +113,40 @@
     
     if (error)
     {
+        //disable UI
+        _upSwipeRecognizer.enabled = NO;
+        _downSwipeRecognizer.enabled = NO;
+        _upVote.enabled = NO;
+        _downVote.enabled = NO;
+        
         if ([error caseInsensitiveCompare:NO_MORE_COUPLES_DOMAIN] == NSOrderedSame)
         {
-            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No More Couples" message:@"You've voted on all possible couples." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
         }
-        else // error --> NETWORK_ERROR_DOMAIN
+        else // error --> NETWORK_ERROR_DOMAIN --> Try again (once)
         {
-            
+            if (retryCounter++ == 0)
+            {
+                NSLog(@"Retry Initiated!");
+                [[PARDataStore sharedStore] nextCoupleWithCompletion:^(NSError *error) {
+                    [self viewWillAppear:animated];
+                }];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Networking Problems. Try again later." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+            }
         }
         return;
     }
+    
+    retryCounter = 0;
+    _upSwipeRecognizer.enabled = YES;
+    _downSwipeRecognizer.enabled = YES;
+    _upVote.enabled = YES;
+    _downVote.enabled = YES;
     
     objectId = [coupleToVoteOn objectForKey:@"ObjectId"];
     maleId = [coupleToVoteOn objectForKey:@"Male"];
