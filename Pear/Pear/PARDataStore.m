@@ -52,8 +52,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 {
     _friends = friendsList;
     
-    //TODO: Guard against same gender pairings
-    
     NSMutableArray *maleFriendIDs = [[NSMutableArray alloc] init];
     NSMutableArray *femaleFriendIDs = [[NSMutableArray alloc] init];
     
@@ -82,6 +80,62 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     _femaleFriendIDs = femaleFriendIDs;
     _maleFriendNames = maleFriendNames;
     _femaleFriendNames = femaleFriendNames;
+}
+
+-(void)pullCouplesAlreadyVotedOnWithCompletion:(void (^)(NSError *))completion
+{
+    if (_userObject)
+    {
+        __block int callbackCounter = 0;
+        
+        PFRelation *couplesLiked = [_userObject relationForKey:@"couplesLiked"];
+        PFQuery *couplesLikedQuery = [couplesLiked query];
+        couplesLikedQuery.limit = 1000;
+        
+        [couplesLikedQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error)
+            {
+                NSLog(@"Liked Couple Relation Objects: %@", objects);
+                _couplesLiked = [objects mutableCopy];
+            }
+            if (++callbackCounter == 2)
+            {
+                if (!_couplesLiked)
+                {
+                    _couplesLiked = [[NSMutableArray alloc] init];
+                }
+                if (!_couplesDisliked)
+                {
+                    _couplesDisliked = [[NSMutableArray alloc] init];
+                }
+                completion(error);
+            }
+        }];
+        
+        PFRelation *couplesDisliked = [_userObject relationForKey:@"couplesDisliked"];
+        PFQuery *couplesDislikedQuery = [couplesDisliked query];
+        couplesDislikedQuery.limit = 1000;
+        
+        [couplesDislikedQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error)
+            {
+                NSLog(@"Disliked Couple Relation Objects: %@", objects);
+                _couplesDisliked = [objects mutableCopy];
+            }
+            if (++callbackCounter == 2)
+            {
+                if (!_couplesLiked)
+                {
+                    _couplesLiked = [[NSMutableArray alloc] init];
+                }
+                if (!_couplesDisliked)
+                {
+                    _couplesDisliked = [[NSMutableArray alloc] init];
+                }
+                completion(error);
+            }
+        }];
+    }
 }
 
 -(void)nextCoupleWithCompletion:(void (^)(NSError *))completion
@@ -478,8 +532,24 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     }
 }
 
--(void)addCoupleToCouplesAlreadyVotedOnList:(NSDictionary *)coupleInfo
+-(void)saveCoupleVote:(NSDictionary *)coupleInfo withStatus:(BOOL)wasLiked;
 {
+    PFObject *couple = [PFObject objectWithoutDataWithClassName:@"Couples" objectId:[coupleInfo objectForKey:@"ObjectId"]];
+    PFRelation *relation = nil;
+    
+    if (wasLiked)
+    {
+        [_couplesLiked addObject:couple];
+        relation = [_userObject relationForKey:@"couplesLiked"];
+    }
+    else
+    {
+        [_couplesLiked addObject:couple];
+        relation = [_userObject relationForKey:@"couplesDisliked"];
+    }
+    
+    [relation addObject:couple];
+    
     NSString *maleID = [coupleInfo objectForKey:@"Male"];
     NSString *femaleID = [coupleInfo objectForKey:@"Female"];
     NSString *key = [maleID stringByAppendingString:femaleID];
@@ -492,13 +562,14 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     [NSKeyedArchiver archiveRootObject:_coupleObjectsAlreadyVotedOn toFile:[self filePathForKey:COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY]];
 }
 
--(void)saveWishlist
+-(void)saveUser //must save wishlist and save couples liked / disliked relations
 {
     if (_userObject)
     {
         [_userObject setObject:[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] forKey:@"Wishlist"];
         [_userObject saveInBackground];
     }
+    /*
     else //probably will never happen (unless query to fetch wishlist at beginning failed)
     {
         PFQuery *query = [PFUser query];
@@ -514,6 +585,7 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
             }
         }];
     }
+     */
 }
 
 -(NSString *)filePathForKey:(NSString *)key

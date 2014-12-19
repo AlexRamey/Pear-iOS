@@ -21,6 +21,9 @@
 @property (nonatomic, strong) NSArray *femaleFriendNames;
 
 @property (nonatomic, strong) NSMutableDictionary *coupleObjectsAlreadyVotedOn;
+@property (nonatomic, strong) NSMutableArray *couplesLiked;
+@property (nonatomic, strong) NSMutableArray *couplesDisliked;
+
 
 @property (nonatomic, strong) NSMutableArray *couplesLeftToVoteOn;
 
@@ -34,11 +37,13 @@
 
 -(void)fetchCouplesWithCompletion:(void (^)(NSError *error)) completion;
 
--(void)addCoupleToCouplesAlreadyVotedOnList:(NSDictionary *)coupleInfo;
+-(void)saveCoupleVote:(NSDictionary *)coupleInfo withStatus:(BOOL)wasLiked;
+
+-(void)pullCouplesAlreadyVotedOnWithCompletion:(void (^)(NSError *))completion;
 
 -(void)saveCouplesAlreadyVotedOn;
 
--(void)saveWishlist;
+-(void)saveUser;
 
 -(void)removePotentialCoupleWithMaleID:(NSString *)maleID femaleID:(NSString *)femaleID;
 

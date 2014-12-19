@@ -188,7 +188,17 @@
                     NSDictionary *wishlist = [userObject objectForKey:@"Wishlist"];
                     [[NSUserDefaults standardUserDefaults] setObject:wishlist forKey:WISHLIST_DEFAULTS_KEY];
                 }
-                [self requestFriendsAndTransition];
+                
+                [[PARDataStore sharedStore] pullCouplesAlreadyVotedOnWithCompletion:^(NSError *error)
+                {
+                    if (error)
+                    {
+                        NSLog(@"Error: %@", error);
+                    }
+                    [self requestFriendsAndTransition];
+                }];
+                
+                
             }];
         }
         else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
@@ -225,7 +235,6 @@
             [self performSegueWithIdentifier:@"LoginToTab" sender:self];
             [_activityIndicator stopAnimating];
         }];
-        
     }];
 }
 #pragma mark - Navigation

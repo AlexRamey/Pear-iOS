@@ -163,11 +163,15 @@
     }
     
     PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
+    PARDataStore *sharedStore = [PARDataStore sharedStore];
     
     if ((voteBtn && voteBtn.frame.origin.x == _downVote.frame.origin.x) || (gestureRecognizer && gestureRecognizer.direction == UISwipeGestureRecognizerDirectionDown))
     {
         // downvote behavior
         downVotes++;
+        
+        //notify store
+        [sharedStore saveCoupleVote:[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]] withStatus:NO];
         
         [UIView animateWithDuration:.5f animations:^{
             gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor redColor] CGColor], nil];
@@ -183,6 +187,9 @@
         //upvote behavior
         upVotes++;
         
+        //notify store
+        [sharedStore saveCoupleVote:[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]] withStatus:YES];
+        
         [UIView animateWithDuration:.5f animations:^{
             gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor greenColor] CGColor], nil];
         } completion:^(BOOL finished) {
@@ -193,10 +200,6 @@
             }];
         }];
     }
-    
-    //tell store couple you voted on
-    PARDataStore *sharedStore = [PARDataStore sharedStore];
-    [sharedStore addCoupleToCouplesAlreadyVotedOnList:[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]]];
     
     //Load the next couple
     [sharedStore nextCoupleWithCompletion:^(NSError *e) {
