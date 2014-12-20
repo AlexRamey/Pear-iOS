@@ -175,7 +175,8 @@
                 [[NSUserDefaults standardUserDefaults] setObject:@"male" forKey:USER_GENDER_KEY];
             }
             
-            //Attempt to retrieve wishlist
+            //Attempt to retrieve wishlist and user object
+            //if this fails, then login fails
             
             PFQuery *userQuery = [PFUser query];
             userQuery.limit = 1;
@@ -187,18 +188,22 @@
                     [[PARDataStore sharedStore] setUserObject:userObject];
                     NSDictionary *wishlist = [userObject objectForKey:@"Wishlist"];
                     [[NSUserDefaults standardUserDefaults] setObject:wishlist forKey:WISHLIST_DEFAULTS_KEY];
+                    
+                    [[PARDataStore sharedStore] pullCouplesAlreadyVotedOnWithCompletion:^(NSError *error)
+                     {
+                         if (error)
+                         {
+                             NSLog(@"Error: %@", error);
+                         }
+                         [self requestFriendsAndTransition];
+                     }];
+                    
                 }
-                
-                [[PARDataStore sharedStore] pullCouplesAlreadyVotedOnWithCompletion:^(NSError *error)
+                else //login fails
                 {
-                    if (error)
-                    {
-                        NSLog(@"Error: %@", error);
-                    }
-                    [self requestFriendsAndTransition];
-                }];
-                
-                
+                    _loginBtn.enabled = YES;
+                    [_activityIndicator stopAnimating];
+                }
             }];
         }
         else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
@@ -222,7 +227,6 @@
     FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends?fields=name,gender,education,location"];
     
     [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        NSLog(@"Result: %@", result);
         NSArray *friends = [result objectForKey:@"data"];
         [PARDataStore sharedStore].friends = friends;
         

@@ -33,7 +33,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     
     if (self)
     {
-        
         _coupleObjectsAlreadyVotedOn = [[NSMutableDictionary alloc] init];
         _couplesLeftToVoteOn = nil;
         _potentialCouples = nil;
@@ -79,60 +78,97 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 
 -(void)pullCouplesAlreadyVotedOnWithCompletion:(void (^)(NSError *))completion
 {
-    if (_userObject)
-    {
-        __block int callbackCounter = 0;
-        
+    _couplesLiked = [[NSMutableArray alloc] init];
+    _couplesDisliked = [[NSMutableArray alloc] init];
+    
+    int limit = 500;
+    __block int likeBatchCounter = 0;
+    __block int dislikeBatchCounter = 0;
+    __block int completionCounter = 0;
+    
+    __block NSError *anyError = nil;
+    
+    //retain cycle is broken below by nilling out block in recursive base case . . .
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Warc-retain-cycles"
+    
+    __block void (^couplesLikedBlock)() = [^(){
         PFRelation *couplesLiked = [_userObject relationForKey:@"couplesLiked"];
         PFQuery *couplesLikedQuery = [couplesLiked query];
-        couplesLikedQuery.limit = 1000;
+        couplesLikedQuery.limit = limit;
+        couplesLikedQuery.skip = likeBatchCounter++ * limit;
         
         [couplesLikedQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (!error)
             {
-                NSLog(@"Liked Couple Relation Objects: %@", objects);
-                _couplesLiked = [objects mutableCopy];
+                //NSLog(@"Like Relations Batch %d: %@", likeBatchCounter - 1, objects);
+                [_couplesLiked addObjectsFromArray:objects];
             }
-            if (++callbackCounter == 2)
+            else
             {
-                if (!_couplesLiked)
+                anyError = error;
+            }
+            
+            if ([objects count] < limit) //will evaluate true if objects is nil b/c 0 < limit
+            {
+                if (++completionCounter == 2)
                 {
-                    _couplesLiked = [[NSMutableArray alloc] init];
+                    [self initializeCoupleObjectsAlreadyVotedOn];
+                    completion(anyError);
                 }
-                if (!_couplesDisliked)
-                {
-                    _couplesDisliked = [[NSMutableArray alloc] init];
-                }
-                [self initializeCoupleObjectsAlreadyVotedOn];
-                completion(error);
+                couplesLikedBlock = nil;
+            }
+            else
+            {
+                couplesLikedBlock();
             }
         }];
-        
+            } copy];
+    
+    #pragma clang diagnostic pop
+    
+    couplesLikedBlock();
+    
+    //retain cycle is broken below by nilling out block in recursive base case . . .
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Warc-retain-cycles"
+    
+    __block void (^couplesDislikedBlock)() = [^(){
         PFRelation *couplesDisliked = [_userObject relationForKey:@"couplesDisliked"];
         PFQuery *couplesDislikedQuery = [couplesDisliked query];
-        couplesDislikedQuery.limit = 1000;
+        couplesDislikedQuery.limit = limit;
+        couplesDislikedQuery.skip = dislikeBatchCounter++ * limit;
         
         [couplesDislikedQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (!error)
             {
-                NSLog(@"Disliked Couple Relation Objects: %@", objects);
-                _couplesDisliked = [objects mutableCopy];
+                //NSLog(@"Dislike Relations Batch %d: %@", dislikeBatchCounter - 1, objects);
+                [_couplesDisliked addObjectsFromArray:objects];
             }
-            if (++callbackCounter == 2)
+            else
             {
-                if (!_couplesLiked)
+                anyError = error;
+            }
+            
+            if ([objects count] < limit) //will evaluate true if objects is nil b/c 0 < limit
+            {
+                if (++completionCounter == 2)
                 {
-                    _couplesLiked = [[NSMutableArray alloc] init];
+                    [self initializeCoupleObjectsAlreadyVotedOn];
+                    completion(anyError);
                 }
-                if (!_couplesDisliked)
-                {
-                    _couplesDisliked = [[NSMutableArray alloc] init];
-                }
-                [self initializeCoupleObjectsAlreadyVotedOn];
-                completion(error);
+                couplesDislikedBlock = nil;
+            }
+            else
+            {
+                couplesDislikedBlock();
             }
         }];
-    }
+    } copy];
+    
+    #pragma clang diagnostic pop
+    
+    couplesDislikedBlock();
 }
 
 -(void)initializeCoupleObjectsAlreadyVotedOn
@@ -542,15 +578,10 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
                 }
                 else
                 {
-                    NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:NO_MORE_COUPLES_DOMAIN code:000 userInfo:nil];
-                    completion(noMoreCouplesError);
+                    NSError *networkError = [[NSError alloc] initWithDomain:NETWORK_ERROR_DOMAIN code:000 userInfo:nil];
+                    completion(networkError);
                 }
                 
-            }
-            
-            if (error)
-            {
-                NSLog(@"PARSE PUSH ERROR");
             }
         }];
     }
@@ -588,23 +619,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         [_userObject setObject:[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] forKey:@"Wishlist"];
         [_userObject saveInBackground];
     }
-    /*
-    else //probably will never happen (unless query to fetch wishlist at beginning failed)
-    {
-        PFQuery *query = [PFUser query];
-        query.limit = 1;
-        [query whereKey:@"FBID" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            NSLog(@"Objects: %@", objects);
-            if (!error && [objects count] > 0)
-            {
-                PFObject *userObject = [objects firstObject];
-                [userObject setObject:[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] forKey:@"Wishlist"];
-                [userObject saveInBackground];
-            }
-        }];
-    }
-     */
 }
 
 -(NSString *)filePathForKey:(NSString *)key
