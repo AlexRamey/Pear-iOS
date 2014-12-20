@@ -36,6 +36,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Remove From Wishlist Button
+
+-(IBAction)removeFromWishlist:(id)sender
+{
+    //TODO remove wish from wishlist . . .
+}
+
 /*
 #pragma mark - Navigation
 

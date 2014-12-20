@@ -43,6 +43,4 @@
 
 -(void)saveUser;
 
--(void)removePotentialCoupleWithMaleID:(NSString *)maleID femaleID:(NSString *)femaleID;
-
 @end

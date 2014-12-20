@@ -197,7 +197,6 @@
                          }
                          [self requestFriendsAndTransition];
                      }];
-                    
                 }
                 else //login fails
                 {

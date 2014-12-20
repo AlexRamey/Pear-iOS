@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Parse.h"
 
 @interface PARWishlistController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
+{
+    PFObject *couple;
+    BOOL inProgress;
+}
 
 @property (nonatomic, strong) NSDictionary *wishList;
 @property (nonatomic, strong) NSArray *sortedKeys;

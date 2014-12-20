@@ -9,6 +9,7 @@
 #import "PARWishlistController.h"
 #import "PARWishlistCell.h"
 #import "AppDelegate.h"
+#import "PARWishStatsController.h"
 
 @interface PARWishlistController ()
 
@@ -17,6 +18,19 @@
 @implementation PARWishlistController
 
 static NSString * const reuseIdentifier = @"WishlistCell";
+
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    
+    if (self)
+    {
+        //custom initialization
+        inProgress = NO;
+    }
+    
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -108,33 +122,57 @@ static NSString * const reuseIdentifier = @"WishlistCell";
 
 #pragma mark <UICollectionViewDelegate>
 
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (inProgress)
+    {
+        return;
+    }
+    
+    inProgress = YES;
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
+    query.limit = 1;
+    [query whereKey:@"Male" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+    [query whereKey:@"Female" containedIn:[_sortedKeys objectAtIndex:indexPath.row]];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+    {
+        inProgress = NO;
+        
+        if (!error && [objects count] > 0)
+        {
+            couple = [objects firstObject];
+            [self performSegueWithIdentifier:@"WishlistToWishDetail" sender:self];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch details." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+        }
+    }];
+    
 }
-*/
 
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
+#pragma mark - Navigation
 
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController class] == [PARWishStatsController class])
+    {
+        PARWishStatsController *vc = (PARWishStatsController *)segue.destinationViewController;
+        /*
+        [vc setMale:maleId];
+        [vc setMaleName:mName];
+        
+        [vc setFemale:femaleId];
+        [vc setFemaleName:fName];
+        
+        [vc setUpvotes:[NSNumber numberWithInt:upVotes]];
+        [vc setDownvotes:[NSNumber numberWithInt:downVotes]];
+         */
+    }
 }
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 @end

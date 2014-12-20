@@ -7,7 +7,33 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FacebookSDK.h"
 
 @interface PARWishStatsController : UIViewController
+{
+    FBProfilePictureView *maleView;
+    FBProfilePictureView *femaleView;
+    CGFloat yOffset;
+    CAGradientLayer *gradient;
+}
 
+@property (nonatomic, strong) NSString *male;
+@property (nonatomic, strong) NSString *female;
+
+@property (nonatomic, strong) NSString *maleName;
+@property (nonatomic, strong) NSString *femaleName;
+
+@property (nonatomic, strong) NSNumber *downvotes;
+@property (nonatomic, strong) NSNumber *upvotes;
+
+@property (nonatomic, weak) IBOutlet UILabel *auxilaryLabel;
+@property (nonatomic, weak) IBOutlet UILabel *maleNameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *femaleNameLabel;
+
+@property (nonatomic, weak) IBOutlet UIView *maleProfileFillerView;
+@property (nonatomic, weak) IBOutlet UIView *femaleProfileFillerView;
+
+@property (nonatomic, weak) IBOutlet UIButton *removeFromWishlist;
+
+@property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @end
