@@ -14,8 +14,8 @@
     FBProfilePictureView *maleView;
     FBProfilePictureView *femaleView;
     CGFloat yOffset;
-    CAGradientLayer *gradient;
 }
+@property (nonatomic, strong) NSString *selectedWishID;
 
 @property (nonatomic, strong) NSString *male;
 @property (nonatomic, strong) NSString *female;

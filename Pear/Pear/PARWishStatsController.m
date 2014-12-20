@@ -7,6 +7,7 @@
 //
 
 #import "PARWishStatsController.h"
+#import "AppDelegate.h"
 
 @interface PARWishStatsController ()
 
@@ -31,6 +32,49 @@
     // Do any additional setup after loading the view.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    maleView = [[FBProfilePictureView alloc] init];
+    femaleView = [[FBProfilePictureView alloc] init];
+    
+    maleView.profileID = _male;
+    femaleView.profileID = _female;
+    
+    [_maleProfileFillerView addSubview:maleView];
+    [_femaleProfileFillerView addSubview:femaleView];
+    
+    [maleView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_maleProfileFillerView addConstraints:[NSLayoutConstraint
+                                            constraintsWithVisualFormat:@"H:|-0-[maleView]-0-|"
+                                            options:NSLayoutFormatDirectionLeadingToTrailing
+                                            metrics:nil
+                                            views:NSDictionaryOfVariableBindings(maleView)]];
+    [_maleProfileFillerView addConstraints:[NSLayoutConstraint
+                                            constraintsWithVisualFormat:@"V:|-0-[maleView]-0-|"
+                                            options:NSLayoutFormatDirectionLeadingToTrailing
+                                            metrics:nil
+                                            views:NSDictionaryOfVariableBindings(maleView)]];
+    
+    [femaleView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_femaleProfileFillerView addConstraints:[NSLayoutConstraint
+                                              constraintsWithVisualFormat:@"H:|-0-[femaleView]-0-|"
+                                              options:NSLayoutFormatDirectionLeadingToTrailing
+                                              metrics:nil
+                                              views:NSDictionaryOfVariableBindings(femaleView)]];
+    [_femaleProfileFillerView addConstraints:[NSLayoutConstraint
+                                              constraintsWithVisualFormat:@"V:|-0-[femaleView]-0-|"
+                                              options:NSLayoutFormatDirectionLeadingToTrailing
+                                              metrics:nil
+                                              views:NSDictionaryOfVariableBindings(femaleView)]];
+    
+    _maleNameLabel.text = _maleName;
+    _femaleNameLabel.text = _femaleName;
+    
+    _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -40,7 +84,10 @@
 
 -(IBAction)removeFromWishlist:(id)sender
 {
-    //TODO remove wish from wishlist . . .
+    NSMutableDictionary *wishlist = [[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] mutableCopy];
+    [wishlist removeObjectForKey:_selectedWishID];
+    [[NSUserDefaults standardUserDefaults] setObject:wishlist forKey:WISHLIST_DEFAULTS_KEY];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 /*

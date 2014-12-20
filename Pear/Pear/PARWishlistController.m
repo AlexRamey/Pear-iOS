@@ -133,8 +133,21 @@ static NSString * const reuseIdentifier = @"WishlistCell";
     
     PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
     query.limit = 1;
-    [query whereKey:@"Male" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
-    [query whereKey:@"Female" containedIn:[_sortedKeys objectAtIndex:indexPath.row]];
+    
+    NSString *userGender = [[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY];
+    selectedWishID = [_sortedKeys objectAtIndex:indexPath.row];
+    
+    if ([userGender caseInsensitiveCompare:@"male"] == NSOrderedSame)
+    {
+        [query whereKey:@"Male" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+        [query whereKey:@"Female" equalTo:[_sortedKeys objectAtIndex:indexPath.row]];
+    }
+    else
+    {
+        [query whereKey:@"Female" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+        [query whereKey:@"Male" containedIn:[_sortedKeys objectAtIndex:indexPath.row]];
+    }
+    
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
     {
@@ -149,6 +162,9 @@ static NSString * const reuseIdentifier = @"WishlistCell";
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch details." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
+            couple = nil;
+            
+            [self performSegueWithIdentifier:@"WishlistToWishDetail" sender:self];
         }
     }];
     
@@ -162,16 +178,30 @@ static NSString * const reuseIdentifier = @"WishlistCell";
     if ([segue.destinationViewController class] == [PARWishStatsController class])
     {
         PARWishStatsController *vc = (PARWishStatsController *)segue.destinationViewController;
-        /*
-        [vc setMale:maleId];
-        [vc setMaleName:mName];
+        [vc setSelectedWishID:selectedWishID];
         
-        [vc setFemale:femaleId];
-        [vc setFemaleName:fName];
-        
-        [vc setUpvotes:[NSNumber numberWithInt:upVotes]];
-        [vc setDownvotes:[NSNumber numberWithInt:downVotes]];
-         */
+        if (couple) //fetch succeeded
+        {
+            [vc setMale:couple[@"Male"]];
+            [vc setMaleName:couple[@"MaleName"]];
+            
+            [vc setFemale:couple[@"Female"]];
+            [vc setFemaleName:couple[@"FemaleName"]];
+            
+            [vc setUpvotes: couple[@"Upvotes"]];
+            [vc setDownvotes: couple[@"Downvotes"]];
+        }
+        else
+        {
+            [vc setMale:nil];
+            [vc setMaleName:@""];
+            
+            [vc setFemale:nil];
+            [vc setFemaleName:@""];
+            
+            [vc setUpvotes: 0];
+            [vc setDownvotes: 0];
+        }
     }
 }
 

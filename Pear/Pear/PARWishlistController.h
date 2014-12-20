@@ -12,6 +12,7 @@
 @interface PARWishlistController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 {
     PFObject *couple;
+    NSString *selectedWishID;
     BOOL inProgress;
 }
 
