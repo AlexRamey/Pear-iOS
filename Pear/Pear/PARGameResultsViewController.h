@@ -30,6 +30,9 @@
 @property (nonatomic, strong) NSNumber *downvotes;
 @property (nonatomic, strong) NSNumber *upvotes;
 
+@property (nonatomic, weak) IBOutlet UIButton *facebookShare;
+@property (nonatomic, weak) IBOutlet UIButton *twitterShare;
+
 @property (nonatomic, weak) IBOutlet UILabel *auxilaryLabel;
 @property (nonatomic, weak) IBOutlet UILabel *maleNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *femaleNameLabel;

@@ -87,6 +87,7 @@ NSString * const WISHLIST_DEFAULTS_KEY = @"WISHLIST_DEFAULTS_KEY";
     return [FBAppCall handleOpenURL:url
                   sourceApplication:sourceApplication
                         withSession:[PFFacebookUtils session]];
+    
     /*
     NSLog(@"application openURL: sourceApplication: annotation: called. application = %@", application);
     

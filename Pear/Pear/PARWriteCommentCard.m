@@ -55,7 +55,7 @@
     if([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         
-        if ([textView.text caseInsensitiveCompare:@""] != NSOrderedSame)
+        if ([textView.text caseInsensitiveCompare:@"express yo'self"] != NSOrderedSame)
         {
             PFObject *userObject = [[PARDataStore sharedStore] userObject];
             NSDictionary *userData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DATA_KEY];

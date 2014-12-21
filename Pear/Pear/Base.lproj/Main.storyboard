@@ -416,7 +416,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVz-dB-mVX">
-                                <rect key="frame" x="0.0" y="410" width="600" height="190"/>
+                                <rect key="frame" x="0.0" y="447" width="600" height="153"/>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 out of 43 people think this is a good couple" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPz-AQ-bWD">
                                 <rect key="frame" x="16" y="62" width="568" height="19"/>
@@ -424,24 +424,55 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="78" placeholderIntrinsicHeight="25" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lGA-2J-IvV">
+                                <rect key="frame" x="218" y="412" width="78" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="YiR-wF-vqv"/>
+                                    <constraint firstAttribute="width" constant="78" id="lC3-Rw-GQQ"/>
+                                </constraints>
+                                <state key="normal" image="twitterShare">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="twitterShare:" destination="yJe-l6-r8o" eventType="touchUpInside" id="xX2-Qp-G9C"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="74" placeholderIntrinsicHeight="25" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V5h-d1-Eve">
+                                <rect key="frame" x="304" y="412" width="74" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="FY0-mA-1vd"/>
+                                    <constraint firstAttribute="width" constant="74" id="OII-a5-Hbl"/>
+                                </constraints>
+                                <state key="normal" image="facebookShare">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="facebookShare:" destination="yJe-l6-r8o" eventType="touchUpInside" id="SVh-MS-EaE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="lGA-2J-IvV" firstAttribute="top" secondItem="ySU-U3-eCQ" secondAttribute="bottom" constant="8" id="9fR-0r-FXu"/>
                             <constraint firstItem="aVz-dB-mVX" firstAttribute="trailing" secondItem="hvV-1A-pCz" secondAttribute="trailingMargin" constant="16" id="ASp-C2-KGk"/>
                             <constraint firstItem="M13-0q-jMT" firstAttribute="trailing" secondItem="lda-4q-hU7" secondAttribute="trailing" id="AnE-Yk-Fgs"/>
                             <constraint firstItem="veJ-ab-duF" firstAttribute="leading" secondItem="hvV-1A-pCz" secondAttribute="leadingMargin" id="Drr-Jc-8BA"/>
+                            <constraint firstItem="V5h-d1-Eve" firstAttribute="baseline" secondItem="lGA-2J-IvV" secondAttribute="baseline" id="Fbs-Gh-v3l"/>
+                            <constraint firstItem="veJ-ab-duF" firstAttribute="trailing" secondItem="lGA-2J-IvV" secondAttribute="trailing" id="HVE-56-vva"/>
+                            <constraint firstItem="aVz-dB-mVX" firstAttribute="top" secondItem="lGA-2J-IvV" secondAttribute="bottom" constant="10" id="Jms-av-d9p"/>
                             <constraint firstItem="ySU-U3-eCQ" firstAttribute="width" secondItem="veJ-ab-duF" secondAttribute="width" id="KqL-f8-fqv"/>
                             <constraint firstItem="VKf-xz-aQ7" firstAttribute="top" secondItem="aVz-dB-mVX" secondAttribute="bottom" id="OnS-fX-5Oa"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="leading" secondItem="veJ-ab-duF" secondAttribute="trailing" constant="8" id="Shx-b5-F8W"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="trailing" secondItem="hvV-1A-pCz" secondAttribute="trailingMargin" id="Tv2-6j-X3V"/>
+                            <constraint firstItem="lGA-2J-IvV" firstAttribute="top" secondItem="ySU-U3-eCQ" secondAttribute="bottom" constant="10" id="Wlv-CO-TRM"/>
                             <constraint firstItem="veJ-ab-duF" firstAttribute="top" secondItem="bVK-GK-j9t" secondAttribute="bottom" constant="75" id="Y6R-wO-ruA"/>
+                            <constraint firstItem="V5h-d1-Eve" firstAttribute="leading" secondItem="lda-4q-hU7" secondAttribute="leading" id="g1n-Sq-41e"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="top" secondItem="bVK-GK-j9t" secondAttribute="bottom" constant="75" id="gJc-xT-p99"/>
                             <constraint firstItem="veJ-ab-duF" firstAttribute="height" secondItem="lda-4q-hU7" secondAttribute="height" id="llI-WE-6Ju"/>
                             <constraint firstItem="CPz-AQ-bWD" firstAttribute="trailing" secondItem="hvV-1A-pCz" secondAttribute="trailingMargin" id="lpB-FA-YKR"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="width" secondItem="veJ-ab-duF" secondAttribute="width" id="lsC-9p-CxV"/>
                             <constraint firstItem="aVz-dB-mVX" firstAttribute="leading" secondItem="hvV-1A-pCz" secondAttribute="leadingMargin" constant="-16" id="mxQ-AW-xIm"/>
-                            <constraint firstItem="aVz-dB-mVX" firstAttribute="top" secondItem="ySU-U3-eCQ" secondAttribute="bottom" constant="8" id="o4a-Ne-n9m"/>
                             <constraint firstItem="M13-0q-jMT" firstAttribute="width" secondItem="lda-4q-hU7" secondAttribute="width" id="qd7-ld-eER"/>
                             <constraint firstItem="M13-0q-jMT" firstAttribute="top" secondItem="lda-4q-hU7" secondAttribute="bottom" constant="8" id="qmV-qd-8md"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="top" secondItem="CPz-AQ-bWD" secondAttribute="bottom" constant="14" id="tAo-Pq-lhL"/>
@@ -452,6 +483,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="9fR-0r-FXu"/>
                                 <exclude reference="AnE-Yk-Fgs"/>
                             </mask>
                         </variation>
@@ -463,6 +495,7 @@
                     <tabBarItem key="tabBarItem" title="" image="pearTab" id="YqC-mp-PDW"/>
                     <connections>
                         <outlet property="auxilaryLabel" destination="CPz-AQ-bWD" id="izn-NH-RXC"/>
+                        <outlet property="facebookShare" destination="V5h-d1-Eve" id="nw2-vx-BIZ"/>
                         <outlet property="femaleNameLabel" destination="M13-0q-jMT" id="hJO-w6-vLI"/>
                         <outlet property="femaleProfileFillerView" destination="lda-4q-hU7" id="sbU-hA-ltT"/>
                         <outlet property="leftSwipeRecognizer" destination="8Kg-Kt-Qvx" id="Xms-6z-cAr"/>
@@ -470,6 +503,7 @@
                         <outlet property="maleProfileFillerView" destination="veJ-ab-duF" id="g4j-Bu-n80"/>
                         <outlet property="rightSwipeRecognizer" destination="AGQ-IW-AEb" id="3D2-ai-xrs"/>
                         <outlet property="scrollView" destination="aVz-dB-mVX" id="4TB-W5-bVM"/>
+                        <outlet property="twitterShare" destination="lGA-2J-IvV" id="jEr-cT-yv3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XkE-5Z-qjk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -600,9 +634,11 @@
     </scenes>
     <resources>
         <image name="downVote" width="32" height="32"/>
+        <image name="facebookShare" width="93" height="31"/>
         <image name="pear" width="60" height="60"/>
         <image name="pearTab" width="25" height="25"/>
         <image name="statsTab" width="25" height="25"/>
+        <image name="twitterShare" width="161" height="51"/>
         <image name="upVote" width="32" height="32"/>
         <image name="wishlistTab" width="25" height="25"/>
     </resources>
