@@ -32,7 +32,6 @@
 
 @property (nonatomic, weak) IBOutlet UIButton *facebookShare;
 @property (nonatomic, weak) IBOutlet UIButton *twitterShare;
-@property (nonatomic, weak) IBOutlet UIButton *msgCouple;
 
 @property (nonatomic, weak) IBOutlet UILabel *auxilaryLabel;
 @property (nonatomic, weak) IBOutlet UILabel *maleNameLabel;
