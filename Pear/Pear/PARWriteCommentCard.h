@@ -8,10 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol WriteCommentCardCallback;
+
 @interface PARWriteCommentCard : UIView <UITextViewDelegate>
 
-@property (nonatomic, strong) IBOutlet UIView *profilePicFillerView;
+@property (nonatomic, weak) id<WriteCommentCardCallback> callback;
 
+@property (nonatomic, strong) IBOutlet UIView *profilePicFillerView;
 @property (nonatomic, strong) IBOutlet UITextView *commentArea;
+
+@property (nonatomic, strong) NSString *coupleObjectID;
+@property (nonatomic, strong) NSString *coupleMaleName;
+@property (nonatomic, strong) NSString *coupleFemaleName;
+
+@end
+
+@protocol WriteCommentCardCallback <NSObject>
+
+-(void)commentWasPushed;
 
 @end

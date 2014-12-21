@@ -262,6 +262,8 @@
     [vc setFemale:femaleId];
     [vc setFemaleName:fName];
     
+    [vc setCoupleObjectID:objectId];
+    
     [vc setUpvotes:[NSNumber numberWithInt:upVotes]];
     [vc setDownvotes:[NSNumber numberWithInt:downVotes]];
     

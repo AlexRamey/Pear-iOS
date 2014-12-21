@@ -548,7 +548,7 @@
                                 <rect key="frame" x="0.0" y="448" width="600" height="103"/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Odx-tE-OLN" firstAttribute="leading" secondItem="9uJ-vE-wIo" secondAttribute="leadingMargin" id="3be-dH-N8A"/>

@@ -216,52 +216,27 @@ static NSString * const reuseIdentifider = @"CELL";
                 }
             }
             
-            //create new couple dictionary with fields necessary to create PFObject<Couple> in Parse
+            PFObject *couple = [PFObject objectWithClassName:@"Couples"];
+            couple[@"Male"] = [localMalePtr objectForKey:@"id"];
+            couple[@"Female"] = [localFemalePtr objectForKey:@"id"];
+            couple[@"MaleName"] = [localMalePtr objectForKey:@"name"];
+            couple[@"FemaleName"] = [localFemalePtr objectForKey:@"name"];
             
-            NSMutableDictionary *newCouple = [[NSMutableDictionary alloc] init];
-            [newCouple setObject:[localMalePtr objectForKey:@"id"] forKey:@"Male"];
-            [newCouple setObject:[localFemalePtr objectForKey:@"id"] forKey:@"Female"];
-            [newCouple setObject:[localMalePtr objectForKey:@"name"] forKey:@"MaleName"];
-            [newCouple setObject:[localFemalePtr objectForKey:@"name"] forKey:@"FemaleName"];
-            
-            if (maleSchoolID)
-            {
-                [newCouple setObject:maleSchoolID forKey:@"MaleEducation"];
-            }
             if (maleSchoolYear)
             {
-                [newCouple setObject:maleSchoolYear forKey:@"MaleEducationYear"];
-            }
-            if (femaleSchoolID)
-            {
-                [newCouple setObject:femaleSchoolID forKey:@"FemaleEducation"];
+                couple[@"MaleEducationYear"] = maleSchoolYear;
             }
             if (femaleSchoolYear)
             {
-                [newCouple setObject:femaleSchoolYear forKey:@"FemaleEducationYear"];
+                couple[@"FemaleEducationYear"] = femaleSchoolYear;
             }
-            
-            PFObject *couple = [PFObject objectWithClassName:@"Couples"];
-            couple[@"Male"] = [newCouple objectForKey:@"Male"];
-            couple[@"Female"] = [newCouple objectForKey:@"Female"];
-            couple[@"MaleName"] = [newCouple objectForKey:@"MaleName"];
-            couple[@"FemaleName"] = [newCouple objectForKey:@"FemaleName"];
-            
-            if ([newCouple objectForKey:@"MaleEducationYear"])
+            if (maleSchoolID)
             {
-                couple[@"MaleEducationYear"] = [newCouple objectForKey:@"MaleEducationYear"];
+                couple[@"MaleEducation"] = maleSchoolID;
             }
-            if ([newCouple objectForKey:@"FemaleEducationYear"])
+            if (femaleSchoolID)
             {
-                couple[@"FemaleEducationYear"] = [newCouple objectForKey:@"FemaleEducationYear"];
-            }
-            if ([newCouple objectForKey:@"MaleEducation"])
-            {
-                couple[@"MaleEducation"] = [newCouple objectForKey:@"MaleEducation"];
-            }
-            if ([newCouple objectForKey:@"FemaleEducation"])
-            {
-                couple[@"FemaleEducation"] = [newCouple objectForKey:@"FemaleEducation"];
+                couple[@"FemaleEducation"] = femaleSchoolID;
             }
            
             [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

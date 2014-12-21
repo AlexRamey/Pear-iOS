@@ -7,14 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PARCommentCard.h"
 #import "FacebookSDK.h"
 
-@interface PARWishStatsController : UIViewController
+@interface PARWishStatsController : UIViewController <CommentCardCallback>
 {
     FBProfilePictureView *maleView;
     FBProfilePictureView *femaleView;
     CGFloat yOffset;
 }
+
 @property (nonatomic, strong) NSString *selectedWishID;
 
 @property (nonatomic, strong) NSString *male;

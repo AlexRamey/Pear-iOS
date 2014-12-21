@@ -8,8 +8,6 @@
 
 #import "PARGameResultsViewController.h"
 #import "PARGameViewController.h"
-#import "PARCommentCard.h"
-#import "PARWriteCommentCard.h"
 #import "AppDelegate.h"
 
 @interface PARGameResultsViewController ()
@@ -62,18 +60,37 @@
     
     _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
     
+    [self loadComments];
+}
+
+-(void)loadComments
+{
     //Add write comment card to top of scroll view
     PARWriteCommentCard *writeCard = [[PARWriteCommentCard alloc] init];
+    [writeCard setCoupleObjectID:_coupleObjectID];
+    [writeCard setCoupleFemaleName:_femaleName];
+    [writeCard setCoupleMaleName:_maleName];
+    [writeCard setCallback:self];
     [_scrollView addSubview:writeCard];
     yOffset = writeCard.frame.size.height + 10;
     
-    //populate scrollView with PARCommentCards. . .
-    for (int i = 0; i < 5; i++)
-    {
-        PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY] name:@"Author" comment:@"This is a test comment" offset:yOffset callback:self];
-            
-        [_scrollView addSubview:commentCard];
-    }
+    PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
+    query.limit = 50;
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"coupleObjectID" equalTo:_coupleObjectID];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        UIScrollView *strongScrollView = _scrollView;
+        if (strongScrollView && !error)
+        {
+            for (PFObject *comment in objects)
+            {
+                PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] offset:yOffset callback:self];
+                
+                [_scrollView addSubview:commentCard];
+            }
+        }
+    }];
 }
 
 - (void)viewDidLoad {
@@ -117,6 +134,13 @@
 {
     yOffset += height + 10;
     [_scrollView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, yOffset)];
+}
+
+#pragma mark - WriteCommentCardCallback protocol methods
+
+-(void)commentWasPushed
+{
+    [self loadComments];
 }
 
 /*

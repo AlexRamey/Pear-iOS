@@ -616,11 +616,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARLoginViewController.m"
-            timestampString = "440789542.618605"
+            timestampString = "440812628.69594"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "-retrieveUserInfoAndTransition:"
             landmarkType = "5">
          </BreakpointContent>
@@ -648,11 +648,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARAddWishController.m"
-            timestampString = "440658017.679368"
+            timestampString = "440811418.462927"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "271"
-            endingLineNumber = "271"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -664,11 +664,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARAddWishController.m"
-            timestampString = "440658017.679368"
+            timestampString = "440811418.462927"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "267"
-            endingLineNumber = "267"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
             <Locations>

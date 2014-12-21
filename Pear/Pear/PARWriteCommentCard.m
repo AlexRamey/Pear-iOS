@@ -7,6 +7,7 @@
 //
 
 #import "PARWriteCommentCard.h"
+#import "PARDataStore.h"
 #import "FacebookSDK.h"
 #import "Parse.h"
 #import "AppDelegate.h"
@@ -54,9 +55,33 @@
     if([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         
-        //push comment up to parse . . .
-        //refresh view . . .
-        NSLog(@"Push Comment Up");
+        if ([textView.text caseInsensitiveCompare:@""] != NSOrderedSame)
+        {
+            PFObject *userObject = [[PARDataStore sharedStore] userObject];
+            NSDictionary *userData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DATA_KEY];
+            NSString *userName = userData[@"name"];
+            
+            PFObject *comment = [PFObject objectWithClassName:@"Comments"];
+            comment[@"coupleObjectID"] = _coupleObjectID;
+            comment[@"Text"] = textView.text;
+            comment[@"AuthorFBID"] = [[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY];;
+            comment[@"AuthorObjectID"] = userObject.objectId;
+            comment[@"AuthorName"] = userName;
+            comment[@"coupleMaleName"] = _coupleMaleName;
+            comment[@"coupleFemaleName"] = _coupleFemaleName;
+            
+            [comment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded)
+                {
+                    [_callback commentWasPushed];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to save comment." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [alert show];
+                }
+            }];
+        }
         
         return NO;
     }

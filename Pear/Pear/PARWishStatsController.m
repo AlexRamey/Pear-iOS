@@ -7,6 +7,7 @@
 //
 
 #import "PARWishStatsController.h"
+#import "Parse.h"
 #import "AppDelegate.h"
 
 @interface PARWishStatsController ()
@@ -73,6 +74,31 @@
     _femaleNameLabel.text = _femaleName;
     
     _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
+    
+    [self loadComments];
+}
+
+-(void)loadComments
+{
+    yOffset = 0.0;
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
+    query.limit = 50;
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"coupleObjectID" equalTo:_selectedWishID];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        UIScrollView *strongScrollView = _scrollView;
+        if (strongScrollView && !error)
+        {
+            for (PFObject *comment in objects)
+            {
+                PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] offset:yOffset callback:self];
+                
+                [_scrollView addSubview:commentCard];
+            }
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,6 +114,14 @@
     [wishlist removeObjectForKey:_selectedWishID];
     [[NSUserDefaults standardUserDefaults] setObject:wishlist forKey:WISHLIST_DEFAULTS_KEY];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - CommentViewCallback protocol methods
+
+-(void)commentCardCreatedWithHeight:(CGFloat)height
+{
+    yOffset += height + 10;
+    [_scrollView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, yOffset)];
 }
 
 /*

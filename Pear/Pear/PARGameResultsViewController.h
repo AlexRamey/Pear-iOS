@@ -8,15 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "PARCommentCard.h"
+#import "PARWriteCommentCard.h"
 #import "FacebookSDK.h"
 
-@interface PARGameResultsViewController : UIViewController <CommentCardCallback>
+@interface PARGameResultsViewController : UIViewController <CommentCardCallback, WriteCommentCardCallback>
 {
     FBProfilePictureView *maleView;
     FBProfilePictureView *femaleView;
     CGFloat yOffset;
     CAGradientLayer *gradient;
 }
+
+@property (nonatomic, strong) NSString *coupleObjectID;
 
 @property (nonatomic, strong) NSString *male;
 @property (nonatomic, strong) NSString *female;
