@@ -9,6 +9,7 @@
 #import "PARGameResultsViewController.h"
 #import "PARGameViewController.h"
 #import "AppDelegate.h"
+#import <Social/Social.h>
 
 @interface PARGameResultsViewController ()
 
@@ -65,12 +66,18 @@
 
 -(void)loadComments
 {
+    for (UIView *subview in _scrollView.subviews)
+    {
+        [subview removeFromSuperview];
+    }
+    
     //Add write comment card to top of scroll view
     PARWriteCommentCard *writeCard = [[PARWriteCommentCard alloc] init];
     [writeCard setCoupleObjectID:_coupleObjectID];
     [writeCard setCoupleFemaleName:_femaleName];
     [writeCard setCoupleMaleName:_maleName];
     [writeCard setCallback:self];
+    [writeCard setAuthorLiked:_userVote];
     [_scrollView addSubview:writeCard];
     yOffset = writeCard.frame.size.height + 10;
     
@@ -85,7 +92,7 @@
         {
             for (PFObject *comment in objects)
             {
-                PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] offset:yOffset callback:self];
+                PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] authorLiked:comment[@"authorLiked"] offset:yOffset callback:self];
                 
                 [_scrollView addSubview:commentCard];
             }
@@ -133,12 +140,19 @@
     // Check if the Facebook app is installed and we can present the share dialog
     FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
     params.link = [NSURL URLWithString:@"http://thepeargame.parseapp.com/"];
-    params.picture = [NSURL URLWithString:@"http://thepeargame.parseapp.com/img/pear icon 1024x1024.png"];
+    
+    NSString *name = @"The Pear Game";
+    NSString *caption = [[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName];
+    NSString *description = @"Give your opinion on couples made up of your Facebook friends. See who your friends think you should be with.";
+    NSString *picture = @"http://thepeargame.parseapp.com/img/pear%20icon%201024x1024.png";
+    NSURL *pictureURL = [NSURL URLWithString:picture];
+    NSString *link =  @"http://thepeargame.parseapp.com/";
     
     // If the Facebook app is installed and we can present the share dialog
+    
     if ([FBDialogs canPresentShareDialogWithParams:params]) {
         // Present share dialog
-        [FBDialogs presentShareDialogWithLink:params.link
+        [FBDialogs presentShareDialogWithLink:params.link name:name caption:caption description:description picture:pictureURL clientState:nil
                                       handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
                                           if(error) {
                                               // An error occurred, we need to handle the error
@@ -151,13 +165,13 @@
                                       }];
     } else {
         // Put together the dialog parameters
-        NSString *caption = [[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName];
+        
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       @"The Pear Game", @"name",
+                                       name, @"name",
                                        caption, @"caption",
-                                       @"Give your opinion on couples made up of your Facebook friends. See who your friends think you should be with.", @"description",
-                                       @"http://thepeargame.parseapp.com/", @"link",
-                                       @"http://thepeargame.parseapp.com/img/pear%20icon%201024x1024.png", @"picture",
+                                       description, @"description",
+                                       link, @"link",
+                                       picture, @"picture",
                                        nil];
         
         // Show the feed dialog
@@ -207,6 +221,58 @@
 -(IBAction)twitterShare:(id)sender
 {
     //twitter share
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+    {
+        SLComposeViewController *tweetSheet = [SLComposeViewController
+                                               composeViewControllerForServiceType:SLServiceTypeTwitter];
+        NSString *initialText = [[[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName] stringByAppendingString:@"The Pear Game! Give your opinion on couples made up of your Facebook friends. See who your friends think you should be with. http://thepeargame.parseapp.com/"];
+        [tweetSheet setInitialText:initialText];
+        [self presentViewController:tweetSheet animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"User must be logged into Twitter in the device settings to Tweet." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+    }
+}
+
+-(IBAction)messageCouple:(id)sender
+{
+    // Check if the Facebook app is installed and we can present
+    // the message dialog
+    NSString *name = @"The Pear Game";
+    NSString *caption = [[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName];
+    NSString *description = @"Give your opinion on couples made up of your Facebook friends. See who your friends think you should be with.";
+    NSString *picture = @"http://thepeargame.parseapp.com/img/pear%20icon%201024x1024.png";
+    NSString *link =  @"http://thepeargame.parseapp.com/";
+    
+    FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
+    params.link = [NSURL URLWithString:link];
+    params.name = name;
+    params.caption = caption;
+    params.picture = [NSURL URLWithString:picture];
+    params.linkDescription = description;
+    
+    // If the Facebook app is installed and we can present the share dialog
+    if ([FBDialogs canPresentMessageDialogWithParams:params]) {
+        // Enable button or other UI to initiate launch of the Message Dialog
+        // Present message dialog
+        [FBDialogs presentMessageDialogWithLink:[NSURL URLWithString:link] name:name caption:caption description:description picture:[NSURL URLWithString:picture] clientState:nil
+                                        handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+                                            if(error) {
+                                                // An error occurred, we need to handle the error
+                                                // See: https://developers.facebook.com/docs/ios/errors
+                                                NSLog(@"Error messaging link: %@", error);
+                                            } else {
+                                                // Success
+                                                NSLog(@"result %@", results);
+                                            }
+                                        }];
+    }  else {
+        // Disable button or other UI for Message Dialog
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"User must have native Facebook Messenger app installed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+    }
 }
 
 #pragma mark - CommentViewCallback protocol methods

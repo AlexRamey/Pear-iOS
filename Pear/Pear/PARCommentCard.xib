@@ -26,38 +26,62 @@
                         </mask>
                     </variation>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="244" placeholderIntrinsicHeight="21" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FH7-90-eGB">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PJx-kv-a7q">
+                    <rect key="frame" x="325" y="0.0" width="35" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="IKY-DM-LzN"/>
+                        <constraint firstAttribute="width" constant="35" id="ktI-Ie-CeA"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="244" placeholderIntrinsicHeight="21" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="FH7-90-eGB">
                     <rect key="frame" x="108" y="8" width="244" height="21"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV4-P8-Tn0">
-                    <rect key="frame" x="108" y="32" width="252" height="19"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V4N-3l-a08">
+                    <rect key="frame" x="108" y="29" width="244" height="71"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="244" placeholderIntrinsicHeight="55" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV4-P8-Tn0">
+                            <rect key="frame" x="0.0" y="8" width="244" height="55"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="NV4-P8-Tn0" secondAttribute="bottom" constant="8" id="7nJ-ZO-g3A"/>
+                        <constraint firstAttribute="trailing" secondItem="NV4-P8-Tn0" secondAttribute="trailing" id="fHn-Ob-zkZ"/>
+                        <constraint firstItem="NV4-P8-Tn0" firstAttribute="top" secondItem="V4N-3l-a08" secondAttribute="top" constant="8" id="jK8-ip-VnR"/>
+                        <constraint firstItem="NV4-P8-Tn0" firstAttribute="leading" secondItem="V4N-3l-a08" secondAttribute="leading" id="kQI-Fc-gnl"/>
+                    </constraints>
+                </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="V4N-3l-a08" firstAttribute="leading" secondItem="FH7-90-eGB" secondAttribute="leading" id="37R-lN-Qto"/>
                 <constraint firstItem="D60-ZQ-p9M" firstAttribute="top" secondItem="k7a-Gj-p5M" secondAttribute="top" id="3Cg-O4-wCJ"/>
                 <constraint firstItem="FH7-90-eGB" firstAttribute="top" secondItem="k7a-Gj-p5M" secondAttribute="top" constant="8" id="45q-G9-tjy"/>
-                <constraint firstAttribute="trailing" secondItem="NV4-P8-Tn0" secondAttribute="trailing" id="49W-fE-9hC"/>
-                <constraint firstItem="NV4-P8-Tn0" firstAttribute="leading" secondItem="FH7-90-eGB" secondAttribute="leading" id="BTB-eG-Zcj"/>
+                <constraint firstItem="PJx-kv-a7q" firstAttribute="top" secondItem="k7a-Gj-p5M" secondAttribute="top" id="EsF-Sm-W4T"/>
                 <constraint firstItem="FH7-90-eGB" firstAttribute="leading" secondItem="D60-ZQ-p9M" secondAttribute="trailing" constant="8" id="GbW-lr-NQ7"/>
-                <constraint firstItem="NV4-P8-Tn0" firstAttribute="top" secondItem="FH7-90-eGB" secondAttribute="bottom" constant="3" id="KK0-ev-t3w"/>
                 <constraint firstItem="D60-ZQ-p9M" firstAttribute="leading" secondItem="k7a-Gj-p5M" secondAttribute="leading" id="On2-Qb-QDb"/>
+                <constraint firstItem="NV4-P8-Tn0" firstAttribute="width" secondItem="FH7-90-eGB" secondAttribute="width" id="PaX-TJ-Eu2"/>
                 <constraint firstAttribute="trailing" secondItem="FH7-90-eGB" secondAttribute="trailing" constant="8" id="TKm-eU-H1s"/>
+                <constraint firstItem="V4N-3l-a08" firstAttribute="top" secondItem="FH7-90-eGB" secondAttribute="bottom" id="ixV-o2-uW3"/>
                 <constraint firstAttribute="bottom" secondItem="D60-ZQ-p9M" secondAttribute="bottom" id="kzX-KK-lRb"/>
+                <constraint firstAttribute="trailing" secondItem="PJx-kv-a7q" secondAttribute="trailing" id="vaG-TZ-9gl"/>
+                <constraint firstItem="V4N-3l-a08" firstAttribute="trailing" secondItem="FH7-90-eGB" secondAttribute="trailing" id="vnc-Kc-ALZ"/>
+                <constraint firstAttribute="bottom" secondItem="V4N-3l-a08" secondAttribute="bottom" id="xLt-Vg-QdA"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="commentLabel" destination="NV4-P8-Tn0" id="b1U-I0-aAh"/>
+                <outlet property="imageView" destination="PJx-kv-a7q" id="kM3-By-YDQ"/>
                 <outlet property="nameLabel" destination="FH7-90-eGB" id="kEe-Ds-dPC"/>
                 <outlet property="profilePictureFillerView" destination="D60-ZQ-p9M" id="Ek8-1S-unT"/>
+                <outlet property="scrollView" destination="V4N-3l-a08" id="0so-Cn-qCD"/>
             </connections>
-            <point key="canvasLocation" x="78" y="125"/>
+            <point key="canvasLocation" x="109" y="129"/>
         </view>
     </objects>
 </document>

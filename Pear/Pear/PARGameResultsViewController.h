@@ -32,6 +32,7 @@
 
 @property (nonatomic, weak) IBOutlet UIButton *facebookShare;
 @property (nonatomic, weak) IBOutlet UIButton *twitterShare;
+@property (nonatomic, weak) IBOutlet UIButton *msgCouple;
 
 @property (nonatomic, weak) IBOutlet UILabel *auxilaryLabel;
 @property (nonatomic, weak) IBOutlet UILabel *maleNameLabel;
@@ -46,5 +47,7 @@
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic, strong) NSArray *colors;
+
+@property (nonatomic, strong) NSNumber *userVote;
 
 @end

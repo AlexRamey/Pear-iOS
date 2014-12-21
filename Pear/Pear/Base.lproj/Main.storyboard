@@ -416,7 +416,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVz-dB-mVX">
-                                <rect key="frame" x="0.0" y="447" width="600" height="153"/>
+                                <rect key="frame" x="0.0" y="487" width="600" height="113"/>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 out of 43 people think this is a good couple" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPz-AQ-bWD">
                                 <rect key="frame" x="16" y="62" width="568" height="19"/>
@@ -450,6 +450,23 @@
                                     <action selector="facebookShare:" destination="yJe-l6-r8o" eventType="touchUpInside" id="SVh-MS-EaE"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXr-hz-6Pt">
+                                <rect key="frame" x="218" y="445" width="160" height="34"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="160" id="9Pi-4q-RyN"/>
+                                    <constraint firstAttribute="height" constant="34" id="Ko2-TH-nos"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Message Couple">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="messageCouple:" destination="yJe-l6-r8o" eventType="touchUpInside" id="80H-wj-lxb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <gestureRecognizers/>
@@ -460,9 +477,10 @@
                             <constraint firstItem="veJ-ab-duF" firstAttribute="leading" secondItem="hvV-1A-pCz" secondAttribute="leadingMargin" id="Drr-Jc-8BA"/>
                             <constraint firstItem="V5h-d1-Eve" firstAttribute="baseline" secondItem="lGA-2J-IvV" secondAttribute="baseline" id="Fbs-Gh-v3l"/>
                             <constraint firstItem="veJ-ab-duF" firstAttribute="trailing" secondItem="lGA-2J-IvV" secondAttribute="trailing" id="HVE-56-vva"/>
-                            <constraint firstItem="aVz-dB-mVX" firstAttribute="top" secondItem="lGA-2J-IvV" secondAttribute="bottom" constant="10" id="Jms-av-d9p"/>
                             <constraint firstItem="ySU-U3-eCQ" firstAttribute="width" secondItem="veJ-ab-duF" secondAttribute="width" id="KqL-f8-fqv"/>
                             <constraint firstItem="VKf-xz-aQ7" firstAttribute="top" secondItem="aVz-dB-mVX" secondAttribute="bottom" id="OnS-fX-5Oa"/>
+                            <constraint firstItem="KXr-hz-6Pt" firstAttribute="top" secondItem="lGA-2J-IvV" secondAttribute="bottom" constant="8" id="OoW-xD-25t"/>
+                            <constraint firstAttribute="centerX" secondItem="KXr-hz-6Pt" secondAttribute="centerX" constant="2" id="OzR-3M-NYb"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="leading" secondItem="veJ-ab-duF" secondAttribute="trailing" constant="8" id="Shx-b5-F8W"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="trailing" secondItem="hvV-1A-pCz" secondAttribute="trailingMargin" id="Tv2-6j-X3V"/>
                             <constraint firstItem="lGA-2J-IvV" firstAttribute="top" secondItem="ySU-U3-eCQ" secondAttribute="bottom" constant="10" id="Wlv-CO-TRM"/>
@@ -480,6 +498,7 @@
                             <constraint firstItem="M13-0q-jMT" firstAttribute="leading" secondItem="lda-4q-hU7" secondAttribute="leading" id="whw-Rb-D62"/>
                             <constraint firstItem="ySU-U3-eCQ" firstAttribute="top" secondItem="veJ-ab-duF" secondAttribute="bottom" constant="8" id="wuF-x8-mbS"/>
                             <constraint firstItem="CPz-AQ-bWD" firstAttribute="leading" secondItem="hvV-1A-pCz" secondAttribute="leadingMargin" id="x3D-Cp-2LY"/>
+                            <constraint firstItem="aVz-dB-mVX" firstAttribute="top" secondItem="KXr-hz-6Pt" secondAttribute="bottom" constant="8" id="yBX-ay-hqg"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -501,6 +520,7 @@
                         <outlet property="leftSwipeRecognizer" destination="8Kg-Kt-Qvx" id="Xms-6z-cAr"/>
                         <outlet property="maleNameLabel" destination="ySU-U3-eCQ" id="DRT-bq-dAP"/>
                         <outlet property="maleProfileFillerView" destination="veJ-ab-duF" id="g4j-Bu-n80"/>
+                        <outlet property="msgCouple" destination="KXr-hz-6Pt" id="Djv-b6-ulv"/>
                         <outlet property="rightSwipeRecognizer" destination="AGQ-IW-AEb" id="3D2-ai-xrs"/>
                         <outlet property="scrollView" destination="aVz-dB-mVX" id="4TB-W5-bVM"/>
                         <outlet property="twitterShare" destination="lGA-2J-IvV" id="jEr-cT-yv3"/>

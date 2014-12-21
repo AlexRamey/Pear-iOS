@@ -73,7 +73,14 @@
     _maleNameLabel.text = _maleName;
     _femaleNameLabel.text = _femaleName;
     
-    _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"male"] == NSOrderedSame)
+    {
+        _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think you and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _femaleName];
+    }
+    else
+    {
+        _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and you would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName];
+    }
     
     [self loadComments];
 }
@@ -93,7 +100,7 @@
         {
             for (PFObject *comment in objects)
             {
-                PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] offset:yOffset callback:self];
+                PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] authorLiked:comment[@"authorLiked"] offset:yOffset callback:self];
                 
                 [_scrollView addSubview:commentCard];
             }

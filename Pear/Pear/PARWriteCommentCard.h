@@ -16,10 +16,13 @@
 
 @property (nonatomic, strong) IBOutlet UIView *profilePicFillerView;
 @property (nonatomic, strong) IBOutlet UITextView *commentArea;
+@property (nonatomic, strong) IBOutlet UIImageView *imageView;
 
 @property (nonatomic, strong) NSString *coupleObjectID;
 @property (nonatomic, strong) NSString *coupleMaleName;
 @property (nonatomic, strong) NSString *coupleFemaleName;
+
+@property (nonatomic, strong) NSNumber *authorLiked;
 
 @end
 

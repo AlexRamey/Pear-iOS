@@ -25,20 +25,36 @@
                         <constraint firstAttribute="width" secondItem="Jie-KF-dXS" secondAttribute="height" multiplier="1:1" id="zYY-UN-3FX"/>
                     </constraints>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RWK-jA-hY1">
+                    <rect key="frame" x="324" y="0.0" width="35" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="GuK-qQ-snp"/>
+                        <constraint firstAttribute="height" constant="35" id="aLP-3N-bwP"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="FuM-0l-5NK" firstAttribute="top" secondItem="zPN-8w-DBx" secondAttribute="top" constant="8" id="2LU-j6-xPa"/>
+                <constraint firstAttribute="trailing" secondItem="RWK-jA-hY1" secondAttribute="trailing" constant="1" id="Kii-EO-Gjs"/>
                 <constraint firstAttribute="bottom" secondItem="Jie-KF-dXS" secondAttribute="bottom" id="McG-lS-dv1"/>
                 <constraint firstItem="FuM-0l-5NK" firstAttribute="leading" secondItem="Jie-KF-dXS" secondAttribute="trailing" constant="8" id="VRn-rc-Jwq"/>
+                <constraint firstItem="RWK-jA-hY1" firstAttribute="leading" secondItem="zPN-8w-DBx" secondAttribute="leading" constant="324" id="XSx-d7-rlq"/>
+                <constraint firstItem="RWK-jA-hY1" firstAttribute="top" secondItem="zPN-8w-DBx" secondAttribute="top" id="Xsj-f4-Zrh"/>
                 <constraint firstItem="Jie-KF-dXS" firstAttribute="leading" secondItem="zPN-8w-DBx" secondAttribute="leading" id="frL-oc-eBy"/>
                 <constraint firstAttribute="bottom" secondItem="FuM-0l-5NK" secondAttribute="bottom" constant="8" id="ieG-nZ-bCl"/>
                 <constraint firstAttribute="trailing" secondItem="FuM-0l-5NK" secondAttribute="trailing" constant="1" id="lTI-WA-aPL"/>
                 <constraint firstItem="Jie-KF-dXS" firstAttribute="top" secondItem="zPN-8w-DBx" secondAttribute="top" id="shr-dW-DaG"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="XSx-d7-rlq"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="commentArea" destination="FuM-0l-5NK" id="lKJ-uF-3ES"/>
+                <outlet property="imageView" destination="RWK-jA-hY1" id="LqY-n8-L5g"/>
                 <outlet property="profilePicFillerView" destination="Jie-KF-dXS" id="vXM-ax-asC"/>
             </connections>
             <point key="canvasLocation" x="205" y="220"/>

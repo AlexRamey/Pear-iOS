@@ -43,9 +43,22 @@
     
     [_commentArea setDelegate:self];
     
-    self.frame = CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, 60.0);
+    self.frame = CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, 80.0);
     
     return self;
+}
+
+-(void)setAuthorLiked:(NSNumber *)authorLiked
+{
+    _authorLiked = authorLiked;
+    if ([authorLiked intValue] == 1)
+    {
+        [_imageView setImage:[UIImage imageNamed:@"upVote"]];
+    }
+    else
+    {
+        [_imageView setImage:[UIImage imageNamed:@"downVote"]];
+    }
 }
 
 #pragma mark - UITextViewDelegate Methods
@@ -67,6 +80,7 @@
             comment[@"AuthorFBID"] = [[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY];;
             comment[@"AuthorObjectID"] = userObject.objectId;
             comment[@"AuthorName"] = userName;
+            comment[@"authorLiked"] = _authorLiked;
             comment[@"coupleMaleName"] = _coupleMaleName;
             comment[@"coupleFemaleName"] = _coupleFemaleName;
             

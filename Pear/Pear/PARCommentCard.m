@@ -11,7 +11,7 @@
 
 @implementation PARCommentCard
 
--(id)initWithFacebookID:(NSString *)fbID name:(NSString *)name comment:(NSString *)comment offset: (CGFloat)offset callback:(id<CommentCardCallback>) callback
+-(id)initWithFacebookID:(NSString *)fbID name:(NSString *)name comment:(NSString *)comment authorLiked:(NSNumber *)authorLiked offset: (CGFloat)offset callback:(id<CommentCardCallback>) callback
 {
     // Initialization code
     NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"PARCommentCard"
@@ -37,11 +37,21 @@
                                             views:NSDictionaryOfVariableBindings(commenterPic)]];
     
     _nameLabel.text = name;
-    _commentLabel.text = comment;
+    _commentLabel.text = [comment stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     [_commentLabel sizeToFit];
+    [_scrollView setContentSize:CGSizeMake(_commentLabel.frame.size.width, _commentLabel.frame.size.width + 2 * _commentLabel.frame.origin.y)];
     
-    self.frame = CGRectMake(0,offset,[[UIScreen mainScreen] bounds].size.width, self.commentLabel.frame.size.height + self.commentLabel.frame.origin.y + 10);
+    self.frame = CGRectMake(0,offset,[[UIScreen mainScreen] bounds].size.width, 80.0);
+    
+    if ([authorLiked intValue] == 1)
+    {
+        [_imageView setImage:[UIImage imageNamed:@"upVote"]];
+    }
+    else
+    {
+        [_imageView setImage:[UIImage imageNamed:@"downVote"]];
+    }
     
     [callback commentCardCreatedWithHeight:self.frame.size.height];
     

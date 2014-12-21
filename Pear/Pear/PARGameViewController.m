@@ -205,6 +205,7 @@
     {
         // downvote behavior
         downVotes++;
+        userVote = -1;
         
         //notify store
         [sharedStore saveCoupleVote:[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]] withStatus:NO];
@@ -222,6 +223,7 @@
     {
         //upvote behavior
         upVotes++;
+        userVote = 1;
         
         //notify store
         [sharedStore saveCoupleVote:[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]] withStatus:YES];
@@ -268,6 +270,7 @@
     [vc setDownvotes:[NSNumber numberWithInt:downVotes]];
     
     [vc setColors:gradient.colors];
+    [vc setUserVote:[NSNumber numberWithInt:userVote]];
 }
 
 @end

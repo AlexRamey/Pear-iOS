@@ -23,6 +23,7 @@
     int upVotes;
     CAGradientLayer *gradient;
     int retryCounter;
+    int userVote;
 }
 
 @property (nonatomic, weak) IBOutlet UIView *maleProfileFillerView;
