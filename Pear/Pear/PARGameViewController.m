@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "FacebookSDK.h"
 #import "AppDelegate.h"
+#import "UIColor+Theme.h"
 
 @interface PARGameViewController ()
 
@@ -34,10 +35,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view
-    
-    gradient = [CAGradientLayer layer];
-    gradient.frame = self.view.bounds;
-    [self.view.layer insertSublayer:gradient atIndex:0];
     
     maleView = [[FBProfilePictureView alloc] init];
     femaleView = [[FBProfilePictureView alloc] init];
@@ -77,7 +74,7 @@
 {
     [super viewWillAppear:animated];
     
-    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     //Reset UI
     NSArray *subviews = [maleView subviews];
@@ -208,10 +205,8 @@
         downVotes++;
         userVote = -1;
         
-        [UIView animateWithDuration:.5f animations:^{
-            gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor redColor] CGColor], nil];
-        } completion:^(BOOL finished) {
-        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.view.backgroundColor = [UIColor PARDarkRed];
         }];
         
         [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
@@ -236,10 +231,8 @@
         upVotes++;
         userVote = 1;
         
-        [UIView animateWithDuration:.5f animations:^{
-            gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor greenColor] CGColor], nil];
-        } completion:^(BOOL finished) {
-           
+        [UIView animateWithDuration:0.5 animations:^{
+            self.view.backgroundColor = [UIColor PARDarkGreen];
         }];
         
         [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
@@ -290,7 +283,6 @@
     [vc setUpvotes:[NSNumber numberWithInt:upVotes]];
     [vc setDownvotes:[NSNumber numberWithInt:downVotes]];
     
-    [vc setColors:gradient.colors];
     [vc setUserVote:[NSNumber numberWithInt:userVote]];
 }
 

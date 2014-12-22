@@ -669,6 +669,15 @@
                 int incomingUpvotes = [coupleInfo[@"Upvotes"] intValue];
                 int incomingDownvotes = [coupleInfo[@"Downvotes"] intValue];
                 
+                if (wasLiked) //take away the vote that was just made since this user already voted . . .
+                {
+                    incomingUpvotes -= 1;
+                }
+                else
+                {
+                    incomingDownvotes -= 1;
+                }
+                
                 priorSavedCouple[@"Upvotes"] = [NSNumber numberWithInt:priorSavedUpvotes + incomingUpvotes];
                 priorSavedCouple[@"Downvotes"] = [NSNumber numberWithInt:priorSavedDownvotes + incomingDownvotes];
                 

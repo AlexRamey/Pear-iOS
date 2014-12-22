@@ -16,7 +16,6 @@
     FBProfilePictureView *maleView;
     FBProfilePictureView *femaleView;
     CGFloat yOffset;
-    CAGradientLayer *gradient;
 }
 
 @property (nonatomic, strong) NSString *coupleObjectID;

@@ -21,7 +21,6 @@
     NSString *objectId;
     int downVotes;
     int upVotes;
-    CAGradientLayer *gradient;
     int retryCounter;
     int userVote;
 }
