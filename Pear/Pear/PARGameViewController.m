@@ -200,6 +200,7 @@
     
     PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
     PARDataStore *sharedStore = [PARDataStore sharedStore];
+    NSDictionary *coupleJustVotedOn = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]];
     
     if ((voteBtn && voteBtn.frame.origin.x == _downVote.frame.origin.x) || (gestureRecognizer && gestureRecognizer.direction == UISwipeGestureRecognizerDirectionDown))
     {
@@ -207,16 +208,26 @@
         downVotes++;
         userVote = -1;
         
-        //notify store
-        [sharedStore saveCoupleVote:[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]] withStatus:NO];
-        
         [UIView animateWithDuration:.5f animations:^{
             gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor redColor] CGColor], nil];
         } completion:^(BOOL finished) {
-            [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
+        
+        }];
+        
+        [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
+            if (!error)
+            {
                 [couple incrementKey:@"Downvotes"];
-                [couple saveInBackground];
-            }];
+                [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    //notify store
+                    [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:NO];
+                }];
+            }
+            else
+            {
+                //notify store
+                [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:NO];
+            }
         }];
     }
     else
@@ -225,17 +236,27 @@
         upVotes++;
         userVote = 1;
         
-        //notify store
-        [sharedStore saveCoupleVote:[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]] withStatus:YES];
-        
         [UIView animateWithDuration:.5f animations:^{
             gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor greenColor] CGColor], nil];
         } completion:^(BOOL finished) {
-            [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
+           
+        }];
+        
+        [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
+            if (!error)
+            {
                 [couple incrementKey:@"Upvotes"];
-                [couple saveInBackground];
-                
-            }];
+                [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    //notify store
+                    [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:YES];
+                }];
+            }
+            else
+            {
+                //notify store
+                [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:YES];
+            }
+            
         }];
     }
     

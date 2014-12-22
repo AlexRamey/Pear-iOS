@@ -7,11 +7,11 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Pear-->
         <scene sceneID="Syh-vp-RVD">
             <objects>
                 <navigationController id="ge5-BU-3C1" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" image="pearTab" id="bPi-Lm-rgQ"/>
+                    <tabBarItem key="tabBarItem" title="Pear" image="pearTab" id="bPi-Lm-rgQ"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="pwu-dE-T7U">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

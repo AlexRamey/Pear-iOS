@@ -12,8 +12,6 @@
 
 @implementation PARDataStore
 
-static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY";
-
 +(PARDataStore *)sharedStore
 {
     static PARDataStore *sharedStore = nil;
@@ -101,7 +99,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
         [couplesLikedQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (!error)
             {
-                //NSLog(@"Like Relations Batch %d: %@", likeBatchCounter - 1, objects);
                 [_couplesLiked addObjectsFromArray:objects];
             }
             else
@@ -176,13 +173,73 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     for (PFObject *couple in _couplesLiked)
     {
         NSString *key = [couple[@"Male"] stringByAppendingString:couple[@"Female"]];
-        [_coupleObjectsAlreadyVotedOn setObject:couple.objectId forKey:key];
+        NSString *priorSavedCoupleID = [_coupleObjectsAlreadyVotedOn objectForKey:key];
+        
+        if (priorSavedCoupleID) //already pulled a couple with same male/female
+        {
+            PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
+            [query getObjectInBackgroundWithId:priorSavedCoupleID block:^(PFObject *object, NSError *error) {
+                if (!error)
+                {
+                    PFObject *priorSavedCouple = object;
+                    
+                    //Merge
+                    int priorSavedUpvotes = [priorSavedCouple[@"Upvotes"] intValue];
+                    int priorSavedDownvotes = [priorSavedCouple[@"Downvotes"] intValue];
+                    int incomingUpvotes = [couple[@"Upvotes"] intValue];
+                    int incomingDownvotes = [couple[@"Downvotes"] intValue];
+                    
+                    priorSavedCouple[@"Upvotes"] = [NSNumber numberWithInt:priorSavedUpvotes + incomingUpvotes];
+                    priorSavedCouple[@"Downvotes"] = [NSNumber numberWithInt:priorSavedDownvotes + incomingDownvotes];
+                    
+                    //save the updated priorSavedCouple
+                    [priorSavedCouple saveInBackground];
+                    
+                    //delete incoming couple now that we've added its votes to the existing couple
+                    [couple deleteInBackground];
+                }
+            }];
+        }
+        else
+        {
+            [_coupleObjectsAlreadyVotedOn setObject:couple.objectId forKey:key];
+        }
     }
     
     for (PFObject *couple in _couplesDisliked)
     {
         NSString *key = [couple[@"Male"] stringByAppendingString:couple[@"Female"]];
-        [_coupleObjectsAlreadyVotedOn setObject:couple.objectId forKey:key];
+        NSString *priorSavedCoupleID = [_coupleObjectsAlreadyVotedOn objectForKey:key];
+        
+        if (priorSavedCoupleID) //already pulled a couple with same male/female
+        {
+            PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
+            [query getObjectInBackgroundWithId:priorSavedCoupleID block:^(PFObject *object, NSError *error) {
+                if (!error)
+                {
+                    PFObject *priorSavedCouple = object;
+                    
+                    //Merge
+                    int priorSavedUpvotes = [priorSavedCouple[@"Upvotes"] intValue];
+                    int priorSavedDownvotes = [priorSavedCouple[@"Downvotes"] intValue];
+                    int incomingUpvotes = [couple[@"Upvotes"] intValue];
+                    int incomingDownvotes = [couple[@"Downvotes"] intValue];
+                    
+                    priorSavedCouple[@"Upvotes"] = [NSNumber numberWithInt:priorSavedUpvotes + incomingUpvotes];
+                    priorSavedCouple[@"Downvotes"] = [NSNumber numberWithInt:priorSavedDownvotes + incomingDownvotes];
+                    
+                    //save the updated priorSavedCouple
+                    [priorSavedCouple saveInBackground];
+                    
+                    //delete incoming couple now that we've added its votes to the existing couple
+                    [couple deleteInBackground];
+                }
+            }];
+        }
+        else
+        {
+            [_coupleObjectsAlreadyVotedOn setObject:couple.objectId forKey:key];
+        }
     }
 }
 
@@ -279,7 +336,6 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     [query whereKey:@"Male" containedIn:_maleFriendIDs];
     [query whereKey:@"Female" containedIn:_femaleFriendIDs];
     [query whereKey:@"objectId" notContainedIn:[_coupleObjectsAlreadyVotedOn allValues]];
-    
     
     //for testing purposes
     /*
@@ -591,6 +647,42 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
 -(void)saveCoupleVote:(NSDictionary *)coupleInfo withStatus:(BOOL)wasLiked;
 {
     PFObject *couple = [PFObject objectWithoutDataWithClassName:@"Couples" objectId:[coupleInfo objectForKey:@"ObjectId"]];
+    
+    NSString *maleID = [coupleInfo objectForKey:@"Male"];
+    NSString *femaleID = [coupleInfo objectForKey:@"Female"];
+    NSString *key = [maleID stringByAppendingString:femaleID];
+    NSString *priorSavedCoupleID = [_coupleObjectsAlreadyVotedOn objectForKey:key];
+    
+    if (priorSavedCoupleID)
+    {
+        //We already voted on this same male and female pair (just voted on a duplicate)
+        //Merge
+        PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
+        [query getObjectInBackgroundWithId:priorSavedCoupleID block:^(PFObject *object, NSError *error) {
+            if (!error)
+            {
+                PFObject *priorSavedCouple = object;
+                
+                //Merge
+                int priorSavedUpvotes = [priorSavedCouple[@"Upvotes"] intValue];
+                int priorSavedDownvotes = [priorSavedCouple[@"Downvotes"] intValue];
+                int incomingUpvotes = [coupleInfo[@"Upvotes"] intValue];
+                int incomingDownvotes = [coupleInfo[@"Downvotes"] intValue];
+                
+                priorSavedCouple[@"Upvotes"] = [NSNumber numberWithInt:priorSavedUpvotes + incomingUpvotes];
+                priorSavedCouple[@"Downvotes"] = [NSNumber numberWithInt:priorSavedDownvotes + incomingDownvotes];
+                
+                //save the updated priorSavedCouple
+                [priorSavedCouple saveInBackground];
+                
+                //delete incoming couple now that we've added its votes to the existing couple
+                [couple deleteInBackground];
+            }
+        }];
+        return;
+    }
+    
+    //The couple is not a duplicate of one that we already voted on
     PFRelation *relation = nil;
     
     if (wasLiked)
@@ -606,14 +698,10 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     
     [relation addObject:couple];
     
-    NSString *maleID = [coupleInfo objectForKey:@"Male"];
-    NSString *femaleID = [coupleInfo objectForKey:@"Female"];
-    NSString *key = [maleID stringByAppendingString:femaleID];
-    
     [_coupleObjectsAlreadyVotedOn setObject:[coupleInfo objectForKey:@"ObjectId"] forKey:key];
 }
 
--(void)saveUser //must save wishlist and save couples liked / disliked relations
+-(void)saveUser
 {
     if (_userObject)
     {
