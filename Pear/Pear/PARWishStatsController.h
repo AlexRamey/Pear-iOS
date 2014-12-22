@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PARCommentCard.h"
 #import "FacebookSDK.h"
+#import "PARButton.h"
 
 @interface PARWishStatsController : UIViewController <CommentCardCallback>
 {
@@ -35,7 +36,7 @@
 @property (nonatomic, weak) IBOutlet UIView *maleProfileFillerView;
 @property (nonatomic, weak) IBOutlet UIView *femaleProfileFillerView;
 
-@property (nonatomic, weak) IBOutlet UIButton *removeFromWishlist;
+@property (nonatomic, weak) IBOutlet PARButton *removeFromWishlist;
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @end

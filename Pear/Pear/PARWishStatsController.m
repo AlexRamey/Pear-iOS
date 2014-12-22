@@ -9,6 +9,7 @@
 #import "PARWishStatsController.h"
 #import "Parse.h"
 #import "AppDelegate.h"
+#import "UIColor+Theme.h"
 
 @interface PARWishStatsController ()
 
@@ -31,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [_removeFromWishlist drawWithPrimaryColor:[UIColor PARRed] secondaryColor:[UIColor PARRed]];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -104,6 +106,14 @@
                 
                 [_scrollView addSubview:commentCard];
             }
+        }
+        if (strongScrollView && [objects count] == 0)
+        {
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, [UIScreen mainScreen].bounds.size.width, 30.0)];
+            UIFont *font = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:16.0];
+            [label setFont:font];
+            [label setText:@"No Comments"];
+            [strongScrollView addSubview:label];
         }
     }];
 }

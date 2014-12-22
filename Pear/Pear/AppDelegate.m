@@ -12,6 +12,7 @@
 #import "PFFacebookUtils.h"
 #import "PARLoginViewController.h"
 #import "PARDataStore.h"
+#import "PARTheme.h"
 
 @interface AppDelegate ()
 
@@ -46,6 +47,8 @@ NSString * const WISHLIST_DEFAULTS_KEY = @"WISHLIST_DEFAULTS_KEY";
     self.window.rootViewController = vc;
     
     [PFFacebookUtils initializeFacebook];
+    
+    [PARTheme setupTheme];
     
     return YES;
 }

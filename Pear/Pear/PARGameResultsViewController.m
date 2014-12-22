@@ -61,6 +61,21 @@
     
     _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
     
+    //message couple formula
+    
+    double upVotes = [_upvotes doubleValue];
+    double downVotes = [_downvotes doubleValue];
+    
+    if (downVotes == 0)
+    {
+        downVotes = 1.0;
+    }
+    
+    if (pow(upVotes, 7/3) / pow(downVotes, 2) > 1 && upVotes + downVotes > 3)
+    {
+        NSLog(@"MSG ENABLED");
+    }
+    
     [self loadComments];
 }
 

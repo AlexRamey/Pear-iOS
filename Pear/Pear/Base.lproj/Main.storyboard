@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5jx-YL-mQO">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Pear-->
+        <!--Item-->
+        <scene sceneID="Syh-vp-RVD">
+            <objects>
+                <navigationController id="ge5-BU-3C1" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" image="pearTab" id="bPi-Lm-rgQ"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pwu-dE-T7U">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="x9d-w7-p0Z" kind="relationship" relationship="rootViewController" id="iBv-cw-hIT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bCd-IY-ASs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-580" y="-769"/>
+        </scene>
+        <!--The Pear Game-->
         <scene sceneID="5aO-6q-tX5">
             <objects>
-                <viewController id="x9d-w7-p0Z" customClass="PARGameViewController" sceneMemberID="viewController">
+                <viewController title="The Pear Game" id="x9d-w7-p0Z" customClass="PARGameViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UYY-qb-Jze"/>
                         <viewControllerLayoutGuide type="bottom" id="tyR-uo-vEO"/>
@@ -81,7 +99,7 @@
                             <constraint firstItem="wZO-IG-415" firstAttribute="trailing" secondItem="zGb-ZM-Eq4" secondAttribute="trailingMargin" id="7n4-97-jxk"/>
                             <constraint firstItem="FWh-FX-A2Y" firstAttribute="top" secondItem="m89-h5-HUc" secondAttribute="bottom" constant="8" id="8TH-e0-3oc"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="width" secondItem="05x-ZP-oMv" secondAttribute="width" id="J0q-4O-vka"/>
-                            <constraint firstItem="m89-h5-HUc" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="75" id="Je2-Bv-quq"/>
+                            <constraint firstItem="m89-h5-HUc" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="31" id="Je2-Bv-quq"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="top" secondItem="05x-ZP-oMv" secondAttribute="bottom" constant="8" id="LrB-Ib-PkF"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="trailing" secondItem="05x-ZP-oMv" secondAttribute="trailing" id="LsR-uL-ipr"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="leading" secondItem="m89-h5-HUc" secondAttribute="trailing" constant="8" id="M6q-dR-sdC"/>
@@ -97,7 +115,7 @@
                             <constraint firstItem="m89-h5-HUc" firstAttribute="height" secondItem="05x-ZP-oMv" secondAttribute="height" id="k5F-HW-6c2"/>
                             <constraint firstItem="mTc-Vy-xKR" firstAttribute="leading" secondItem="05x-ZP-oMv" secondAttribute="leading" id="nRs-XK-a07"/>
                             <constraint firstItem="wZO-IG-415" firstAttribute="leading" secondItem="zGb-ZM-Eq4" secondAttribute="leadingMargin" id="qdX-N8-iDH"/>
-                            <constraint firstItem="05x-ZP-oMv" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="75" id="ufS-W2-Fl7"/>
+                            <constraint firstItem="05x-ZP-oMv" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="31" id="ufS-W2-Fl7"/>
                             <constraint firstItem="FWh-FX-A2Y" firstAttribute="leading" secondItem="m89-h5-HUc" secondAttribute="leading" id="up8-WE-HD9"/>
                             <constraint firstItem="q3q-wu-iws" firstAttribute="top" secondItem="m89-h5-HUc" secondAttribute="bottom" constant="16" id="v6f-dm-zCG"/>
                         </constraints>
@@ -113,7 +131,7 @@
                             <outletCollection property="gestureRecognizers" destination="xWx-MJ-65f" appends="YES" id="1xa-Sv-vje"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Pear" image="pearTab" id="Xfi-e0-0jL"/>
+                    <navigationItem key="navigationItem" title="The Pear Game" id="8fr-TQ-156"/>
                     <connections>
                         <outlet property="downSwipeRecognizer" destination="xWx-MJ-65f" id="gx4-rJ-neC"/>
                         <outlet property="downVote" destination="q3q-wu-iws" id="xvu-rj-zp4"/>
@@ -138,7 +156,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-226" y="-769"/>
+            <point key="canvasLocation" x="179" y="-769"/>
         </scene>
         <!--Wishlist-->
         <scene sceneID="4tT-P2-Bkj">
@@ -252,7 +270,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqx-Lv-Tej">
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqx-Lv-Tej" customClass="PARButton">
                                 <rect key="frame" x="225" y="513" width="150" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -275,7 +293,6 @@
                             <constraint firstAttribute="centerX" secondItem="Tqx-Lv-Tej" secondAttribute="centerX" id="S0R-T1-dk2"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" id="hQ4-Vg-olv"/>
                     <navigationItem key="navigationItem" title="Stats" id="TLk-6Z-pZi"/>
                     <connections>
                         <outlet property="logoutBtn" destination="Tqx-Lv-Tej" id="g5P-nw-cvR"/>
@@ -296,14 +313,14 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="x9d-w7-p0Z" kind="relationship" relationship="viewControllers" id="IRB-UG-Jjx"/>
-                        <segue destination="OAM-Yc-Ffd" kind="relationship" relationship="viewControllers" id="h8r-FX-Hpo"/>
-                        <segue destination="vSN-ty-SdA" kind="relationship" relationship="viewControllers" id="fix-1n-JYc"/>
+                        <segue destination="ge5-BU-3C1" kind="relationship" relationship="viewControllers" id="2LY-fD-r3D"/>
+                        <segue destination="OAM-Yc-Ffd" kind="relationship" relationship="viewControllers" id="Kqx-lA-BOz"/>
+                        <segue destination="vSN-ty-SdA" kind="relationship" relationship="viewControllers" id="bvh-gB-3D6"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="30P-e3-nGF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-515" y="-121"/>
+            <point key="canvasLocation" x="-580" y="-121"/>
         </scene>
         <!--Stats-->
         <scene sceneID="6v5-UO-3cx">
@@ -334,14 +351,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pear" translatesAutoresizingMaskIntoConstraints="NO" id="2vS-fO-4KM">
-                                <rect key="frame" x="275" y="275" width="50" height="50"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bigPear" translatesAutoresizingMaskIntoConstraints="NO" id="2vS-fO-4KM">
+                                <rect key="frame" x="250" y="250" width="100" height="100"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="0bI-v3-6Dm"/>
-                                    <constraint firstAttribute="height" constant="50" id="6ML-cC-kwV"/>
+                                    <constraint firstAttribute="width" constant="100" id="foT-3Y-nUg"/>
+                                    <constraint firstAttribute="height" constant="100" id="mw6-4k-XbW"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wv6-tN-dSQ">
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wv6-tN-dSQ" customClass="PARButton">
                                 <rect key="frame" x="225" y="550" width="150" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -359,15 +376,23 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="GfE-Ax-Icm">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thePearGame" translatesAutoresizingMaskIntoConstraints="NO" id="Iim-7a-irS">
+                                <rect key="frame" x="180" y="102" width="240" height="140"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="NAY-g7-fdX"/>
+                                    <constraint firstAttribute="width" constant="240" id="fzJ-hQ-0TF"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="Wv6-tN-dSQ" secondAttribute="centerX" id="FjK-Du-Azk"/>
+                            <constraint firstAttribute="centerX" secondItem="Iim-7a-irS" secondAttribute="centerX" id="FwV-le-hGQ"/>
                             <constraint firstAttribute="centerY" secondItem="GfE-Ax-Icm" secondAttribute="centerY" id="ROK-ed-BbM"/>
                             <constraint firstAttribute="centerX" secondItem="GfE-Ax-Icm" secondAttribute="centerX" id="Wxu-oo-dcg"/>
                             <constraint firstItem="4Rj-wM-5DK" firstAttribute="top" secondItem="Wv6-tN-dSQ" secondAttribute="bottom" constant="20" id="XWV-Ly-jzU"/>
                             <constraint firstAttribute="centerY" secondItem="2vS-fO-4KM" secondAttribute="centerY" id="lp5-Si-tfl"/>
                             <constraint firstAttribute="centerX" secondItem="2vS-fO-4KM" secondAttribute="centerX" id="mqj-O2-Rno"/>
+                            <constraint firstItem="2vS-fO-4KM" firstAttribute="top" secondItem="Iim-7a-irS" secondAttribute="bottom" constant="8" id="uF7-BA-xAP"/>
                         </constraints>
                     </view>
                     <connections>
@@ -378,7 +403,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aRP-8u-tp8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1135" y="-121"/>
+            <point key="canvasLocation" x="-1212" y="-121"/>
         </scene>
         <!--Game Results View Controller-->
         <scene sceneID="qeh-9N-ZH8">
@@ -518,7 +543,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="408" y="-769"/>
+            <point key="canvasLocation" x="859" y="-769"/>
         </scene>
         <!--Wish Results-->
         <scene sceneID="noW-EU-8cW">
@@ -555,14 +580,17 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKR-Pg-uFG">
+                                <rect key="frame" x="0.0" y="410" width="600" height="95"/>
+                            </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 out of 43 people think this is a good couple" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2UP-bf-6TG">
                                 <rect key="frame" x="16" y="68" width="568" height="19"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84f-FL-hE0">
-                                <rect key="frame" x="225" y="410" width="150" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84f-FL-hE0" customClass="PARButton">
+                                <rect key="frame" x="225" y="513" width="150" height="30"/>
                                 <color key="backgroundColor" red="0.91850685586734693" green="0.044892234916295473" blue="0.15064798419945882" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="Te8-z7-UQs"/>
@@ -578,40 +606,61 @@
                                     <action selector="removeFromWishlist:" destination="6X7-QE-ODQ" eventType="touchUpInside" id="ug9-SA-Bmw"/>
                                 </connections>
                             </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKR-Pg-uFG">
-                                <rect key="frame" x="0.0" y="448" width="600" height="103"/>
-                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXu-Qa-pGM">
+                                <rect key="frame" x="0.0" y="508" width="600" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="Wt3-3E-SyN"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sJC-CL-Hiu">
+                                <rect key="frame" x="0.0" y="404" width="600" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="0u1-bj-Wrp"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Odx-tE-OLN" firstAttribute="leading" secondItem="9uJ-vE-wIo" secondAttribute="leadingMargin" id="3be-dH-N8A"/>
-                            <constraint firstItem="y6w-d2-azk" firstAttribute="top" secondItem="UKR-Pg-uFG" secondAttribute="bottom" id="6YB-Us-oGZ"/>
                             <constraint firstItem="SAy-Ou-3hM" firstAttribute="width" secondItem="Odx-tE-OLN" secondAttribute="width" id="9Ev-SF-vjH"/>
                             <constraint firstItem="xKM-S4-Jbf" firstAttribute="leading" secondItem="BLD-zD-Ia6" secondAttribute="leading" id="AaH-cg-5Zv"/>
                             <constraint firstItem="UKR-Pg-uFG" firstAttribute="leading" secondItem="9uJ-vE-wIo" secondAttribute="leadingMargin" constant="-16" id="Cip-pZ-ghe"/>
+                            <constraint firstItem="84f-FL-hE0" firstAttribute="top" secondItem="UKR-Pg-uFG" secondAttribute="bottom" constant="8" id="Cy8-C0-HAn"/>
                             <constraint firstItem="BLD-zD-Ia6" firstAttribute="trailing" secondItem="9uJ-vE-wIo" secondAttribute="trailingMargin" id="Cza-sM-aRa"/>
                             <constraint firstItem="2UP-bf-6TG" firstAttribute="top" secondItem="RZy-me-m2h" secondAttribute="bottom" constant="4" id="GxA-ub-3kC"/>
                             <constraint firstItem="2UP-bf-6TG" firstAttribute="trailing" secondItem="9uJ-vE-wIo" secondAttribute="trailingMargin" id="H6r-r0-dUC"/>
                             <constraint firstItem="UKR-Pg-uFG" firstAttribute="trailing" secondItem="9uJ-vE-wIo" secondAttribute="trailingMargin" constant="16" id="Hhw-IE-1Ch"/>
-                            <constraint firstItem="84f-FL-hE0" firstAttribute="top" secondItem="SAy-Ou-3hM" secondAttribute="bottom" constant="8" id="ICp-sp-BIa"/>
                             <constraint firstItem="SAy-Ou-3hM" firstAttribute="leading" secondItem="Odx-tE-OLN" secondAttribute="leading" id="IcA-pD-DIh"/>
+                            <constraint firstItem="CXu-Qa-pGM" firstAttribute="leading" secondItem="9uJ-vE-wIo" secondAttribute="leadingMargin" constant="-16" id="JAi-47-sEN"/>
+                            <constraint firstItem="CXu-Qa-pGM" firstAttribute="top" secondItem="UKR-Pg-uFG" secondAttribute="bottom" constant="3" id="Kf8-Bm-ReT"/>
+                            <constraint firstItem="UKR-Pg-uFG" firstAttribute="top" secondItem="sJC-CL-Hiu" secondAttribute="bottom" constant="5" id="R5L-lJ-CfP"/>
+                            <constraint firstItem="UKR-Pg-uFG" firstAttribute="top" secondItem="SAy-Ou-3hM" secondAttribute="bottom" constant="8" id="Uox-0E-bZB"/>
                             <constraint firstItem="BLD-zD-Ia6" firstAttribute="width" secondItem="Odx-tE-OLN" secondAttribute="width" id="Ylz-dd-6yh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sJC-CL-Hiu" secondAttribute="trailing" constant="-16" id="aDV-AU-ve2"/>
                             <constraint firstItem="BLD-zD-Ia6" firstAttribute="leading" secondItem="Odx-tE-OLN" secondAttribute="trailing" constant="8" id="cdF-iN-6VV"/>
                             <constraint firstItem="2UP-bf-6TG" firstAttribute="leading" secondItem="9uJ-vE-wIo" secondAttribute="leadingMargin" id="d75-k1-Hfj"/>
                             <constraint firstItem="SAy-Ou-3hM" firstAttribute="top" secondItem="Odx-tE-OLN" secondAttribute="bottom" constant="8" id="dSt-oN-YDO"/>
+                            <constraint firstItem="sJC-CL-Hiu" firstAttribute="top" secondItem="SAy-Ou-3hM" secondAttribute="bottom" constant="2" id="ead-aX-u5X"/>
                             <constraint firstItem="xKM-S4-Jbf" firstAttribute="trailing" secondItem="BLD-zD-Ia6" secondAttribute="trailing" id="gCF-PD-0LZ"/>
                             <constraint firstAttribute="centerX" secondItem="84f-FL-hE0" secondAttribute="centerX" id="hK3-dS-62R"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="CXu-Qa-pGM" secondAttribute="trailing" constant="-16" id="ikE-zA-S4N"/>
                             <constraint firstItem="BLD-zD-Ia6" firstAttribute="top" secondItem="2UP-bf-6TG" secondAttribute="bottom" constant="8" id="kYe-7y-Ozk"/>
-                            <constraint firstItem="UKR-Pg-uFG" firstAttribute="top" secondItem="84f-FL-hE0" secondAttribute="bottom" constant="8" id="oYD-I4-fbI"/>
+                            <constraint firstItem="y6w-d2-azk" firstAttribute="top" secondItem="84f-FL-hE0" secondAttribute="bottom" constant="8" id="qn6-DH-PUI"/>
+                            <constraint firstItem="sJC-CL-Hiu" firstAttribute="leading" secondItem="9uJ-vE-wIo" secondAttribute="leadingMargin" constant="-16" id="rGG-ZA-hor"/>
                             <constraint firstItem="Odx-tE-OLN" firstAttribute="height" secondItem="BLD-zD-Ia6" secondAttribute="height" id="rWy-sg-8Tj"/>
                             <constraint firstItem="xKM-S4-Jbf" firstAttribute="top" secondItem="BLD-zD-Ia6" secondAttribute="bottom" constant="8" id="s5g-K4-bHO"/>
                             <constraint firstItem="Odx-tE-OLN" firstAttribute="top" secondItem="2UP-bf-6TG" secondAttribute="bottom" constant="8" id="sXI-x9-A0s"/>
+                            <constraint firstItem="84f-FL-hE0" firstAttribute="top" secondItem="CXu-Qa-pGM" secondAttribute="bottom" constant="4" id="v90-35-cAu"/>
                             <constraint firstItem="xKM-S4-Jbf" firstAttribute="width" secondItem="BLD-zD-Ia6" secondAttribute="width" id="wx0-K3-b13"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="Uox-0E-bZB"/>
                                 <exclude reference="gCF-PD-0LZ"/>
+                                <exclude reference="Cy8-C0-HAn"/>
                             </mask>
                         </variation>
                     </view>
@@ -633,11 +682,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bigPear" width="512" height="512"/>
         <image name="downVote" width="32" height="32"/>
         <image name="facebookShare" width="93" height="31"/>
-        <image name="pear" width="60" height="60"/>
         <image name="pearTab" width="25" height="25"/>
         <image name="statsTab" width="25" height="25"/>
+        <image name="thePearGame" width="283" height="27"/>
         <image name="twitterShare" width="161" height="51"/>
         <image name="upVote" width="32" height="32"/>
         <image name="wishlistTab" width="25" height="25"/>

@@ -10,14 +10,13 @@
 #import "PARDataStore.h"
 #import "PFFacebookUtils.h"
 #import "AppDelegate.h"
+#import "UIColor+Theme.h"
 
 @interface PARLoginViewController ()
 
 @end
 
 @implementation PARLoginViewController
-
-#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -36,7 +35,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = UIColorFromRGB(0x00cc66);
+    self.view.backgroundColor = [UIColor PARBrown];
+    [_loginBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
 }
 
 -(void)viewWillAppear:(BOOL)animated

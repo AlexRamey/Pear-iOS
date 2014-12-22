@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "FacebookSDK.h"
+#import "PARButton.h"
 
 @interface PARLoginViewController : UIViewController <FBLoginViewDelegate>
 
-@property (nonatomic, weak) IBOutlet UIButton *loginBtn;
+@property (nonatomic, weak) IBOutlet PARButton *loginBtn;
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end

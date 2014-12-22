@@ -419,11 +419,12 @@ static NSString * const COUPLE_OBJECTS_ALREADY_VOTED_ON_KEY = @"COUPLE_OBJECTS_A
     }
     
     //scramble the array of _potentialCouples for now; potentially rank them in the future
-    NSUInteger count = [_potentialCouples count];
-    for (NSUInteger i = 0; i < count; i++)
+    int count = (int)([_potentialCouples count]);
+    
+    for (int i = 0; i < count; i++)
     {
-        NSUInteger remainingCount = count - i;
-        NSInteger exchangeIndex = i + arc4random_uniform(remainingCount);
+        int remainingCount = count - i;
+        int exchangeIndex = i + arc4random_uniform(remainingCount);
         [_potentialCouples exchangeObjectAtIndex:i withObjectAtIndex:exchangeIndex];
     }
     

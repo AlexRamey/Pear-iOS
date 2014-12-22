@@ -7,6 +7,7 @@
 //
 
 #import "PARStatsViewController.h"
+#import "UIColor+Theme.h"
 #import "Parse.h"
 
 @interface PARStatsViewController ()
@@ -28,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [_logoutBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
 }
 
 - (void)didReceiveMemoryWarning {

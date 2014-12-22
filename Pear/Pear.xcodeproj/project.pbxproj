@@ -16,6 +16,9 @@
 		D031DBA31A43E343000C37C0 /* PARWishlistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D031DBA21A43E343000C37C0 /* PARWishlistCell.xib */; };
 		D031DBA61A43EB9E000C37C0 /* PARWishStatsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBA51A43EB9E000C37C0 /* PARWishStatsController.m */; };
 		D031DBA81A474C65000C37C0 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031DBA71A474C65000C37C0 /* Social.framework */; };
+		D031DBAF1A485F95000C37C0 /* PARTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBAE1A485F95000C37C0 /* PARTheme.m */; };
+		D031DBB21A485FDA000C37C0 /* UIColor+Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBB11A485FDA000C37C0 /* UIColor+Theme.m */; };
+		D031DBB51A48653F000C37C0 /* PARButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBB41A48653F000C37C0 /* PARButton.m */; };
 		D0F5942119EB0D3C00B09260 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942019EB0D3C00B09260 /* main.m */; };
 		D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942319EB0D3C00B09260 /* AppDelegate.m */; };
 		D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942519EB0D3C00B09260 /* Pear.xcdatamodeld */; };
@@ -60,6 +63,12 @@
 		D031DBA41A43EB9E000C37C0 /* PARWishStatsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARWishStatsController.h; sourceTree = "<group>"; };
 		D031DBA51A43EB9E000C37C0 /* PARWishStatsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARWishStatsController.m; sourceTree = "<group>"; };
 		D031DBA71A474C65000C37C0 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		D031DBAD1A485F95000C37C0 /* PARTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARTheme.h; sourceTree = "<group>"; };
+		D031DBAE1A485F95000C37C0 /* PARTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARTheme.m; sourceTree = "<group>"; };
+		D031DBB01A485FDA000C37C0 /* UIColor+Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Theme.h"; sourceTree = "<group>"; };
+		D031DBB11A485FDA000C37C0 /* UIColor+Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Theme.m"; sourceTree = "<group>"; };
+		D031DBB31A48653F000C37C0 /* PARButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARButton.h; sourceTree = "<group>"; };
+		D031DBB41A48653F000C37C0 /* PARButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARButton.m; sourceTree = "<group>"; };
 		D0F5941B19EB0D3C00B09260 /* Pear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F5941F19EB0D3C00B09260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0F5942019EB0D3C00B09260 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -115,6 +124,17 @@
 				43C287D5BBFD4FE6AD6425C7 /* libPods-Pear.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D031DBAC1A485F45000C37C0 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				D031DBAD1A485F95000C37C0 /* PARTheme.h */,
+				D031DBAE1A485F95000C37C0 /* PARTheme.m */,
+				D031DBB01A485FDA000C37C0 /* UIColor+Theme.h */,
+				D031DBB11A485FDA000C37C0 /* UIColor+Theme.m */,
+			);
+			name = Theme;
 			sourceTree = "<group>";
 		};
 		D0DEEA5F1A08474A006AD541 /* Storyboard */ = {
@@ -175,6 +195,7 @@
 		D0F5941D19EB0D3C00B09260 /* Pear */ = {
 			isa = PBXGroup;
 			children = (
+				D031DBAC1A485F45000C37C0 /* Theme */,
 				D0F5944719EB0D8600B09260 /* Delegate */,
 				D0F5944E19EB7BC300B09260 /* Login */,
 				D0F5945319EC315900B09260 /* Pear Game */,
@@ -259,6 +280,8 @@
 			isa = PBXGroup;
 			children = (
 				D0F5945719EC5F4C00B09260 /* PARCommentCard.h */,
+				D031DBB31A48653F000C37C0 /* PARButton.h */,
+				D031DBB41A48653F000C37C0 /* PARButton.m */,
 				D0F5945819EC5F4C00B09260 /* PARCommentCard.m */,
 				D0F5945B19EC5F6C00B09260 /* PARCommentCard.xib */,
 				D0F5945D19EC649E00B09260 /* PARWriteCommentCard.h */,
@@ -408,6 +431,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D031DB9B1A3D225E000C37C0 /* PARWishlistController.m in Sources */,
+				D031DBB21A485FDA000C37C0 /* UIColor+Theme.m in Sources */,
 				D0F5945219EC314C00B09260 /* PARGameViewController.m in Sources */,
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
 				D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */,
@@ -418,8 +442,10 @@
 				D0F5945919EC5F4C00B09260 /* PARCommentCard.m in Sources */,
 				D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */,
 				D0F5942119EB0D3C00B09260 /* main.m in Sources */,
+				D031DBAF1A485F95000C37C0 /* PARTheme.m in Sources */,
 				D0F5944A19EB6FFF00B09260 /* PARLoginViewController.m in Sources */,
 				D0F5945F19EC649E00B09260 /* PARWriteCommentCard.m in Sources */,
+				D031DBB51A48653F000C37C0 /* PARButton.m in Sources */,
 				D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */,
 				D031DB971A3D223C000C37C0 /* PARWishlistCell.m in Sources */,
 			);
@@ -545,6 +571,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Pear/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -556,6 +583,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Pear/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

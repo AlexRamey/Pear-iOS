@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PARButton.h"
 #import "FacebookSDK.h"
 
 @interface PARStatsViewController : UIViewController
 
-@property (nonatomic, weak) IBOutlet UIButton *logoutBtn;
+@property (nonatomic, weak) IBOutlet PARButton *logoutBtn;
 
 @end
