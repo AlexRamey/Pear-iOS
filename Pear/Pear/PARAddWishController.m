@@ -238,6 +238,9 @@ static NSString * const reuseIdentifider = @"CELL";
             {
                 couple[@"FemaleEducation"] = femaleSchoolID;
             }
+            
+            couple[@"Upvotes"] = [NSNumber numberWithInt:0];
+            couple[@"Downvotes"] = [NSNumber numberWithInt:0];
            
             [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded)

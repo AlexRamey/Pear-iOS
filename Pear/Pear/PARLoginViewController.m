@@ -35,8 +35,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor PARBrown];
-    [_loginBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
+    self.view.backgroundColor = [UIColor PARBlue];
+    [_loginBtn drawWithPrimaryColor:[UIColor PAROrange] secondaryColor:[UIColor PAROrange]];
 }
 
 -(void)viewWillAppear:(BOOL)animated

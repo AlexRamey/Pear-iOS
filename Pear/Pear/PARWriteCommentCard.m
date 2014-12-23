@@ -45,7 +45,21 @@
     
     self.frame = CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, 80.0);
     
+    [self createDropShadow:self];
+    
     return self;
+}
+
+-(void)createDropShadow:(UIView *)view
+{
+    [view setNeedsLayout];
+    [view layoutIfNeeded];
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.masksToBounds = NO;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0.0f, 3.0f);
+    view.layer.shadowOpacity = 0.5f;
+    view.layer.shadowPath = shadowPath.CGPath;
 }
 
 -(void)setAuthorLiked:(NSNumber *)authorLiked

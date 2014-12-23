@@ -47,7 +47,6 @@
     return self;
 }
 
-
 -(void)loadProfilePictureForFBID:(NSString *)facebookID andWishName:(NSString *)wishName
 {
     FBProfilePictureView *pic = nil;

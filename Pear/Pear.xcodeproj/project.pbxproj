@@ -279,9 +279,9 @@
 		D0F5945A19EC5F5700B09260 /* Utility Views */ = {
 			isa = PBXGroup;
 			children = (
-				D0F5945719EC5F4C00B09260 /* PARCommentCard.h */,
 				D031DBB31A48653F000C37C0 /* PARButton.h */,
 				D031DBB41A48653F000C37C0 /* PARButton.m */,
+				D0F5945719EC5F4C00B09260 /* PARCommentCard.h */,
 				D0F5945819EC5F4C00B09260 /* PARCommentCard.m */,
 				D0F5945B19EC5F6C00B09260 /* PARCommentCard.xib */,
 				D0F5945D19EC649E00B09260 /* PARWriteCommentCard.h */,

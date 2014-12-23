@@ -184,10 +184,24 @@
                     PFObject *priorSavedCouple = object;
                     
                     //Merge
-                    int priorSavedUpvotes = [priorSavedCouple[@"Upvotes"] intValue];
-                    int priorSavedDownvotes = [priorSavedCouple[@"Downvotes"] intValue];
-                    int incomingUpvotes = [couple[@"Upvotes"] intValue];
-                    int incomingDownvotes = [couple[@"Downvotes"] intValue];
+                    int priorSavedUpvotes, priorSavedDownvotes, incomingUpvotes, incomingDownvotes = 0;
+                    
+                    if ([priorSavedCouple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+                    {
+                        priorSavedUpvotes = [priorSavedCouple[@"Upvotes"] intValue];
+                    }
+                    if ([priorSavedCouple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+                    {
+                        priorSavedDownvotes = [priorSavedCouple[@"Downvotes"] intValue];
+                    }
+                    if ([couple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+                    {
+                        incomingUpvotes = [couple[@"Upvotes"] intValue];
+                    }
+                    if ([couple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+                    {
+                        incomingDownvotes = [couple[@"Downvotes"] intValue];
+                    }
                     
                     priorSavedCouple[@"Upvotes"] = [NSNumber numberWithInt:priorSavedUpvotes + incomingUpvotes];
                     priorSavedCouple[@"Downvotes"] = [NSNumber numberWithInt:priorSavedDownvotes + incomingDownvotes];
@@ -220,10 +234,24 @@
                     PFObject *priorSavedCouple = object;
                     
                     //Merge
-                    int priorSavedUpvotes = [priorSavedCouple[@"Upvotes"] intValue];
-                    int priorSavedDownvotes = [priorSavedCouple[@"Downvotes"] intValue];
-                    int incomingUpvotes = [couple[@"Upvotes"] intValue];
-                    int incomingDownvotes = [couple[@"Downvotes"] intValue];
+                    int priorSavedUpvotes, priorSavedDownvotes, incomingUpvotes, incomingDownvotes = 0;
+                    
+                    if ([priorSavedCouple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+                    {
+                        priorSavedUpvotes = [priorSavedCouple[@"Upvotes"] intValue];
+                    }
+                    if ([priorSavedCouple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+                    {
+                        priorSavedDownvotes = [priorSavedCouple[@"Downvotes"] intValue];
+                    }
+                    if ([couple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+                    {
+                        incomingUpvotes = [couple[@"Upvotes"] intValue];
+                    }
+                    if ([couple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+                    {
+                        incomingDownvotes = [couple[@"Downvotes"] intValue];
+                    }
                     
                     priorSavedCouple[@"Upvotes"] = [NSNumber numberWithInt:priorSavedUpvotes + incomingUpvotes];
                     priorSavedCouple[@"Downvotes"] = [NSNumber numberWithInt:priorSavedDownvotes + incomingDownvotes];
@@ -644,7 +672,7 @@
     }
 }
 
--(void)saveCoupleVote:(NSDictionary *)coupleInfo withStatus:(BOOL)wasLiked;
+-(void)saveCoupleVote:(NSDictionary *)coupleInfo withStatus:(BOOL)wasLiked completion:(void (^)(NSError *))completion
 {
     PFObject *couple = [PFObject objectWithoutDataWithClassName:@"Couples" objectId:[coupleInfo objectForKey:@"ObjectId"]];
     
@@ -653,7 +681,8 @@
     NSString *key = [maleID stringByAppendingString:femaleID];
     NSString *priorSavedCoupleID = [_coupleObjectsAlreadyVotedOn objectForKey:key];
     
-    if (priorSavedCoupleID)
+    //shouldn't be possible for IDs to be the same but add extra check just in case so we don't permanently delete a couple
+    if (priorSavedCoupleID && [[coupleInfo objectForKey:@"ObjectId"] caseInsensitiveCompare:priorSavedCoupleID] != NSOrderedSame)
     {
         //We already voted on this same male and female pair (just voted on a duplicate)
         //Merge
@@ -664,10 +693,24 @@
                 PFObject *priorSavedCouple = object;
                 
                 //Merge
-                int priorSavedUpvotes = [priorSavedCouple[@"Upvotes"] intValue];
-                int priorSavedDownvotes = [priorSavedCouple[@"Downvotes"] intValue];
-                int incomingUpvotes = [coupleInfo[@"Upvotes"] intValue];
-                int incomingDownvotes = [coupleInfo[@"Downvotes"] intValue];
+                int priorSavedUpvotes, priorSavedDownvotes, incomingUpvotes, incomingDownvotes = 0;
+                
+                if ([priorSavedCouple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+                {
+                    priorSavedUpvotes = [priorSavedCouple[@"Upvotes"] intValue];
+                }
+                if ([priorSavedCouple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+                {
+                    priorSavedDownvotes = [priorSavedCouple[@"Downvotes"] intValue];
+                }
+                if ([coupleInfo[@"Upvotes"] isKindOfClass:[NSNumber class]])
+                {
+                    incomingUpvotes = [coupleInfo[@"Upvotes"] intValue];
+                }
+                if ([coupleInfo[@"Downvotes"] isKindOfClass:[NSNumber class]])
+                {
+                    incomingDownvotes = [coupleInfo[@"Downvotes"] intValue];
+                }
                 
                 if (wasLiked) //take away the vote that was just made since this user already voted . . .
                 {
@@ -685,7 +728,13 @@
                 [priorSavedCouple saveInBackground];
                 
                 //delete incoming couple now that we've added its votes to the existing couple
-                [couple deleteInBackground];
+                [couple deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *deleteError) {
+                    completion(deleteError);
+                }];
+            }
+            else
+            {
+                completion(error);
             }
         }];
         return;
@@ -708,6 +757,7 @@
     [relation addObject:couple];
     
     [_coupleObjectsAlreadyVotedOn setObject:[coupleInfo objectForKey:@"ObjectId"] forKey:key];
+    completion(nil);
 }
 
 -(void)saveUser

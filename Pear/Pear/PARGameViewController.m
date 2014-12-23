@@ -66,15 +66,28 @@
                                             metrics:nil
                                             views:NSDictionaryOfVariableBindings(femaleView)]];
     
+    [self createDropShadow:_maleProfileFillerView];
+    [self createDropShadow:_femaleProfileFillerView];
+    
     [_upSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionUp];
     [_downSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionDown];
+}
+
+-(void)createDropShadow:(UIView *)view
+{
+    [view setNeedsLayout];
+    [view layoutIfNeeded];
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.masksToBounds = NO;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0.0f, 3.0f);
+    view.layer.shadowOpacity = 0.5f;
+    view.layer.shadowPath = shadowPath.CGPath;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    self.view.backgroundColor = [UIColor whiteColor];
     
     //Reset UI
     NSArray *subviews = [maleView subviews];
@@ -195,6 +208,18 @@
         gestureRecognizer = (UISwipeGestureRecognizer *)sender;
     }
     
+    void (^nextCoupleBlock)(NSError *) = ^void(NSError *e){
+        //Load the next couple
+        PARDataStore *sharedStore = [PARDataStore sharedStore];
+        [sharedStore nextCoupleWithCompletion:^(NSError *e) {
+            //puts the next couple into the defaults . . .
+            
+            //if (e) it means network error
+            //either way (network or no more couples), error will be stored in Defaults and caught by this view controller when it tries to load the next couple in viewWillAppear
+            [self performSegueWithIdentifier:@"GameToResults" sender:self];
+        }];
+    };
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
     PARDataStore *sharedStore = [PARDataStore sharedStore];
     NSDictionary *coupleJustVotedOn = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]];
@@ -208,6 +233,9 @@
         [UIView animateWithDuration:0.5 animations:^{
             self.view.backgroundColor = [UIColor PARDarkRed];
         }];
+        [UIView animateWithDuration:0.5 animations:^{
+            self.view.backgroundColor = [UIColor whiteColor];
+        }];
         
         [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
             if (!error)
@@ -215,13 +243,13 @@
                 [couple incrementKey:@"Downvotes"];
                 [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     //notify store
-                    [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:NO];
+                    [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:NO completion:nextCoupleBlock];
                 }];
             }
             else
             {
                 //notify store
-                [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:NO];
+                [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:NO completion:nextCoupleBlock];
             }
         }];
     }
@@ -234,6 +262,9 @@
         [UIView animateWithDuration:0.5 animations:^{
             self.view.backgroundColor = [UIColor PARDarkGreen];
         }];
+        [UIView animateWithDuration:0.5 animations:^{
+            self.view.backgroundColor = [UIColor whiteColor];
+        }];
         
         [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
             if (!error)
@@ -241,27 +272,17 @@
                 [couple incrementKey:@"Upvotes"];
                 [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     //notify store
-                    [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:YES];
+                    [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:YES completion:nextCoupleBlock];
                 }];
             }
             else
             {
                 //notify store
-                [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:YES];
+                [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:YES completion:nextCoupleBlock];
             }
             
         }];
     }
-    
-    //Load the next couple
-    [sharedStore nextCoupleWithCompletion:^(NSError *e) {
-        //puts the next couple into the defaults . . .
-        
-        //if (e) it means network error
-        //either way (network or no more couples), error will be stored in Defaults and caught by this view controller when it tries to load the next couple in viewWillAppear
-        
-        [self performSegueWithIdentifier:@"GameToResults" sender:self];
-    }];
 }
 
 

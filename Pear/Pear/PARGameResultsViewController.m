@@ -23,6 +23,7 @@
 {
     [super viewWillAppear:animated];
     
+    
     if ([_userVote intValue] == 1)
     {
         self.view.backgroundColor = [UIColor PARDarkGreen];
@@ -31,6 +32,7 @@
     {
         self.view.backgroundColor = [UIColor PARDarkRed];
     }
+     
     
     maleView = [[FBProfilePictureView alloc] init];
     femaleView = [[FBProfilePictureView alloc] init];
@@ -68,6 +70,9 @@
     _maleNameLabel.text = _maleName;
     _femaleNameLabel.text = _femaleName;
     
+    [self createDropShadow:_maleProfileFillerView];
+    [self createDropShadow:_femaleProfileFillerView];
+    
     _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
     
     //message couple formula
@@ -91,6 +96,18 @@
     }
     
     [self loadComments];
+}
+
+-(void)createDropShadow:(UIView *)view
+{
+    [view setNeedsLayout];
+    [view layoutIfNeeded];
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.masksToBounds = NO;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0.0f, 3.0f);
+    view.layer.shadowOpacity = 0.5f;
+    view.layer.shadowPath = shadowPath.CGPath;
 }
 
 -(void)loadComments

@@ -35,9 +35,9 @@
 
 -(void)nextCoupleWithCompletion:(void (^)(NSError *))completion;
 
--(void)fetchCouplesWithCompletion:(void (^)(NSError *error)) completion;
+-(void)fetchCouplesWithCompletion:(void (^)(NSError *)) completion;
 
--(void)saveCoupleVote:(NSDictionary *)coupleInfo withStatus:(BOOL)wasLiked;
+-(void)saveCoupleVote:(NSDictionary *)coupleInfo withStatus:(BOOL)wasLiked completion:(void (^)(NSError *))completion;
 
 -(void)pullCouplesAlreadyVotedOnWithCompletion:(void (^)(NSError *))completion;
 

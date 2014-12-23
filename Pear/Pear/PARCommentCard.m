@@ -53,9 +53,23 @@
         [_imageView setImage:[UIImage imageNamed:@"downVote"]];
     }
     
+    [self createDropShadow:self];
+    
     [callback commentCardCreatedWithHeight:self.frame.size.height];
     
     return self;
+}
+
+-(void)createDropShadow:(UIView *)view
+{
+    [view setNeedsLayout];
+    [view layoutIfNeeded];
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.masksToBounds = NO;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0.0f, 3.0f);
+    view.layer.shadowOpacity = 0.5f;
+    view.layer.shadowPath = shadowPath.CGPath;
 }
 
 /*

@@ -98,7 +98,21 @@ static NSString * const reuseIdentifier = @"WishlistCell";
     // Configure the cell
     [cell loadProfilePictureForFBID:[_sortedKeys objectAtIndex:indexPath.row] andWishName:[_wishList objectForKey:[_sortedKeys objectAtIndex:indexPath.row]]];
     
+    //[self createDropShadow:cell];
+    
     return cell;
+}
+
+-(void)createDropShadow:(UIView *)view
+{
+    [view setNeedsLayout];
+    [view layoutIfNeeded];
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.masksToBounds = NO;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0.0f, 3.0f);
+    view.layer.shadowOpacity = 0.5f;
+    view.layer.shadowPath = shadowPath.CGPath;
 }
 
 #pragma mark <UICollectionViewDelegateFlowLayout>
@@ -188,8 +202,22 @@ static NSString * const reuseIdentifier = @"WishlistCell";
             [vc setFemale:couple[@"Female"]];
             [vc setFemaleName:couple[@"FemaleName"]];
             
-            [vc setUpvotes: couple[@"Upvotes"]];
-            [vc setDownvotes: couple[@"Downvotes"]];
+            if ([couple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+            {
+                [vc setUpvotes: couple[@"Upvotes"]];
+            }
+            else
+            {
+                [vc setUpvotes:[NSNumber numberWithInt:0]];
+            }
+            if ([couple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+            {
+                [vc setDownvotes: couple[@"Downvotes"]];
+            }
+            else
+            {
+                [vc setDownvotes: [NSNumber numberWithInt:0]];
+            }
         }
         else
         {
@@ -199,8 +227,8 @@ static NSString * const reuseIdentifier = @"WishlistCell";
             [vc setFemale:nil];
             [vc setFemaleName:@""];
             
-            [vc setUpvotes: 0];
-            [vc setDownvotes: 0];
+            [vc setUpvotes: [NSNumber numberWithInt:0]];
+            [vc setDownvotes: [NSNumber numberWithInt:0]];
         }
     }
 }
