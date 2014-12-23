@@ -35,6 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view
+    self.view.backgroundColor = [UIColor whiteColor];
     
     maleView = [[FBProfilePictureView alloc] init];
     femaleView = [[FBProfilePictureView alloc] init];
@@ -66,8 +67,8 @@
                                             metrics:nil
                                             views:NSDictionaryOfVariableBindings(femaleView)]];
     
-    [self createDropShadow:_maleProfileFillerView];
-    [self createDropShadow:_femaleProfileFillerView];
+    [self createDropShadow:_maleShadowView];
+    [self createDropShadow:_femaleShadowView];
     
     [_upSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionUp];
     [_downSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionDown];
@@ -80,9 +81,10 @@
     UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
     view.layer.masksToBounds = NO;
     view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(0.0f, 3.0f);
+    view.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
     view.layer.shadowOpacity = 0.5f;
     view.layer.shadowPath = shadowPath.CGPath;
+    [self.view sendSubviewToBack:view];
 }
 
 -(void)viewWillAppear:(BOOL)animated

@@ -39,6 +39,9 @@
 @property (nonatomic, weak) IBOutlet UIView *maleProfileFillerView;
 @property (nonatomic, weak) IBOutlet UIView *femaleProfileFillerView;
 
+@property (nonatomic, weak) IBOutlet UIView *maleShadowView;
+@property (nonatomic, weak) IBOutlet UIView *femaleShadowView;
+
 @property (nonatomic, weak) IBOutlet UISwipeGestureRecognizer *leftSwipeRecognizer;
 @property (nonatomic, weak) IBOutlet UISwipeGestureRecognizer *rightSwipeRecognizer;
 

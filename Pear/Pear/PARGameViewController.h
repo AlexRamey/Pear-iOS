@@ -34,6 +34,9 @@
 @property (nonatomic, weak) IBOutlet UIButton *upVote;
 @property (nonatomic, weak) IBOutlet UIButton *downVote;
 
+@property (nonatomic, weak) IBOutlet UIView *maleShadowView;
+@property (nonatomic, weak) IBOutlet UIView *femaleShadowView;
+
 @property (nonatomic, weak) IBOutlet UISwipeGestureRecognizer *upSwipeRecognizer;
 @property (nonatomic, weak) IBOutlet UISwipeGestureRecognizer *downSwipeRecognizer;
 

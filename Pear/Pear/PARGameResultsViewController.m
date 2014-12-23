@@ -19,26 +19,26 @@
 
 @implementation PARGameResultsViewController
 
--(void)viewWillAppear:(BOOL)animated
+-(void)viewDidLoad
 {
-    [super viewWillAppear:animated];
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
     
+    [_leftSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [_rightSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
     
-    if ([_userVote intValue] == 1)
-    {
-        self.view.backgroundColor = [UIColor PARDarkGreen];
-    }
-    else
-    {
-        self.view.backgroundColor = [UIColor PARDarkRed];
-    }
-     
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:_maleProfileFillerView.frame.origin.y] forKey:@"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY"];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tapRecognizer.numberOfTapsRequired = 1;
+    tapRecognizer.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:tapRecognizer];
     
     maleView = [[FBProfilePictureView alloc] init];
     femaleView = [[FBProfilePictureView alloc] init];
     
-    maleView.profileID = _male;
-    femaleView.profileID = _female;
+    maleView.profileID = nil;
+    femaleView.profileID = nil;
     
     [_maleProfileFillerView addSubview:maleView];
     [_femaleProfileFillerView addSubview:femaleView];
@@ -67,11 +67,41 @@
                                               metrics:nil
                                               views:NSDictionaryOfVariableBindings(femaleView)]];
     
+    [self createDropShadow:_maleShadowView];
+    [self createDropShadow:_femaleShadowView];
+}
+
+-(void)createDropShadow:(UIView *)view
+{
+    [view setNeedsLayout];
+    [view layoutIfNeeded];
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.masksToBounds = NO;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+    view.layer.shadowOpacity = 0.5f;
+    view.layer.shadowPath = shadowPath.CGPath;
+    [self.view sendSubviewToBack:view];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    maleView.profileID = _male;
+    femaleView.profileID = _female;
+    
+    if ([_userVote intValue] == 1)
+    {
+        self.view.backgroundColor = [UIColor PARDarkGreen];
+    }
+    else
+    {
+        self.view.backgroundColor = [UIColor PARDarkRed];
+    }
+    
     _maleNameLabel.text = _maleName;
     _femaleNameLabel.text = _femaleName;
-    
-    [self createDropShadow:_maleProfileFillerView];
-    [self createDropShadow:_femaleProfileFillerView];
     
     _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
     
@@ -96,18 +126,6 @@
     }
     
     [self loadComments];
-}
-
--(void)createDropShadow:(UIView *)view
-{
-    [view setNeedsLayout];
-    [view layoutIfNeeded];
-    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
-    view.layer.masksToBounds = NO;
-    view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(0.0f, 3.0f);
-    view.layer.shadowOpacity = 0.5f;
-    view.layer.shadowPath = shadowPath.CGPath;
 }
 
 -(void)loadComments
@@ -144,21 +162,6 @@
             }
         }
     }];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    [_leftSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
-    [_rightSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:_maleProfileFillerView.frame.origin.y] forKey:@"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY"];
-    
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
-    tapRecognizer.numberOfTapsRequired = 1;
-    tapRecognizer.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:tapRecognizer];
 }
 
 - (void)didReceiveMemoryWarning {

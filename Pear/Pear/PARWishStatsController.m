@@ -33,17 +33,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [_removeFromWishlist drawWithPrimaryColor:[UIColor PARRed] secondaryColor:[UIColor PARRed]];
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     
     maleView = [[FBProfilePictureView alloc] init];
     femaleView = [[FBProfilePictureView alloc] init];
     
-    maleView.profileID = _male;
-    femaleView.profileID = _female;
+    maleView.profileID = nil;
+    femaleView.profileID = nil;
     
     [_maleProfileFillerView addSubview:maleView];
     [_femaleProfileFillerView addSubview:femaleView];
@@ -71,6 +66,30 @@
                                               options:NSLayoutFormatDirectionLeadingToTrailing
                                               metrics:nil
                                               views:NSDictionaryOfVariableBindings(femaleView)]];
+    
+    [self createDropShadow:_maleShadowView];
+    [self createDropShadow:_femaleShadowView];
+}
+
+-(void)createDropShadow:(UIView *)view
+{
+    [view setNeedsLayout];
+    [view layoutIfNeeded];
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.masksToBounds = NO;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+    view.layer.shadowOpacity = 0.5f;
+    view.layer.shadowPath = shadowPath.CGPath;
+    [self.view sendSubviewToBack:view];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    maleView.profileID = _male;
+    femaleView.profileID = _female;
     
     _maleNameLabel.text = _maleName;
     _femaleNameLabel.text = _femaleName;
