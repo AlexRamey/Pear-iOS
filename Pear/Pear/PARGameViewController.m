@@ -81,7 +81,7 @@
     UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
     view.layer.masksToBounds = NO;
     view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+    view.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
     view.layer.shadowOpacity = 0.5f;
     view.layer.shadowPath = shadowPath.CGPath;
     [self.view sendSubviewToBack:view];
@@ -209,6 +209,11 @@
     {
         gestureRecognizer = (UISwipeGestureRecognizer *)sender;
     }
+    
+    _upSwipeRecognizer.enabled = NO;
+    _downSwipeRecognizer.enabled = NO;
+    _upVote.enabled = NO;
+    _downVote.enabled = NO;
     
     void (^nextCoupleBlock)(NSError *) = ^void(NSError *e){
         //Load the next couple

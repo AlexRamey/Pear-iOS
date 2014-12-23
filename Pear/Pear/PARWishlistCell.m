@@ -42,23 +42,9 @@
                               options:NSLayoutFormatDirectionLeadingToTrailing
                               metrics:nil
                               views:NSDictionaryOfVariableBindings(profilePic)]];
-        
-        [self createDropShadow:self];
     }
     
     return self;
-}
-
--(void)createDropShadow:(UIView *)view
-{
-    [view setNeedsLayout];
-    [view layoutIfNeeded];
-    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
-    view.layer.masksToBounds = NO;
-    view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
-    view.layer.shadowOpacity = 0.5f;
-    view.layer.shadowPath = shadowPath.CGPath;
 }
 
 -(void)loadProfilePictureForFBID:(NSString *)facebookID andWishName:(NSString *)wishName

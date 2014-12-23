@@ -227,6 +227,7 @@
     
     [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSArray *friends = [result objectForKey:@"data"];
+        NSLog(@"Friends: %@", friends);
         [PARDataStore sharedStore].friends = friends;
         
         [[PARDataStore sharedStore] nextCoupleWithCompletion:^(NSError *error) {

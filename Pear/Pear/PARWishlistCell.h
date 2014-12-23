@@ -10,8 +10,6 @@
 
 @interface PARWishlistCell : UICollectionViewCell
 
-
-
 -(void)loadProfilePictureForFBID:(NSString *)facebookID andWishName:(NSString *)wishName;
 
 @end

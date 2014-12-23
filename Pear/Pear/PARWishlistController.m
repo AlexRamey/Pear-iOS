@@ -70,6 +70,18 @@ static NSString * const reuseIdentifier = @"WishlistCell";
     // Dispose of any resources that can be recreated.
 }
 
+-(void)createDropShadow:(UIView *)view
+{
+    [view setNeedsLayout];
+    [view layoutIfNeeded];
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.masksToBounds = NO;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(5.0f, 5.0f);
+    view.layer.shadowOpacity = 0.5f;
+    view.layer.shadowPath = shadowPath.CGPath;
+}
+
 /*
 #pragma mark - Navigation
 
@@ -97,6 +109,8 @@ static NSString * const reuseIdentifier = @"WishlistCell";
     
     // Configure the cell
     [cell loadProfilePictureForFBID:[_sortedKeys objectAtIndex:indexPath.row] andWishName:[_wishList objectForKey:[_sortedKeys objectAtIndex:indexPath.row]]];
+    
+    [self createDropShadow:cell];
     
     return cell;
 }
