@@ -216,6 +216,21 @@ static NSString * const reuseIdentifider = @"CELL";
                 }
             }
             
+            NSDictionary *maleLocationInfo = [localMalePtr objectForKey:@"location"];
+            NSString *maleLocation = nil;
+            if (maleLocationInfo)
+            {
+                maleLocation = [maleLocationInfo objectForKey:@"id"];
+            }
+            
+            NSDictionary *femaleLocationInfo = [localFemalePtr objectForKey:@"location"];
+            NSString *femaleLocation = nil;
+            if (femaleLocationInfo)
+            {
+                femaleLocation = [femaleLocationInfo objectForKey:@"id"];
+            }
+            
+            
             PFObject *couple = [PFObject objectWithClassName:@"Couples"];
             couple[@"Male"] = [localMalePtr objectForKey:@"id"];
             couple[@"Female"] = [localFemalePtr objectForKey:@"id"];
@@ -238,10 +253,20 @@ static NSString * const reuseIdentifider = @"CELL";
             {
                 couple[@"FemaleEducation"] = femaleSchoolID;
             }
+            if (maleLocation)
+            {
+                couple[@"MaleLocation"] = maleLocation;
+            }
+            if (femaleLocation)
+            {
+                couple[@"FemaleLocation"] = femaleLocation;
+            }
             
             couple[@"Upvotes"] = [NSNumber numberWithInt:0];
             couple[@"Downvotes"] = [NSNumber numberWithInt:0];
-           
+            couple[@"Score"] = [NSNumber numberWithInt:0];
+            couple[@"NumberOfComments"] = [NSNumber numberWithInt:0];
+            
             [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded)
                 {

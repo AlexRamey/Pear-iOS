@@ -308,8 +308,10 @@
                     PFObject *nextVote = [_couplesLeftToVoteOn objectAtIndex:0];
                     [_couplesLeftToVoteOn removeObjectAtIndex:0];
                     
-                    NSMutableDictionary *nextCouple = [[nextVote dictionaryWithValuesForKeys:@[@"Downvotes", @"Female", @"FemaleEducation",@"FemaleName", @"Male", @"MaleEducation", @"MaleEducationYear", @"MaleLocation", @"MaleName", @"Upvotes"]] mutableCopy];
+                    NSMutableDictionary *nextCouple = [[nextVote dictionaryWithValuesForKeys:@[@"Downvotes", @"Female", @"FemaleEducation",@"FemaleEducationYear", @"FemaleLocation", @"FemaleName", @"Male", @"MaleEducation", @"MaleEducationYear", @"MaleLocation", @"MaleName", @"NumberOfComments", @"Score", @"Upvotes"]] mutableCopy];
                     [nextCouple setObject:nextVote.objectId forKey:@"ObjectId"];
+                    [nextCouple setObject:nextVote.createdAt forKey:@"createdAt"];
+                    [nextCouple setObject:nextVote.updatedAt forKey:@"updatedAt"];
                     
                     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:nextCouple] forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
                     completion(nil);
@@ -333,7 +335,6 @@
     [self getExistingCouplesWithCompletion:^(NSError *error) {
         if ([_couplesLeftToVoteOn count] == 0 && !error)
         {
-            NSLog(@"Creating new couples");
             [self createNewCouplesWithCompletion:^(NSError *e) {
                 
                 if (e)
@@ -465,6 +466,20 @@
                         }
                     }
                     
+                    NSDictionary *maleLocationInfo = [localMalePtr objectForKey:@"location"];
+                    NSString *maleLocation = nil;
+                    if (maleLocationInfo)
+                    {
+                        maleLocation = [maleLocationInfo objectForKey:@"id"];
+                    }
+                    
+                    NSDictionary *femaleLocationInfo = [localFemalePtr objectForKey:@"location"];
+                    NSString *femaleLocation = nil;
+                    if (femaleLocationInfo)
+                    {
+                        femaleLocation = [femaleLocationInfo objectForKey:@"id"];
+                    }
+                    
                     //create new couple dictionary with fields necessary to create PFObject<Couple> in Parse
                     
                     NSMutableDictionary *newCouple = [[NSMutableDictionary alloc] init];
@@ -488,6 +503,14 @@
                     if (femaleSchoolYear)
                     {
                         [newCouple setObject:femaleSchoolYear forKey:@"FemaleEducationYear"];
+                    }
+                    if (maleLocation)
+                    {
+                        [newCouple setObject:maleLocation forKey:@"MaleLocation"];
+                    }
+                    if (femaleLocation)
+                    {
+                        [newCouple setObject:femaleLocation forKey:@"FemaleLocation"];
                     }
                     
                     //figure out if it's one we've already voted on . . .
@@ -550,8 +573,6 @@
                 }
                 if (validPushCounter == 3 || pushIndexOffset > maxOffset) //we're done
                 {
-                    NSLog(@"We're Done Finding Good offsets");
-                   
                     if (validPushCounter == 0)
                     {
                         NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:NO_MORE_COUPLES_DOMAIN code:000 userInfo:nil];
@@ -566,7 +587,6 @@
                 else
                 {
                     block();
-                    NSLog(@"Block Called Again");
                 }
             }];
         }
@@ -594,7 +614,6 @@
     [query whereKey:@"Female" containedIn:@[[potentialCouple objectForKey:@"Female"]]];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        NSLog(@"Objects: %@", objects);
         if (error) //consider pushIndex--
         {
             completion(YES, offset); //assume the worst (couple exists)
@@ -641,6 +660,19 @@
         {
             couple[@"FemaleEducation"] = [potentialCouple objectForKey:@"FemaleEducation"];
         }
+        if ([potentialCouple objectForKey:@"MaleLocation"])
+        {
+            couple[@"MaleLocation"] = [potentialCouple objectForKey:@"MaleLocation"];
+        }
+        if ([potentialCouple objectForKey:@"FemaleLocation"])
+        {
+            couple[@"FemaleLocation"] = [potentialCouple objectForKey:@"FemaleLocation"];
+        }
+        
+        couple[@"Upvotes"] = [NSNumber numberWithInt:0];
+        couple[@"Downvotes"] = [NSNumber numberWithInt:0];
+        couple[@"Score"] = [NSNumber numberWithInt:0];
+        couple[@"NumberOfComments"] = [NSNumber numberWithInt:0];
         
         uploadCounter++;
         
