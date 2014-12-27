@@ -525,15 +525,121 @@
         }
     }
     
-    //scramble the array of _potentialCouples for now; potentially rank them in the future
-    int count = (int)([_potentialCouples count]);
+    // SMART COUPLES
+    
+    [_potentialCouples sortUsingComparator:^NSComparisonResult(id obj1, id obj2)
+    {
+        int smartScoreOne = 0;
+        
+        NSDictionary *coupleOne = (NSDictionary *)obj1;
+        
+        if (coupleOne[@"FemaleEducation"] && coupleOne[@"MaleEducation"] && ([coupleOne[@"FemaleEducation"] caseInsensitiveCompare:coupleOne[@"MaleEducation"]] == NSOrderedSame))
+        {
+            smartScoreOne++;
+        }
+        if (coupleOne[@"FemaleEducationYear"] && coupleOne[@"MaleEducationYear"] && abs([coupleOne[@"FemaleEducationYear"] intValue] - [coupleOne[@"MaleEducationYear"] intValue]) < 7)
+        {
+            smartScoreOne++;
+        }
+        if (coupleOne[@"FemaleLocation"] && coupleOne[@"MaleLocation"] && ([coupleOne[@"FemaleLocation"] caseInsensitiveCompare:coupleOne[@"MaleLocation"]] == NSOrderedSame))
+        {
+            smartScoreOne++;
+        }
+        
+        int smartScoreTwo = 0;
+        
+        NSDictionary *coupleTwo = (NSDictionary *)obj2;
+        
+        if (coupleTwo[@"FemaleEducation"] && coupleTwo[@"MaleEducation"] && ([coupleTwo[@"FemaleEducation"] caseInsensitiveCompare:coupleTwo[@"MaleEducation"]] == NSOrderedSame))
+        {
+            smartScoreTwo++;
+        }
+        if (coupleTwo[@"FemaleEducationYear"] && coupleTwo[@"MaleEducationYear"] && abs([coupleTwo[@"FemaleEducationYear"] intValue] - [coupleTwo[@"MaleEducationYear"] intValue]) < 7)
+        {
+            smartScoreTwo++;
+        }
+        if (coupleTwo[@"FemaleLocation"] && coupleTwo[@"MaleLocation"] && ([coupleTwo[@"FemaleLocation"] caseInsensitiveCompare:coupleTwo[@"MaleLocation"]] == NSOrderedSame))
+        {
+            smartScoreTwo++;
+        }
+        
+        [coupleOne setValue:[NSNumber numberWithInt:smartScoreOne] forKey:@"Score"];
+        [coupleTwo setValue:[NSNumber numberWithInt:smartScoreTwo] forKey:@"Score"];
+        
+        if (smartScoreOne > smartScoreTwo)
+        {
+            return NSOrderedAscending;
+        }
+        else if (smartScoreTwo > smartScoreOne)
+        {
+            return NSOrderedDescending;
+        }
+        else
+        {
+            return NSOrderedSame;
+        }
+    }];
+    
+    int lastThreeIndex = -1;
+    int lastTwoIndex = -1;
+    int lastOneIndex = -1;
+    
+    int checkNumber = 1;
+    int count = (int)[_potentialCouples count];
+    for (int i = count - 1; i > -1; i--)
+    {
+        int score = [[[_potentialCouples objectAtIndex:i] objectForKey:@"Score"] intValue];
+        
+        if (score == checkNumber)
+        {
+            if (checkNumber == 1)
+            {
+                lastOneIndex = i;
+                checkNumber++;
+            }
+            else if (checkNumber == 2)
+            {
+                lastTwoIndex = i;
+                checkNumber++;
+            }
+            else
+            {
+                lastThreeIndex = i;
+                break;
+            }
+        }
+    }
     
     for (int i = 0; i < count; i++)
     {
-        int remainingCount = count - i;
+        int score = [[[_potentialCouples objectAtIndex:i] objectForKey:@"Score"] intValue];
+        int remainingCount;
+        if (score == 3)
+        {
+            //Pretend last three is the end of array
+            remainingCount = lastThreeIndex + 1 - i;
+        }
+        else if (score == 2)
+        {
+            //Pretend last two is the end of the array
+            remainingCount = lastTwoIndex + 1 - i;
+        }
+        else if (score == 1)
+        {
+            //Pretend the last 1 is the end of the array
+            remainingCount = lastOneIndex + 1 - i;
+        }
+        else
+        {
+            //Scramble remaining couples
+            remainingCount = count - i;
+        }
+        
         int exchangeIndex = i + arc4random_uniform(remainingCount);
         [_potentialCouples exchangeObjectAtIndex:i withObjectAtIndex:exchangeIndex];
     }
+    
+    // END SMART COUPLES
     
     [self pushNewCouplesToParseWithCompletion:completion];
 }

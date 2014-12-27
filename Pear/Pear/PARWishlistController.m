@@ -154,12 +154,12 @@ static NSString * const reuseIdentifier = @"WishlistCell";
     if ([userGender caseInsensitiveCompare:@"male"] == NSOrderedSame)
     {
         [query whereKey:@"Male" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
-        [query whereKey:@"Female" equalTo:[_sortedKeys objectAtIndex:indexPath.row]];
+        [query whereKey:@"Female" equalTo:selectedWishID];
     }
     else
     {
         [query whereKey:@"Female" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
-        [query whereKey:@"Male" containedIn:[_sortedKeys objectAtIndex:indexPath.row]];
+        [query whereKey:@"Male" equalTo:selectedWishID];
     }
     
     

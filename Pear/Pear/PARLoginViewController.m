@@ -59,7 +59,7 @@
     //disable loginBtn
     _loginBtn.enabled = NO;
     // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[@"public_profile", @"email", @"user_friends"];
+    NSArray *permissionsArray = @[@"public_profile", @"email", @"user_friends", @"friends_location", @"friends_education_history"];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
@@ -224,6 +224,11 @@
 -(void)requestFriendsAndTransition
 {
     FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends?fields=name,gender,education,location"];
+    
+    FBRequest *permissionsRequest = [FBRequest requestForGraphPath:@"/me/permissions"];
+    [permissionsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        NSLog(@"PERMISSIONS: %@", result);
+    }];
     
     [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSArray *friends = [result objectForKey:@"data"];
