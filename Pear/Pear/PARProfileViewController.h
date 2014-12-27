@@ -20,6 +20,7 @@
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentedControl;
 
 @property (nonatomic, strong) NSMutableDictionary *topMatchProfilePicViews;
-@property (nonatomic, strong) NSArray *topMatches;
+@property (nonatomic, strong) NSMutableArray *topMatchesAllTime;
+@property (nonatomic, strong) NSMutableArray *topMatchesPast30Days;
 
 @end

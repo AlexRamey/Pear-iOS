@@ -352,6 +352,9 @@
                                     <segment title="All Time"/>
                                     <segment title="Past 30 Days"/>
                                 </segments>
+                                <connections>
+                                    <action selector="selectionMade:" destination="SB0-pp-PJm" eventType="valueChanged" id="SPC-cf-fOG"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Top Matches" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KYk-g7-qNw">
                                 <rect key="frame" x="145" y="132" width="310" height="21"/>

@@ -38,7 +38,8 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
         
         inProgress = NO;
         
-        _topMatches = [[NSArray alloc] init];
+        _topMatchesAllTime = [[NSMutableArray alloc] init];
+        _topMatchesPast30Days = [[NSMutableArray alloc] init];
         _topMatchProfilePicViews = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -56,32 +57,141 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
-    query.limit = 5;
+    PFQuery *allTimeQuery = [PFQuery queryWithClassName:@"Couples"];
+    allTimeQuery.limit = 10;
+    [allTimeQuery orderByDescending:@"Score"];
+    
+    PFQuery *past30DaysQuery = [PFQuery queryWithClassName:@"Couples"];
+    past30DaysQuery.limit = 10;
+    [past30DaysQuery orderByDescending:@"Score"];
+    
+    //double x = [NSDate date].timeIntervalSince1970 - 30*24*60*60;
+    double x = [NSDate date].timeIntervalSince1970 - 1*24*60*60;
+    NSDate *thirtyDaysAgo = [NSDate dateWithTimeIntervalSince1970:x];
+    
+    [past30DaysQuery whereKey:@"createdAt" greaterThan:thirtyDaysAgo];
     
     NSString *userGender = [[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY];
     
     if ([userGender caseInsensitiveCompare:@"male"] == NSOrderedSame)
     {
-        [query whereKey:@"Male" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+        [allTimeQuery whereKey:@"Male" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+        [past30DaysQuery whereKey:@"Male" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
     }
     else
     {
-        [query whereKey:@"Female" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+        [allTimeQuery whereKey:@"Female" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+        [past30DaysQuery whereKey:@"Female" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
     }
     
-    [query orderByDescending:@"Score"];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+    [allTimeQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
      {
          if (!error)
          {
-             _topMatches = objects;
-             [_topMatchesCollection reloadData];
+             _topMatchesAllTime = [objects mutableCopy];
+             
+             [_topMatchesAllTime sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                 PFObject *matchOne = (PFObject *)obj1;
+                 PFObject *matchTwo = (PFObject *)obj2;
+                 
+                 int scoreOne = [[matchOne objectForKey:@"Score"] intValue];
+                 int scoreTwo = [[matchTwo objectForKey:@"Score"] intValue];
+                 
+                 if (scoreOne > scoreTwo)
+                 {
+                     return NSOrderedAscending;
+                 }
+                 else if (scoreTwo > scoreOne)
+                 {
+                     return NSOrderedDescending;
+                 }
+                 else
+                 {
+                     NSString *matchNameOne = nil;
+                     NSString *matchNameTwo = nil;
+                     
+                     NSString *userGenderValue = [[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY];
+                     
+                     if ([userGenderValue caseInsensitiveCompare:@"male"] == NSOrderedSame)
+                     {
+                         matchNameOne = [matchOne objectForKey:@"FemaleName"];
+                         matchNameTwo = [matchTwo objectForKey:@"FemaleName"];
+                     }
+                     else
+                     {
+                         matchNameOne = [matchOne objectForKey:@"MaleName"];
+                         matchNameTwo = [matchTwo objectForKey:@"MaleName"];
+                     }
+                     
+                     return [matchNameOne compare:matchNameTwo];
+                 }
+             }];
+             
+             if (_segmentedControl.selectedSegmentIndex == 0)
+             {
+                 [_topMatchesCollection reloadData];
+             }
          }
          else
          {
-             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch top matches." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch your all-time top matches." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+             [alert show];
+         }
+     }];
+    
+    [past30DaysQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+     {
+         if (!error)
+         {
+             _topMatchesPast30Days = [objects mutableCopy];
+             
+             [_topMatchesPast30Days sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                 
+                 PFObject *matchOne = (PFObject *)obj1;
+                 PFObject *matchTwo = (PFObject *)obj2;
+                 
+                 int scoreOne = [[matchOne objectForKey:@"Score"] intValue];
+                 int scoreTwo = [[matchTwo objectForKey:@"Score"] intValue];
+                 
+                 if (scoreOne > scoreTwo)
+                 {
+                     return NSOrderedAscending;
+                 }
+                 else if (scoreTwo > scoreOne)
+                 {
+                     return NSOrderedDescending;
+                 }
+                 else
+                 {
+                     NSString *matchNameOne = nil;
+                     NSString *matchNameTwo = nil;
+                     
+                     NSString *userGenderValue = [[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY];
+                     
+                     if ([userGenderValue caseInsensitiveCompare:@"male"] == NSOrderedSame)
+                     {
+                         matchNameOne = [matchOne objectForKey:@"FemaleName"];
+                         matchNameTwo = [matchTwo objectForKey:@"FemaleName"];
+                     }
+                     else
+                     {
+                         matchNameOne = [matchOne objectForKey:@"MaleName"];
+                         matchNameTwo = [matchTwo objectForKey:@"MaleName"];
+                     }
+                     
+                     return [matchNameOne compare:matchNameTwo];
+                 }
+                 
+             }];
+             
+             if (_segmentedControl.selectedSegmentIndex == 1)
+             {
+                 [_topMatchesCollection reloadData];
+             }
+         }
+         else
+         {
+             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch your top matches made in the past 30 days." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
              [alert show];
          }
      }];
@@ -104,6 +214,11 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     // Dispose of any resources that can be recreated.
 }
 
+-(IBAction)selectionMade:(id)sender
+{
+    [_topMatchesCollection reloadData];
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -113,7 +228,14 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [_topMatches count];
+    if (_segmentedControl.selectedSegmentIndex == 0)
+    {
+        return [_topMatchesAllTime count];
+    }
+    else
+    {
+        return [_topMatchesPast30Days count];
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -125,27 +247,37 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     NSString *matchID = nil;
     NSString *matchName = nil;
     
-    if ([userGender caseInsensitiveCompare:@"male"] == NSOrderedSame)
+    NSArray *dataSource = nil;
+    
+    if (_segmentedControl.selectedSegmentIndex == 0)
     {
-        matchID = [_topMatches[indexPath.row] objectForKey:@"Female"];
-        matchName = [_topMatches[indexPath.row] objectForKey:@"FemaleName"];
+        dataSource = _topMatchesAllTime;
     }
     else
     {
-        matchID = [_topMatches[indexPath.row] objectForKey:@"Male"];
-        matchName = [_topMatches[indexPath.row] objectForKey:@"MaleName"];
+        dataSource = _topMatchesPast30Days;
+    }
+    
+    if ([userGender caseInsensitiveCompare:@"male"] == NSOrderedSame)
+    {
+        matchID = [dataSource[indexPath.row] objectForKey:@"Female"];
+        matchName = [dataSource[indexPath.row] objectForKey:@"FemaleName"];
+    }
+    else
+    {
+        matchID = [dataSource[indexPath.row] objectForKey:@"Male"];
+        matchName = [dataSource[indexPath.row] objectForKey:@"MaleName"];
     }
     
     [cell setMatchName:matchName matchRank:(int)indexPath.row + 1];
     
-    NSString *key = [NSString stringWithFormat:@"TMPic%d", (int)indexPath.row];
-    if (![_topMatchProfilePicViews objectForKey:key])
+    if (![_topMatchProfilePicViews objectForKey:matchID])
     {
         FBProfilePictureView *profilePic = [[FBProfilePictureView alloc] initWithProfileID:matchID pictureCropping:FBProfilePictureCroppingSquare];
-        [_topMatchProfilePicViews setObject:profilePic forKey:key];
+        [_topMatchProfilePicViews setObject:profilePic forKey:matchID];
     }
     
-    [cell setPicture:_topMatchProfilePicViews[key]];
+    [cell setPicture:_topMatchProfilePicViews[matchID]];
     
     [self createDropShadow:cell];
     
@@ -170,6 +302,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (inProgress)
     {
         return;
