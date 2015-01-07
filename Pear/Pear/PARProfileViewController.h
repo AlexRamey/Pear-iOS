@@ -9,13 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "PARButton.h"
 #import "FacebookSDK.h"
+#import "Parse.h"
 
 @interface PARProfileViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 {
+    PFObject *couple;
     BOOL inProgress;
 }
 
 @property (nonatomic, weak) IBOutlet UIView *profileCard;
+@property (nonatomic, weak) IBOutlet UIView *profilePicFillerView;
+@property (nonatomic, weak) IBOutlet UILabel *wishlistSwag;
+
 @property (nonatomic, weak) IBOutlet PARButton *logoutBtn;
 @property (nonatomic, weak) IBOutlet PARButton *recentCommentsBtn;
 @property (nonatomic, weak) IBOutlet UICollectionView *topMatchesCollection;

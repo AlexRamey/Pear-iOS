@@ -8,7 +8,6 @@
 
 #import "PARProfileViewController.h"
 #import "UIColor+Theme.h"
-#import "Parse.h"
 #import "AppDelegate.h"
 #import "PARTopMatchCell.h"
 #import "PARProfileCollectionViewFlowLayout.h"
@@ -61,6 +60,23 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     _segmentedControl.tintColor = [UIColor PARBlue];
     
     _profileCard.backgroundColor = [UIColor whiteColor];
+    
+    
+    FBProfilePictureView *userProfilePicture = [[FBProfilePictureView alloc] initWithProfileID:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]  pictureCropping:FBProfilePictureCroppingSquare];
+    
+    [_profilePicFillerView addSubview:userProfilePicture];
+    
+    [userProfilePicture setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_profilePicFillerView addConstraints:[NSLayoutConstraint
+                                            constraintsWithVisualFormat:@"H:|-0-[userProfilePicture]-0-|"
+                                            options:NSLayoutFormatDirectionLeadingToTrailing
+                                            metrics:nil
+                                            views:NSDictionaryOfVariableBindings(userProfilePicture)]];
+    [_profilePicFillerView addConstraints:[NSLayoutConstraint
+                                            constraintsWithVisualFormat:@"V:|-0-[userProfilePicture]-0-|"
+                                            options:NSLayoutFormatDirectionLeadingToTrailing
+                                            metrics:nil
+                                            views:NSDictionaryOfVariableBindings(userProfilePicture)]];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -251,6 +267,58 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
              [alert show];
          }
      }];
+    
+    //update wishlist score
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Users"];
+    [query whereKey:@"Wishlist" containsAllObjectsInArray:@[[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]]];
+    query.limit = 1000;
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error)
+        {
+            NSUInteger wishesCount = [objects count];
+            
+            NSString *userName = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_DATA_KEY] objectForKey:@"first_name"];
+            
+            NSString *oppositeGender = nil;
+            
+            if ([[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"male"] == NSOrderedSame)
+            {
+                oppositeGender = @"female";
+            }
+            else
+            {
+                oppositeGender = @"male";
+            }
+            
+            if (wishesCount != 1)
+            {
+                oppositeGender = [oppositeGender stringByAppendingString:@"s"];
+            }
+            
+            UIFont *boldFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
+            
+            NSString *swagScoreText = [NSString stringWithFormat:@"%@, you are on the wishlist of %lu %@", userName, wishesCount, oppositeGender];
+            
+            NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:swagScoreText];
+            
+            NSUInteger loc = [userName length] + 29;
+            
+            NSUInteger endLoc = [swagScoreText rangeOfString:@" " options:NSLiteralSearch range:NSMakeRange(loc, 5)].location;
+            
+            
+            
+            [attributedText setAttributes:@{
+                                            NSFontAttributeName:boldFont
+                                            }
+                                    range:NSMakeRange(loc, endLoc - loc)];
+            
+            _wishlistSwag.attributedText = attributedText;
+            
+            [_wishlistSwag sizeToFit];
+        }
+    }];
 }
 
 -(void)viewDidLayoutSubviews
@@ -362,25 +430,33 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     }
     
     inProgress = YES;
-    inProgress = NO;
-    /*
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
     query.limit = 1;
     
     NSString *userGender = [[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY];
-    selectedWishID = [_sortedKeys objectAtIndex:indexPath.row];
+    
+    NSArray *dataSource = nil;
+    
+    if (_segmentedControl.selectedSegmentIndex == 0)
+    {
+        dataSource = _topMatchesAllTime;
+    }
+    else
+    {
+        dataSource = _topMatchesPast30Days;
+    }
     
     if ([userGender caseInsensitiveCompare:@"male"] == NSOrderedSame)
     {
         [query whereKey:@"Male" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
-        [query whereKey:@"Female" equalTo:selectedWishID];
+        [query whereKey:@"Female" equalTo: [dataSource[indexPath.row] objectForKey:@"Female"]];
     }
     else
     {
         [query whereKey:@"Female" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
-        [query whereKey:@"Male" equalTo:selectedWishID];
+        [query whereKey:@"Male" equalTo:[dataSource[indexPath.row] objectForKey:@"Male"]];
     }
-    
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
      {
@@ -389,19 +465,17 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
          if (!error && [objects count] > 0)
          {
              couple = [objects firstObject];
-             [self performSegueWithIdentifier:@"WishlistToWishDetail" sender:self];
+             [self performSegueWithIdentifier:@"ProfileToMatchDetails" sender:self];
          }
          else
          {
-             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch details." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch match details." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
              [alert show];
              couple = nil;
              
-             [self performSegueWithIdentifier:@"WishlistToWishDetail" sender:self];
+             [self performSegueWithIdentifier:@"ProfileToMatchDetails" sender:self];
          }
      }];
-     */
-    
 }
 
 -(IBAction)recentComments:(id)sender
@@ -417,7 +491,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     [self.parentViewController.parentViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -425,6 +499,5 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
 
 @end
