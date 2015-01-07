@@ -77,7 +77,7 @@ static NSString * const reuseIdentifier = @"WishlistCell";
     UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
     view.layer.masksToBounds = NO;
     view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(5.0f, 5.0f);
+    view.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
     view.layer.shadowOpacity = 0.5f;
     view.layer.shadowPath = shadowPath.CGPath;
 }

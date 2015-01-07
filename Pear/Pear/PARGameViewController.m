@@ -67,11 +67,16 @@
                                             metrics:nil
                                             views:NSDictionaryOfVariableBindings(femaleView)]];
     
-    [self createDropShadow:_maleShadowView];
-    [self createDropShadow:_femaleShadowView];
-    
     [_upSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionUp];
     [_downSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionDown];
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self createDropShadow:_maleShadowView];
+    [self createDropShadow:_femaleShadowView];
 }
 
 -(void)createDropShadow:(UIView *)view

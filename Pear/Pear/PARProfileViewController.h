@@ -10,17 +10,21 @@
 #import "PARButton.h"
 #import "FacebookSDK.h"
 
-@interface PARProfileViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface PARProfileViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 {
     BOOL inProgress;
 }
 
+@property (nonatomic, weak) IBOutlet UIView *profileCard;
 @property (nonatomic, weak) IBOutlet PARButton *logoutBtn;
+@property (nonatomic, weak) IBOutlet PARButton *recentCommentsBtn;
 @property (nonatomic, weak) IBOutlet UICollectionView *topMatchesCollection;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentedControl;
 
 @property (nonatomic, strong) NSMutableDictionary *topMatchProfilePicViews;
 @property (nonatomic, strong) NSMutableArray *topMatchesAllTime;
 @property (nonatomic, strong) NSMutableArray *topMatchesPast30Days;
+@property (nonatomic, strong) NSMutableArray *allTimeRanks;
+@property (nonatomic, strong) NSMutableArray *past30DayRanks;
 
 @end

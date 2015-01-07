@@ -22,6 +22,7 @@
 		D031DBBB1A4F29A1000C37C0 /* PARCommunityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBBA1A4F29A1000C37C0 /* PARCommunityViewController.m */; };
 		D031DBBD1A4F43E6000C37C0 /* PARTopMatchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D031DBBC1A4F43E6000C37C0 /* PARTopMatchCell.xib */; };
 		D031DBC01A4F43FB000C37C0 /* PARTopMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBBF1A4F43FB000C37C0 /* PARTopMatchCell.m */; };
+		D031DBF11A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBF01A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m */; };
 		D0F5942119EB0D3C00B09260 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942019EB0D3C00B09260 /* main.m */; };
 		D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942319EB0D3C00B09260 /* AppDelegate.m */; };
 		D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942519EB0D3C00B09260 /* Pear.xcdatamodeld */; };
@@ -77,6 +78,8 @@
 		D031DBBC1A4F43E6000C37C0 /* PARTopMatchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PARTopMatchCell.xib; sourceTree = "<group>"; };
 		D031DBBE1A4F43FB000C37C0 /* PARTopMatchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARTopMatchCell.h; sourceTree = "<group>"; };
 		D031DBBF1A4F43FB000C37C0 /* PARTopMatchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARTopMatchCell.m; sourceTree = "<group>"; };
+		D031DBEF1A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARProfileCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		D031DBF01A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARProfileCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		D0F5941B19EB0D3C00B09260 /* Pear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F5941F19EB0D3C00B09260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0F5942019EB0D3C00B09260 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -185,6 +188,8 @@
 			children = (
 				D031DB861A3CBA2E000C37C0 /* PARProfileViewController.h */,
 				D031DB871A3CBA2E000C37C0 /* PARProfileViewController.m */,
+				D031DBEF1A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.h */,
+				D031DBF01A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m */,
 				D031DBBE1A4F43FB000C37C0 /* PARTopMatchCell.h */,
 				D031DBBF1A4F43FB000C37C0 /* PARTopMatchCell.m */,
 				D031DBBC1A4F43E6000C37C0 /* PARTopMatchCell.xib */,
@@ -459,6 +464,7 @@
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
 				D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */,
 				D031DBA11A43609F000C37C0 /* PARWish.m in Sources */,
+				D031DBF11A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m in Sources */,
 				D031DBC01A4F43FB000C37C0 /* PARTopMatchCell.m in Sources */,
 				D031DBA61A43EB9E000C37C0 /* PARWishStatsController.m in Sources */,
 				D031DB9E1A3E97E4000C37C0 /* PARAddWishController.m in Sources */,

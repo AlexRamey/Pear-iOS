@@ -11,6 +11,7 @@
 #import "Parse.h"
 #import "AppDelegate.h"
 #import "PARTopMatchCell.h"
+#import "PARProfileCollectionViewFlowLayout.h"
 
 @interface PARProfileViewController ()
 
@@ -40,6 +41,8 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
         
         _topMatchesAllTime = [[NSMutableArray alloc] init];
         _topMatchesPast30Days = [[NSMutableArray alloc] init];
+        _allTimeRanks = [[NSMutableArray alloc] init];
+        _past30DayRanks = [[NSMutableArray alloc] init];
         _topMatchProfilePicViews = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -49,10 +52,15 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [_logoutBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
+    [_recentCommentsBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
     
     [_topMatchesCollection registerClass:[PARTopMatchCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     [_topMatchesCollection setBackgroundColor:[UIColor clearColor]];
+    
+    _segmentedControl.tintColor = [UIColor PARBlue];
+    
+    _profileCard.backgroundColor = [UIColor whiteColor];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -65,8 +73,8 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     past30DaysQuery.limit = 10;
     [past30DaysQuery orderByDescending:@"Score"];
     
-    //double x = [NSDate date].timeIntervalSince1970 - 30*24*60*60;
-    double x = [NSDate date].timeIntervalSince1970 - 1*24*60*60;
+    double x = [NSDate date].timeIntervalSince1970 - 30*24*60*60;
+    //double x = [NSDate date].timeIntervalSince1970 - 1*24*60*60;
     NSDate *thirtyDaysAgo = [NSDate dateWithTimeIntervalSince1970:x];
     
     [past30DaysQuery whereKey:@"createdAt" greaterThan:thirtyDaysAgo];
@@ -127,6 +135,30 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
                  }
              }];
              
+             _allTimeRanks[0] = [NSNumber numberWithInt:1];
+             
+             NSNumber *tempScore = [_topMatchesAllTime[0] objectForKey:@"Score"];
+             
+             int offset = 1;
+             
+             for (int i = 1; i < [_topMatchesAllTime count]; i++)
+             {
+                 PFObject *match = _topMatchesAllTime[i];
+                 
+                 if ([[match objectForKey:@"Score"] doubleValue] < [tempScore doubleValue])
+                 {
+                     _allTimeRanks[i] = [NSNumber numberWithInt:[_allTimeRanks[i - 1] intValue] + offset];
+                     offset = 1;
+                 }
+                 else //same score as previous match, therefore same rank
+                 {
+                     _allTimeRanks[i] = _allTimeRanks[i-1];
+                     offset += 1;
+                 }
+                 
+                 tempScore = [match objectForKey:@"Score"];
+             }
+             
              if (_segmentedControl.selectedSegmentIndex == 0)
              {
                  [_topMatchesCollection reloadData];
@@ -184,6 +216,30 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
                  
              }];
              
+             _past30DayRanks[0] = [NSNumber numberWithInt:1];
+             
+             NSNumber *tempScore = [_topMatchesPast30Days[0] objectForKey:@"Score"];
+             
+             int offset = 1;
+             
+             for (int i = 1; i < [_topMatchesPast30Days count]; i++)
+             {
+                 PFObject *match = _topMatchesPast30Days[i];
+                 
+                 if ([[match objectForKey:@"Score"] doubleValue] < [tempScore doubleValue])
+                 {
+                     _past30DayRanks[i] = [NSNumber numberWithInt:[_past30DayRanks[i - 1] intValue] + offset];
+                     offset = 1;
+                 }
+                 else //same score as previous match, therefore same rank
+                 {
+                     _past30DayRanks[i] = _past30DayRanks[i-1];
+                     offset += 1;
+                 }
+                 
+                 tempScore = [match objectForKey:@"Score"];
+             }
+             
              if (_segmentedControl.selectedSegmentIndex == 1)
              {
                  [_topMatchesCollection reloadData];
@@ -197,6 +253,13 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
      }];
 }
 
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self createDropShadow:_profileCard];
+}
+
 -(void)createDropShadow:(UIView *)view
 {
     [view setNeedsLayout];
@@ -204,7 +267,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
     view.layer.masksToBounds = NO;
     view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(5.0f, 5.0f);
+    view.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
     view.layer.shadowOpacity = 0.5f;
     view.layer.shadowPath = shadowPath.CGPath;
 }
@@ -249,13 +312,17 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     
     NSArray *dataSource = nil;
     
+    int matchRank = -1;
+    
     if (_segmentedControl.selectedSegmentIndex == 0)
     {
         dataSource = _topMatchesAllTime;
+        matchRank = [_allTimeRanks[indexPath.row] intValue];
     }
     else
     {
         dataSource = _topMatchesPast30Days;
+        matchRank = [_past30DayRanks[indexPath.row] intValue];
     }
     
     if ([userGender caseInsensitiveCompare:@"male"] == NSOrderedSame)
@@ -269,7 +336,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
         matchName = [dataSource[indexPath.row] objectForKey:@"MaleName"];
     }
     
-    [cell setMatchName:matchName matchRank:(int)indexPath.row + 1];
+    [cell setMatchName:matchName matchRank:matchRank];
     
     if (![_topMatchProfilePicViews objectForKey:matchID])
     {
@@ -282,20 +349,6 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     [self createDropShadow:cell];
     
     return cell;
-}
-
-#pragma mark <UICollectionViewDelegateFlowLayout>
-
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    float dimension = ([UIScreen mainScreen].bounds.size.width - 31) / 2.0;
-    
-    return CGSizeMake(dimension, dimension);
-}
-
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(5.0, 10.0, 5.0, 10.0);
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -349,6 +402,11 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
      }];
      */
     
+}
+
+-(IBAction)recentComments:(id)sender
+{
+    NSLog(@"View recent comments");
 }
 
 #pragma mark - FBLogout

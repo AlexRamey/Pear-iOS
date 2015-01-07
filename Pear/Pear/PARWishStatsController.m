@@ -66,6 +66,11 @@
                                               options:NSLayoutFormatDirectionLeadingToTrailing
                                               metrics:nil
                                               views:NSDictionaryOfVariableBindings(femaleView)]];
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
     
     [self createDropShadow:_maleShadowView];
     [self createDropShadow:_femaleShadowView];
@@ -129,6 +134,7 @@
         if (strongScrollView && [objects count] == 0)
         {
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, [UIScreen mainScreen].bounds.size.width, 30.0)];
+            label.textAlignment = NSTextAlignmentCenter;
             UIFont *font = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:16.0];
             [label setFont:font];
             [label setText:@"No Comments"];

@@ -64,6 +64,11 @@
                                               options:NSLayoutFormatDirectionLeadingToTrailing
                                               metrics:nil
                                               views:NSDictionaryOfVariableBindings(femaleView)]];
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
     
     [self createDropShadow:_maleShadowView];
     [self createDropShadow:_femaleShadowView];
