@@ -118,12 +118,7 @@
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
-{
-    float offset = [[[NSUserDefaults standardUserDefaults] objectForKey:@"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY"] floatValue];
-    
-    //move view up
-    self.superview.superview.frame = CGRectMake(self.superview.superview.frame.origin.x, self.superview.superview.frame.origin.y - offset + 10, self.superview.superview.frame.size.width, self.superview.superview.frame.size.height);
-    
+{    
     if ([textView.text caseInsensitiveCompare:@"express yo'self"] == NSOrderedSame)
     {
         textView.text = @""; //clear placeholder text if necessary
@@ -132,11 +127,6 @@
 
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
-    float offset = [[[NSUserDefaults standardUserDefaults] objectForKey:@"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY"] floatValue];
-    
-    //move view back down
-    self.superview.superview.frame = CGRectMake(self.superview.superview.frame.origin.x, self.superview.superview.frame.origin.y + offset - 10, self.superview.superview.frame.size.width, self.superview.superview.frame.size.height);
-    
     if ([textView.text caseInsensitiveCompare:@""] == NSOrderedSame)
     {
         textView.text = @"express yo'self";

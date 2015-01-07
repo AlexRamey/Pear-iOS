@@ -436,10 +436,17 @@
                             maleSchoolID = [school objectForKey:@"id"];
                         }
                         
-                        NSDictionary *year = [maleEdu objectForKey:@"year"];
-                        if ([year objectForKey:@"name"])
+                        if ([[maleEdu objectForKey:@"year"] isKindOfClass:[NSDictionary class]])
                         {
-                            maleSchoolYear = [NSNumber numberWithInt:[[year objectForKey:@"name"] intValue]];
+                            NSDictionary *year = [maleEdu objectForKey:@"year"];
+                            if ([year objectForKey:@"name"])
+                            {
+                                maleSchoolYear = [NSNumber numberWithInt:[[year objectForKey:@"name"] intValue]];
+                            }
+                        }
+                        else if ([maleEdu objectForKey:@"year"]) //it's a number
+                        {
+                            maleSchoolYear = [maleEdu objectForKey:@"year"];
                         }
                         
                     }
@@ -459,10 +466,17 @@
                             femaleSchoolID = [school objectForKey:@"id"];
                         }
                         
-                        NSDictionary *year = [femaleEdu objectForKey:@"year"];
-                        if ([year objectForKey:@"name"])
+                        if ([[femaleEdu objectForKey:@"year"] isKindOfClass:[NSDictionary class]])
                         {
-                            femaleSchoolYear = [NSNumber numberWithInt:[[year objectForKey:@"name"] intValue]];
+                            NSDictionary *year = [femaleEdu objectForKey:@"year"];
+                            if ([year objectForKey:@"name"])
+                            {
+                                femaleSchoolYear = [NSNumber numberWithInt:[[year objectForKey:@"name"] intValue]];
+                            }
+                        }
+                        else if ([femaleEdu objectForKey:@"year"]) //it's a number
+                        {
+                            femaleSchoolYear = [femaleEdu objectForKey:@"year"];
                         }
                     }
                     

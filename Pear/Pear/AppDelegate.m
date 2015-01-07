@@ -32,8 +32,6 @@ NSString * const NO_MORE_COUPLES_DOMAIN = @"NO_MORE_COUPLES_DOMAIN";
 
 NSString * const NETWORK_ERROR_DOMAIN = @"NETWORK_ERROR_DOMAIN";
 
-NSString * const GAME_RESULTS_PICTURE_ORIGIN_Y_KEY = @"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY";
-
 NSString * const WISHLIST_DEFAULTS_KEY = @"WISHLIST_DEFAULTS_KEY";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

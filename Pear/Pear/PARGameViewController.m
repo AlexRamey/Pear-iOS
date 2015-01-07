@@ -234,7 +234,6 @@
     if ((voteBtn && voteBtn.frame.origin.x == _downVote.frame.origin.x) || (gestureRecognizer && gestureRecognizer.direction == UISwipeGestureRecognizerDirectionDown))
     {
         // downvote behavior
-        downVotes++;
         userVote = -1;
         
         [UIView animateWithDuration:0.5 animations:^{
@@ -247,13 +246,33 @@
         [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
             if (!error)
             {
-                [couple incrementKey:@"Downvotes"];
+                if ([couple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+                {
+                    [couple incrementKey:@"Downvotes"];
+                }
+                else
+                {
+                    couple[@"Downvotes"] = [NSNumber numberWithInt:1];
+                }
+                
+                if (![couple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+                {
+                    couple[@"Upvotes"] = [NSNumber numberWithInt:0];
+                }
+                
+                upVotes = [couple[@"Upvotes"] intValue];
+                downVotes = [couple[@"Downvotes"] intValue];
+                
+                double uVotes = [couple[@"Upvotes"] doubleValue];
+                double dVotes = [couple[@"Downvotes"] doubleValue];
+                couple[@"Score"] = [self computeScoreFromUpvotes:uVotes andDownvotes:dVotes];
+                
                 [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     //notify store
                     [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:NO completion:nextCoupleBlock];
                 }];
             }
-            else
+            else //user vote is lost
             {
                 //notify store
                 [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:NO completion:nextCoupleBlock];
@@ -263,7 +282,6 @@
     else
     {
         //upvote behavior
-        upVotes++;
         userVote = 1;
         
         [UIView animateWithDuration:0.5 animations:^{
@@ -276,13 +294,33 @@
         [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
             if (!error)
             {
-                [couple incrementKey:@"Upvotes"];
+                if ([couple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+                {
+                    [couple incrementKey:@"Upvotes"];
+                }
+                else
+                {
+                    couple[@"Upvotes"] = [NSNumber numberWithInt:1];
+                }
+                
+                if (![couple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+                {
+                    couple[@"Downvotes"] = [NSNumber numberWithInt:0];
+                }
+                
+                upVotes = [couple[@"Upvotes"] intValue];
+                downVotes = [couple[@"Downvotes"] intValue];
+                
+                double uVotes = [couple[@"Upvotes"] doubleValue];
+                double dVotes = [couple[@"Downvotes"] doubleValue];
+                couple[@"Score"] = [self computeScoreFromUpvotes:uVotes andDownvotes:dVotes];
+                
                 [couple saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     //notify store
                     [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:YES completion:nextCoupleBlock];
                 }];
             }
-            else
+            else //user vote is lost
             {
                 //notify store
                 [sharedStore saveCoupleVote:coupleJustVotedOn withStatus:YES completion:nextCoupleBlock];
@@ -290,6 +328,18 @@
             
         }];
     }
+}
+
+-(NSNumber *)computeScoreFromUpvotes:(double)uVotes andDownvotes:(double)dVotes
+{
+    if (dVotes == 0)
+    {
+        dVotes = 1.0;
+    }
+    
+    double score = pow(uVotes, 7/3) / pow(dVotes, 2);
+    
+    return [NSNumber numberWithDouble:score];
 }
 
 

@@ -27,8 +27,6 @@
     [_leftSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
     [_rightSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:_maleProfileFillerView.frame.origin.y] forKey:@"GAME_RESULTS_PICTURE_ORIGIN_Y_KEY"];
-    
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
     tapRecognizer.numberOfTapsRequired = 1;
     tapRecognizer.numberOfTouchesRequired = 1;
@@ -88,6 +86,8 @@
 {
     [super viewWillAppear:animated];
     
+    [self registerForKeyboardNotifications];
+    
     maleView.profileID = _male;
     femaleView.profileID = _female;
     
@@ -128,6 +128,14 @@
     [self loadComments];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification  object:nil];
+}
+
 -(void)loadComments
 {
     for (UIView *subview in _scrollView.subviews)
@@ -164,6 +172,50 @@
     }];
 }
 
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary *info = [aNotification userInfo];
+    CGFloat kbHeight = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size.height;
+    
+    [_scrollView setNeedsLayout];
+    [_scrollView layoutIfNeeded];
+    
+    CGFloat offset = 0.0;
+    
+    CGFloat effectiveScreenHeight = [UIScreen mainScreen].bounds.size.height - kbHeight;
+    
+    if (effectiveScreenHeight < _scrollView.frame.origin.y + 80 + 10)
+    {
+        offset = effectiveScreenHeight - (_scrollView.frame.origin.y + 80 + 10);
+    }
+    
+    [UIView animateWithDuration:.5 animations:^{
+        self.view.frame = CGRectMake(0.0, offset, self.view.frame.size.width, self.view.frame.size.height);
+    }];
+    
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    if (self.view.frame.origin.y != 0.0)
+    {
+        [UIView animateWithDuration:.5 animations:^{
+            self.view.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height);
+        }];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -171,6 +223,8 @@
 
 -(IBAction)nextCouple:(id)sender
 {
+    [self.view endEditing:YES];
+    
     PARGameViewController *gameVC = (PARGameViewController *)[self presentingViewController];
     [gameVC dismissViewControllerAnimated:YES completion:nil];
 }

@@ -359,8 +359,6 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     [self.parentViewController.parentViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-
-
 /*
 #pragma mark - Navigation
 
