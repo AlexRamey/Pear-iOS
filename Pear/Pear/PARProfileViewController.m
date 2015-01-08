@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "PARTopMatchCell.h"
 #import "PARProfileCollectionViewFlowLayout.h"
+#import "PARMatchDetailsViewController.h"
 
 @interface PARProfileViewController ()
 
@@ -270,8 +271,10 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     
     //update wishlist score
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Users"];
-    [query whereKey:@"Wishlist" containsAllObjectsInArray:@[[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]]];
+    PFQuery *query = [PFUser query];
+    
+    [query whereKey:@"WishlistFBIDs" containsAllObjectsInArray:@[[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]]];
+    
     query.limit = 1000;
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -317,6 +320,10 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
             _wishlistSwag.attributedText = attributedText;
             
             [_wishlistSwag sizeToFit];
+        }
+        else
+        {
+            NSLog(@"ERROR: %@", error);
         }
     }];
 }
@@ -495,9 +502,54 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController class] == [PARMatchDetailsViewController class])
+    {
+        PARMatchDetailsViewController *vc = (PARMatchDetailsViewController *)segue.destinationViewController;
+        
+        if (couple)
+        {
+            [vc setSelectedCoupleID:couple.objectId];
+            
+            [vc setMale:couple[@"Male"]];
+            [vc setMaleName:couple[@"MaleName"]];
+            
+            [vc setFemale:couple[@"Female"]];
+            [vc setFemaleName:couple[@"FemaleName"]];
+            
+            if ([couple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+            {
+                [vc setUpvotes: couple[@"Upvotes"]];
+            }
+            else
+            {
+                [vc setUpvotes:[NSNumber numberWithInt:0]];
+            }
+            if ([couple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+            {
+                [vc setDownvotes: couple[@"Downvotes"]];
+            }
+            else
+            {
+                [vc setDownvotes: [NSNumber numberWithInt:0]];
+            }
+            
+        }
+        else
+        {
+            [vc setSelectedCoupleID:@""];
+            
+            [vc setMale:nil];
+            [vc setMaleName:@""];
+            
+            [vc setFemale:nil];
+            [vc setFemaleName:@""];
+            
+            [vc setUpvotes: [NSNumber numberWithInt:0]];
+            [vc setDownvotes: [NSNumber numberWithInt:0]];
+        }
+    }
 }
 
 @end

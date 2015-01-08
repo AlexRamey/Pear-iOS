@@ -196,6 +196,8 @@ static NSString * const reuseIdentifier = @"WishlistCell";
         
         if (couple) //fetch succeeded
         {
+            [vc setSelectedCoupleID:couple.objectId];
+            
             [vc setMale:couple[@"Male"]];
             [vc setMaleName:couple[@"MaleName"]];
             
@@ -221,6 +223,8 @@ static NSString * const reuseIdentifier = @"WishlistCell";
         }
         else
         {
+            [vc setSelectedCoupleID:@""];
+            
             [vc setMale:nil];
             [vc setMaleName:@""];
             

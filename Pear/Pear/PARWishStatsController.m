@@ -118,7 +118,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
     query.limit = 50;
     [query orderByDescending:@"createdAt"];
-    [query whereKey:@"coupleObjectID" equalTo:_selectedWishID];
+    [query whereKey:@"coupleObjectID" equalTo:_selectedCoupleID];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         UIScrollView *strongScrollView = _scrollView;

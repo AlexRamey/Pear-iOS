@@ -917,6 +917,7 @@
     if (_userObject)
     {
         [_userObject setObject:[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] forKey:@"Wishlist"];
+        [_userObject setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] allKeys] forKey:@"WishlistFBIDs"];
         [_userObject saveInBackground];
     }
 }
