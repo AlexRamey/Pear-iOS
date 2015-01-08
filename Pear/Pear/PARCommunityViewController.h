@@ -7,8 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Parse.h"
 
-@interface PARCommunityViewController : UIViewController
+@interface PARCommunityViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+{
+    PFObject *couple;
+    BOOL inProgress;
+}
 
+@property (nonatomic, weak) IBOutlet UICollectionView *topMatchesCollection;
+@property (nonatomic, weak) IBOutlet UISegmentedControl *segmentedControl;
+
+@property (nonatomic, strong) NSMutableDictionary *topMatchProfilePicViews;
+@property (nonatomic, strong) NSMutableArray *topMatchesAllTime;
+@property (nonatomic, strong) NSMutableArray *topMatchesPast30Days;
+@property (nonatomic, strong) NSMutableArray *allTimeRanks;
+@property (nonatomic, strong) NSMutableArray *past30DayRanks;
 
 @end

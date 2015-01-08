@@ -108,8 +108,8 @@
                             <constraint firstItem="wZO-IG-415" firstAttribute="trailing" secondItem="zGb-ZM-Eq4" secondAttribute="trailingMargin" id="7n4-97-jxk"/>
                             <constraint firstItem="FWh-FX-A2Y" firstAttribute="bottom" secondItem="mBW-uQ-iNk" secondAttribute="bottom" id="BQI-zi-sMb"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="top" secondItem="jak-iO-yQb" secondAttribute="top" id="Cc3-LT-FOh"/>
+                            <constraint firstItem="05x-ZP-oMv" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="30" id="D5N-uA-MQc"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="width" secondItem="05x-ZP-oMv" secondAttribute="width" id="J0q-4O-vka"/>
-                            <constraint firstItem="m89-h5-HUc" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="30" id="Je2-Bv-quq"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="top" secondItem="05x-ZP-oMv" secondAttribute="bottom" id="LrB-Ib-PkF"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="trailing" secondItem="05x-ZP-oMv" secondAttribute="trailing" id="LsR-uL-ipr"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="leading" secondItem="m89-h5-HUc" secondAttribute="trailing" constant="8" id="M6q-dR-sdC"/>
@@ -122,6 +122,7 @@
                             <constraint firstItem="m89-h5-HUc" firstAttribute="leading" secondItem="zGb-ZM-Eq4" secondAttribute="leadingMargin" id="Y2Q-fR-YuC"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="trailing" secondItem="zGb-ZM-Eq4" secondAttribute="trailingMargin" id="ahA-4X-gRr"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="leading" secondItem="05x-ZP-oMv" secondAttribute="leading" id="cnt-ME-dEs"/>
+                            <constraint firstItem="m89-h5-HUc" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="30" id="dDk-AA-zWr"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="width" secondItem="m89-h5-HUc" secondAttribute="width" id="eb6-WZ-4tk"/>
                             <constraint firstItem="mTc-Vy-xKR" firstAttribute="top" secondItem="hMD-rx-TUT" secondAttribute="bottom" constant="10" id="fFF-Eh-x6q"/>
                             <constraint firstItem="mTc-Vy-xKR" firstAttribute="top" secondItem="05x-ZP-oMv" secondAttribute="bottom" constant="16" id="fNu-TF-cbp"/>
@@ -130,7 +131,6 @@
                             <constraint firstItem="mTc-Vy-xKR" firstAttribute="leading" secondItem="05x-ZP-oMv" secondAttribute="leading" id="nRs-XK-a07"/>
                             <constraint firstItem="wZO-IG-415" firstAttribute="leading" secondItem="zGb-ZM-Eq4" secondAttribute="leadingMargin" id="qdX-N8-iDH"/>
                             <constraint firstItem="m89-h5-HUc" firstAttribute="top" secondItem="mBW-uQ-iNk" secondAttribute="top" id="stF-LI-jw4"/>
-                            <constraint firstItem="05x-ZP-oMv" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="30" id="ufS-W2-Fl7"/>
                             <constraint firstItem="FWh-FX-A2Y" firstAttribute="leading" secondItem="m89-h5-HUc" secondAttribute="leading" id="up8-WE-HD9"/>
                             <constraint firstItem="q3q-wu-iws" firstAttribute="top" secondItem="m89-h5-HUc" secondAttribute="bottom" constant="16" id="v6f-dm-zCG"/>
                         </constraints>
@@ -266,9 +266,97 @@
                     <view key="view" contentMode="scaleToFill" id="lFG-ZB-9ku">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="v0P-9F-hYG">
+                                <rect key="frame" x="145" y="102" width="310" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="AKR-SZ-vKi"/>
+                                    <constraint firstAttribute="width" constant="310" id="r78-SK-dZq"/>
+                                    <constraint firstAttribute="width" constant="310" id="rNK-v6-78P"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="All Time"/>
+                                    <segment title="Past 30 Days"/>
+                                </segments>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="r78-SK-dZq"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="selectionMade:" destination="nhs-yN-efi" eventType="valueChanged" id="Mxu-DS-Nxi"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Community Matches" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZ9-Kf-pTL">
+                                <rect key="frame" x="203" y="72" width="194" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="bBK-Tj-yx1"/>
+                                    <constraint firstAttribute="height" constant="21" id="kzq-Al-A5X"/>
+                                    <constraint firstAttribute="height" constant="21" id="nBI-1w-wQr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="bBK-Tj-yx1"/>
+                                        <exclude reference="nBI-1w-wQr"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GIG-Mb-MJT">
+                                <rect key="frame" x="0.0" y="138" width="600" height="413"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="o7q-5h-cEK" customClass="PARCommunityCollectionViewFlowLayout">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TopCommunityMatchCell" id="JZ3-5F-r80">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="nhs-yN-efi" id="9MG-Za-GbK"/>
+                                    <outlet property="delegate" destination="nhs-yN-efi" id="4aw-1r-kxN"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="v0P-9F-hYG" secondAttribute="centerX" id="3rA-K4-0n8"/>
+                            <constraint firstItem="KZ9-Kf-pTL" firstAttribute="top" secondItem="9sn-Gl-BKq" secondAttribute="bottom" constant="8" id="BOc-Fi-ajm"/>
+                            <constraint firstItem="GIG-Mb-MJT" firstAttribute="top" secondItem="v0P-9F-hYG" secondAttribute="bottom" constant="8" id="MGu-OQ-nZJ"/>
+                            <constraint firstItem="v0P-9F-hYG" firstAttribute="top" secondItem="KZ9-Kf-pTL" secondAttribute="bottom" constant="9" id="Ph2-dW-X29"/>
+                            <constraint firstItem="FPl-P2-cWd" firstAttribute="top" secondItem="GIG-Mb-MJT" secondAttribute="bottom" id="TIs-il-xoX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GIG-Mb-MJT" secondAttribute="trailing" constant="-16" id="cnk-Rg-a4s"/>
+                            <constraint firstItem="KZ9-Kf-pTL" firstAttribute="leading" secondItem="v0P-9F-hYG" secondAttribute="leading" id="dRG-3F-WnE"/>
+                            <constraint firstAttribute="centerX" secondItem="KZ9-Kf-pTL" secondAttribute="centerX" id="feA-nu-jGk"/>
+                            <constraint firstItem="v0P-9F-hYG" firstAttribute="top" secondItem="KZ9-Kf-pTL" secondAttribute="bottom" constant="8" id="hUM-qa-0Pg"/>
+                            <constraint firstItem="GIG-Mb-MJT" firstAttribute="leading" secondItem="lFG-ZB-9ku" secondAttribute="leadingMargin" constant="-16" id="osd-BZ-mUX"/>
+                            <constraint firstItem="KZ9-Kf-pTL" firstAttribute="width" secondItem="v0P-9F-hYG" secondAttribute="width" id="qSf-RF-VPg"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="dRG-3F-WnE"/>
+                                <exclude reference="qSf-RF-VPg"/>
+                                <exclude reference="hUM-qa-0Pg"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Community" id="nxf-6o-CBW"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="v0P-9F-hYG" id="AhO-yv-WqN"/>
+                        <outlet property="topMatchesCollection" destination="GIG-Mb-MJT" id="lFv-We-jij"/>
+                        <segue destination="oZk-wP-B8V" kind="show" identifier="CommunityToMatchDetails" id="t8o-da-WUt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Gk-4T-6Dh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -914,10 +1002,10 @@
             </objects>
             <point key="canvasLocation" x="1606" y="229"/>
         </scene>
-        <!--Wish Results-->
+        <!--Match Details-->
         <scene sceneID="yvQ-j1-BNL">
             <objects>
-                <viewController title="Wish Results" automaticallyAdjustsScrollViewInsets="NO" id="oZk-wP-B8V" customClass="PARMatchDetailsViewController" sceneMemberID="viewController">
+                <viewController title="Match Details" automaticallyAdjustsScrollViewInsets="NO" id="oZk-wP-B8V" customClass="PARMatchDetailsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ya4-fh-60o"/>
                         <viewControllerLayoutGuide type="bottom" id="Bu8-Nk-SzU"/>
@@ -1054,4 +1142,7 @@
         <image name="upVote" width="32" height="32"/>
         <image name="wishlistTab" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="t8o-da-WUt"/>
+    </inferredMetricsTieBreakers>
 </document>

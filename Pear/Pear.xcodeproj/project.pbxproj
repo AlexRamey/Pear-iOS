@@ -24,6 +24,8 @@
 		D031DBC01A4F43FB000C37C0 /* PARTopMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBBF1A4F43FB000C37C0 /* PARTopMatchCell.m */; };
 		D031DBF11A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBF01A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m */; };
 		D031DBF41A5DDABA000C37C0 /* PARMatchDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBF31A5DDABA000C37C0 /* PARMatchDetailsViewController.m */; };
+		D03CDE921A5F1BE900D11E9F /* PARCommunityMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE911A5F1BE900D11E9F /* PARCommunityMatchCell.m */; };
+		D03CDE951A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */; };
 		D0F5942119EB0D3C00B09260 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942019EB0D3C00B09260 /* main.m */; };
 		D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942319EB0D3C00B09260 /* AppDelegate.m */; };
 		D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942519EB0D3C00B09260 /* Pear.xcdatamodeld */; };
@@ -83,6 +85,10 @@
 		D031DBF01A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARProfileCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		D031DBF21A5DDABA000C37C0 /* PARMatchDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARMatchDetailsViewController.h; sourceTree = "<group>"; };
 		D031DBF31A5DDABA000C37C0 /* PARMatchDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARMatchDetailsViewController.m; sourceTree = "<group>"; };
+		D03CDE901A5F1BE900D11E9F /* PARCommunityMatchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARCommunityMatchCell.h; sourceTree = "<group>"; };
+		D03CDE911A5F1BE900D11E9F /* PARCommunityMatchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommunityMatchCell.m; sourceTree = "<group>"; };
+		D03CDE931A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARCommunityCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommunityCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		D0F5941B19EB0D3C00B09260 /* Pear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F5941F19EB0D3C00B09260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0F5942019EB0D3C00B09260 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -156,6 +162,10 @@
 			children = (
 				D031DBB91A4F29A1000C37C0 /* PARCommunityViewController.h */,
 				D031DBBA1A4F29A1000C37C0 /* PARCommunityViewController.m */,
+				D03CDE931A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.h */,
+				D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */,
+				D03CDE901A5F1BE900D11E9F /* PARCommunityMatchCell.h */,
+				D03CDE911A5F1BE900D11E9F /* PARCommunityMatchCell.m */,
 				D031DBF21A5DDABA000C37C0 /* PARMatchDetailsViewController.h */,
 				D031DBF31A5DDABA000C37C0 /* PARMatchDetailsViewController.m */,
 			);
@@ -467,6 +477,8 @@
 				D031DBB21A485FDA000C37C0 /* UIColor+Theme.m in Sources */,
 				D0F5945219EC314C00B09260 /* PARGameViewController.m in Sources */,
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
+				D03CDE921A5F1BE900D11E9F /* PARCommunityMatchCell.m in Sources */,
+				D03CDE951A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m in Sources */,
 				D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */,
 				D031DBA11A43609F000C37C0 /* PARWish.m in Sources */,
 				D031DBF41A5DDABA000C37C0 /* PARMatchDetailsViewController.m in Sources */,
