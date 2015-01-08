@@ -799,9 +799,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKR-Pg-uFG">
-                                <rect key="frame" x="0.0" y="410" width="600" height="95"/>
-                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84f-FL-hE0" customClass="PARButton">
                                 <rect key="frame" x="225" y="513" width="150" height="30"/>
                                 <color key="backgroundColor" red="0.91850685586734693" green="0.044892234916295473" blue="0.15064798419945882" alpha="1" colorSpace="calibratedRGB"/>
@@ -839,6 +836,9 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKR-Pg-uFG">
+                                <rect key="frame" x="0.0" y="410" width="600" height="98"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -857,7 +857,7 @@
                             <constraint firstItem="UKR-Pg-uFG" firstAttribute="trailing" secondItem="9uJ-vE-wIo" secondAttribute="trailingMargin" constant="16" id="Hhw-IE-1Ch"/>
                             <constraint firstItem="SAy-Ou-3hM" firstAttribute="leading" secondItem="Odx-tE-OLN" secondAttribute="leading" id="IcA-pD-DIh"/>
                             <constraint firstItem="CXu-Qa-pGM" firstAttribute="leading" secondItem="9uJ-vE-wIo" secondAttribute="leadingMargin" constant="-16" id="JAi-47-sEN"/>
-                            <constraint firstItem="CXu-Qa-pGM" firstAttribute="top" secondItem="UKR-Pg-uFG" secondAttribute="bottom" constant="3" id="Kf8-Bm-ReT"/>
+                            <constraint firstItem="CXu-Qa-pGM" firstAttribute="top" secondItem="UKR-Pg-uFG" secondAttribute="bottom" id="Kf8-Bm-ReT"/>
                             <constraint firstItem="fiq-Fn-Mps" firstAttribute="width" secondItem="Odx-tE-OLN" secondAttribute="width" id="N12-FT-NpS"/>
                             <constraint firstItem="fiq-Fn-Mps" firstAttribute="top" secondItem="Odx-tE-OLN" secondAttribute="top" id="NEq-ZC-DND"/>
                             <constraint firstItem="UKR-Pg-uFG" firstAttribute="top" secondItem="sJC-CL-Hiu" secondAttribute="bottom" id="R5L-lJ-CfP"/>
@@ -959,9 +959,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dE0-0P-wdb">
-                                <rect key="frame" x="0.0" y="410" width="600" height="141"/>
-                            </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c7O-hh-lHF">
                                 <rect key="frame" x="0.0" y="409" width="600" height="1"/>
                                 <color key="backgroundColor" red="0.69803921570000005" green="0.70196078429999997" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -975,6 +972,9 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dE0-0P-wdb">
+                                <rect key="frame" x="0.0" y="410" width="600" height="141"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
