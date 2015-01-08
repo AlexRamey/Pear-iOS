@@ -912,13 +912,23 @@
     completion(nil);
 }
 
--(void)saveUser
+-(void)saveUserWithCompletion:(void (^)(void))completion
 {
     if (_userObject)
     {
         [_userObject setObject:[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] forKey:@"Wishlist"];
         [_userObject setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:WISHLIST_DEFAULTS_KEY] allKeys] forKey:@"WishlistFBIDs"];
-        [_userObject saveInBackground];
+        if (!completion)
+        {
+            [_userObject saveInBackground];
+        }
+        else
+        {
+            [_userObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+            {
+                completion();
+            }];
+        }
     }
 }
 

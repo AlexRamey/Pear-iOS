@@ -59,7 +59,7 @@ NSString * const WISHLIST_DEFAULTS_KEY = @"WISHLIST_DEFAULTS_KEY";
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    [[PARDataStore sharedStore] saveUser];
+    [[PARDataStore sharedStore] saveUserWithCompletion:nil];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -88,17 +88,6 @@ NSString * const WISHLIST_DEFAULTS_KEY = @"WISHLIST_DEFAULTS_KEY";
     return [FBAppCall handleOpenURL:url
                   sourceApplication:sourceApplication
                         withSession:[PFFacebookUtils session]];
-    
-    /*
-    NSLog(@"application openURL: sourceApplication: annotation: called. application = %@", application);
-    
-    // Call FBAppCall's handleOpenURL:sourceApplication to handle Facebook app responses
-    BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-    
-    // You can add your app-specific url handling code here if needed
-    
-    return wasHandled;
-    */
 }
 
 #pragma mark - Core Data stack

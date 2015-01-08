@@ -41,6 +41,6 @@
 
 -(void)pullCouplesAlreadyVotedOnWithCompletion:(void (^)(NSError *))completion;
 
--(void)saveUser;
+-(void)saveUserWithCompletion:(void (^)(void))completion;
 
 @end

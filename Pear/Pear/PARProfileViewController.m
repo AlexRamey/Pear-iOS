@@ -12,6 +12,7 @@
 #import "PARTopMatchCell.h"
 #import "PARProfileCollectionViewFlowLayout.h"
 #import "PARMatchDetailsViewController.h"
+#import "PARDataStore.h"
 
 @interface PARProfileViewController ()
 
@@ -485,17 +486,20 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
      }];
 }
 
--(IBAction)recentComments:(id)sender
-{
-    NSLog(@"View recent comments");
-}
-
 #pragma mark - FBLogout
 -(IBAction)facebookLogout:(id)sender
 {
-    [PFUser logOut]; // Log out
     
-    [self.parentViewController.parentViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [[PARDataStore sharedStore] saveUserWithCompletion:^{
+        
+        //Logout
+        [PFUser logOut];
+        
+        //Return to Login Screen
+        [self.parentViewController.parentViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    
 }
 
 
