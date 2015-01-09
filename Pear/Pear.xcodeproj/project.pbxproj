@@ -26,6 +26,8 @@
 		D031DBF41A5DDABA000C37C0 /* PARMatchDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBF31A5DDABA000C37C0 /* PARMatchDetailsViewController.m */; };
 		D03CDE921A5F1BE900D11E9F /* PARCommunityMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE911A5F1BE900D11E9F /* PARCommunityMatchCell.m */; };
 		D03CDE951A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */; };
+		D03CDE981A5F92E200D11E9F /* PARCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */; };
+		D0C2608B1A5F9AEC0068BCF3 /* PARTapRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C2608A1A5F9AEC0068BCF3 /* PARTapRecognizer.m */; };
 		D0F5942119EB0D3C00B09260 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942019EB0D3C00B09260 /* main.m */; };
 		D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942319EB0D3C00B09260 /* AppDelegate.m */; };
 		D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0F5942519EB0D3C00B09260 /* Pear.xcdatamodeld */; };
@@ -89,6 +91,10 @@
 		D03CDE911A5F1BE900D11E9F /* PARCommunityMatchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommunityMatchCell.m; sourceTree = "<group>"; };
 		D03CDE931A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARCommunityCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommunityCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		D03CDE961A5F92E200D11E9F /* PARCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARCommentsViewController.h; sourceTree = "<group>"; };
+		D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommentsViewController.m; sourceTree = "<group>"; };
+		D0C260891A5F9AEC0068BCF3 /* PARTapRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARTapRecognizer.h; sourceTree = "<group>"; };
+		D0C2608A1A5F9AEC0068BCF3 /* PARTapRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARTapRecognizer.m; sourceTree = "<group>"; };
 		D0F5941B19EB0D3C00B09260 /* Pear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F5941F19EB0D3C00B09260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0F5942019EB0D3C00B09260 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -205,6 +211,10 @@
 				D031DB871A3CBA2E000C37C0 /* PARProfileViewController.m */,
 				D031DBEF1A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.h */,
 				D031DBF01A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m */,
+				D03CDE961A5F92E200D11E9F /* PARCommentsViewController.h */,
+				D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */,
+				D0C260891A5F9AEC0068BCF3 /* PARTapRecognizer.h */,
+				D0C2608A1A5F9AEC0068BCF3 /* PARTapRecognizer.m */,
 				D031DBBE1A4F43FB000C37C0 /* PARTopMatchCell.h */,
 				D031DBBF1A4F43FB000C37C0 /* PARTopMatchCell.m */,
 				D031DBBC1A4F43E6000C37C0 /* PARTopMatchCell.xib */,
@@ -474,6 +484,7 @@
 			files = (
 				D031DB9B1A3D225E000C37C0 /* PARWishlistController.m in Sources */,
 				D031DBBB1A4F29A1000C37C0 /* PARCommunityViewController.m in Sources */,
+				D03CDE981A5F92E200D11E9F /* PARCommentsViewController.m in Sources */,
 				D031DBB21A485FDA000C37C0 /* UIColor+Theme.m in Sources */,
 				D0F5945219EC314C00B09260 /* PARGameViewController.m in Sources */,
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
@@ -496,6 +507,7 @@
 				D031DBB51A48653F000C37C0 /* PARButton.m in Sources */,
 				D0F5942719EB0D3C00B09260 /* Pear.xcdatamodeld in Sources */,
 				D031DB971A3D223C000C37C0 /* PARWishlistCell.m in Sources */,
+				D0C2608B1A5F9AEC0068BCF3 /* PARTapRecognizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

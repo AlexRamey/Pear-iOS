@@ -54,6 +54,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     // Do any additional setup after loading the view.
     [_logoutBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
     [_recentCommentsBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
+    [_recentCommentsBtn addTarget:self action:@selector(viewComments:) forControlEvents:UIControlEventTouchUpInside];
     
     [_topMatchesCollection registerClass:[PARTopMatchCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
@@ -356,6 +357,11 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
 -(IBAction)selectionMade:(id)sender
 {
     [_topMatchesCollection reloadData];
+}
+
+-(IBAction)viewComments:(id)sender
+{
+    [self performSegueWithIdentifier:@"ProfileToComments" sender:self];
 }
 
 #pragma mark <UICollectionViewDataSource>

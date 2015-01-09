@@ -332,7 +332,6 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
     [query whereKey:@"Female" equalTo: [dataSource[indexPath.row] objectForKey:@"Female"]];
     [query whereKey:@"Male" equalTo:[dataSource[indexPath.row] objectForKey:@"Male"]];
     
-    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
      {
          inProgress = NO;
@@ -405,6 +404,5 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
         }
     }
 }
-
 
 @end

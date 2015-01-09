@@ -133,6 +133,21 @@
     [self loadComments];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSNumber *firstLaunch = [[NSUserDefaults standardUserDefaults] objectForKey:PAR_IS_FIRST_LAUNCH_KEY];
+    
+    if ([firstLaunch boolValue])
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:PAR_IS_FIRST_LAUNCH_KEY];
+        
+        UIAlertView *hint = [[UIAlertView alloc] initWithTitle:@"HINT" message:@"Side swipe to escape this screen" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [hint show];
+    }
+}
+
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];

@@ -34,6 +34,22 @@ NSString * const NETWORK_ERROR_DOMAIN = @"NETWORK_ERROR_DOMAIN";
 
 NSString * const WISHLIST_DEFAULTS_KEY = @"WISHLIST_DEFAULTS_KEY";
 
+NSString * const PAR_IS_FIRST_LAUNCH_KEY = @"PAR_IS_FIRST_LAUNCH_KEY";
+
++(void)initialize
+{
+    //Register Factory Defaults, which will be created and temporarily stored in the registration
+    //domain of NSUserDefaults. In the application domain, if no value has been assigned yet to a
+    //specified key, then the application will look in the registration domain. The application domain
+    //persists, so once a value has been set, factory defaults will always be ignored
+    
+    NSDictionary *defaults = @{
+                               PAR_IS_FIRST_LAUNCH_KEY : @YES,
+                               };
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     // Override point for customization after application launch.

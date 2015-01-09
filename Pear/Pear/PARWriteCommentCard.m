@@ -102,6 +102,16 @@
                 if (succeeded)
                 {
                     [_callback commentWasPushed];
+                    
+                    PFQuery *coupleQuery = [PFQuery queryWithClassName:@"Couples"];
+                    [coupleQuery getObjectInBackgroundWithId:_coupleObjectID block:^(PFObject *object, NSError *error) {
+                        if (!error)
+                        {
+                            [object incrementKey:@"NumberOfComments"];
+                            [object saveInBackground];
+                        }
+                    }];
+                    
                 }
                 else
                 {
