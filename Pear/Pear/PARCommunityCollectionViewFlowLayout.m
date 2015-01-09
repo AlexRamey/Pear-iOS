@@ -18,7 +18,7 @@
     
     CGFloat profilePictureDimension = (cardWidth - 30.0) / 2.0;
     
-    CGFloat cardHeight = 10.0 + profilePictureDimension + 13.0 + 10 + 20 + 10;
+    CGFloat cardHeight = 10.0 + profilePictureDimension + 20.0 + 10;
     
     self.itemSize = CGSizeMake(cardWidth, cardHeight);
     self.minimumLineSpacing = 10;

@@ -276,7 +276,7 @@
                                 </constraints>
                                 <segments>
                                     <segment title="All Time"/>
-                                    <segment title="Past 30 Days"/>
+                                    <segment title="Past 10 Days"/>
                                 </segments>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -287,8 +287,8 @@
                                     <action selector="selectionMade:" destination="nhs-yN-efi" eventType="valueChanged" id="Mxu-DS-Nxi"/>
                                 </connections>
                             </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Community Matches" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZ9-Kf-pTL">
-                                <rect key="frame" x="203" y="72" width="194" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Matches" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZ9-Kf-pTL">
+                                <rect key="frame" x="250" y="72" width="100" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="bBK-Tj-yx1"/>
                                     <constraint firstAttribute="height" constant="21" id="kzq-Al-A5X"/>
@@ -434,7 +434,7 @@
                                 </constraints>
                                 <segments>
                                     <segment title="All Time"/>
-                                    <segment title="Past 30 Days"/>
+                                    <segment title="Past 10 Days"/>
                                 </segments>
                                 <connections>
                                     <action selector="selectionMade:" destination="SB0-pp-PJm" eventType="valueChanged" id="SPC-cf-fOG"/>
@@ -1143,6 +1143,6 @@
         <image name="wishlistTab" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="t8o-da-WUt"/>
+        <segue reference="0oN-O5-VR8"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -20,7 +20,7 @@
     
     CGFloat profilePictureDimension = (cardWidth - 30.0) / 2.0;
     
-    CGFloat cardHeight = 10.0 + profilePictureDimension + 13.0 + 10 + 20 + 10;
+    CGFloat cardHeight = 10.0 + profilePictureDimension + 20.0 + 10;
     
     self = [super initWithFrame:CGRectMake(0, 0, cardWidth, cardHeight)];
     
@@ -29,11 +29,13 @@
         self.backgroundColor = [UIColor whiteColor];
         
         //Rank Label
-        rank = [[UILabel alloc] initWithFrame:CGRectMake((cardWidth - 150)/2.0, 10 + profilePictureDimension + 16.0 + 10, 150, 20.0)];
-        rank.backgroundColor = [UIColor clearColor];
-        rank.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0];
+        rank = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 25, 25.0)];
+        rank.backgroundColor = [UIColor darkGrayColor];
+        rank.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0];
+        rank.textColor = [UIColor whiteColor];
         rank.minimumScaleFactor = .75;
         rank.textAlignment = NSTextAlignmentCenter;
+        rank.adjustsFontSizeToFitWidth = YES;
         rank.text = @"";
         
         //Male Picture Filler
@@ -43,19 +45,21 @@
         femalePictureFiller = [[UIView alloc] initWithFrame:CGRectMake(10 + profilePictureDimension + 10, 10, profilePictureDimension, profilePictureDimension)];
         
         //Male Name Label
-        maleName = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + profilePictureDimension, profilePictureDimension, 16)];
+        maleName = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + profilePictureDimension, profilePictureDimension, 20)];
         maleName.backgroundColor = [UIColor clearColor];
         maleName.textAlignment = NSTextAlignmentCenter;
         maleName.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0];
-        maleName.minimumScaleFactor = .75;
+        maleName.minimumScaleFactor = .5;
+        maleName.adjustsFontSizeToFitWidth = YES;
         maleName.text = @"";
         
         //Female Name Label
-        femaleName = [[UILabel alloc] initWithFrame:CGRectMake(10 + profilePictureDimension + 10, 10 + profilePictureDimension, profilePictureDimension, 16)];
+        femaleName = [[UILabel alloc] initWithFrame:CGRectMake(10 + profilePictureDimension + 10, 10 + profilePictureDimension, profilePictureDimension, 20)];
         femaleName.backgroundColor = [UIColor clearColor];
         femaleName.textAlignment = NSTextAlignmentCenter;
         femaleName.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0];
-        femaleName.minimumScaleFactor = .75;
+        femaleName.minimumScaleFactor = .5;
+        femaleName.adjustsFontSizeToFitWidth = YES;
         femaleName.text = @"";
         
         [self addSubview:malePictureFiller];
@@ -73,7 +77,7 @@
 {
     maleName.text = maleNameText;
     femaleName.text = femaleNameText;
-    rank.text = [NSString stringWithFormat:@"Rank: #%d", rankNumber];
+    rank.text = [NSString stringWithFormat:@"#%d", rankNumber];
 }
 
 -(void)setMalePicture:(FBProfilePictureView *)malePicture femalePicture:(FBProfilePictureView *)femalePicture
@@ -88,34 +92,13 @@
         [view removeFromSuperview];
     }
     
-    if ([malePicture superview]) //this malePicture already belongs to a view hierarchy
-    {
-        NSData *archivedViewData = [NSKeyedArchiver archivedDataWithRootObject:malePicture];
-        UIView *clone = [NSKeyedUnarchiver unarchiveObjectWithData:archivedViewData];
-        clone.frame = CGRectMake(0, 0, malePictureFiller.frame.size.width, malePictureFiller.frame.size.height);
-        [malePictureFiller addSubview:clone];
-    }
-    else
-    {
-        malePicture.frame = CGRectMake(0, 0, malePictureFiller.frame.size.width, malePictureFiller.frame.size.height);
-        [malePictureFiller addSubview:malePicture];
-    }
+    //Set frames
+    malePicture.frame = CGRectMake(0, 0, malePictureFiller.frame.size.width, malePictureFiller.frame.size.height);
+    femalePicture.frame = CGRectMake(0, 0, femalePictureFiller.frame.size.width, femalePictureFiller.frame.size.height);
     
-    if ([femalePicture superview]) //this femalePicture already belongs to a view hierarchy
-    {
-        FBProfilePictureView *copyPic = [femalePicture copy];
-        copyPic.frame = CGRectMake(0, 0, femalePictureFiller.frame.size.width, femalePictureFiller.frame.size.height);
-        [femalePictureFiller addSubview:copyPic];
-    }
-    else
-    {
-        NSData *archivedViewData = [NSKeyedArchiver archivedDataWithRootObject:femalePicture];
-        UIView *clone = [NSKeyedUnarchiver unarchiveObjectWithData:archivedViewData];
-        clone.frame = CGRectMake(0, 0, femalePictureFiller.frame.size.width, femalePictureFiller.frame.size.height);
-        [femalePictureFiller addSubview:clone];
-    }
-    
-    
+    //Add pictures as subviews
+    [malePictureFiller addSubview:malePicture];
+    [femalePictureFiller addSubview:femalePicture];
 }
 
 @end

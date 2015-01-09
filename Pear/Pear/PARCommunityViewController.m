@@ -5,7 +5,7 @@
 //  Created by Alex Ramey on 12/27/14.
 //  Copyright (c) 2014 Pear. All rights reserved.
 //
-
+//NOTE: EVERYTHING THAT SAYS 30 Days Ago is Really 10 days ago due to line annotated below
 #import "PARCommunityViewController.h"
 #import "PARCommunityMatchCell.h"
 #import "UIColor+Theme.h"
@@ -71,8 +71,8 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
     [past30DaysQuery whereKey:@"Male" containedIn:allKnownIDS];
     [past30DaysQuery whereKey:@"Female" containedIn:allKnownIDS];
     
-    double x = [NSDate date].timeIntervalSince1970 - 30*24*60*60;
-    //double x = [NSDate date].timeIntervalSince1970 - 1*24*60*60;
+    //NOTE: EVERYTHING THAT SAYS 30 Days Ago is Really 10 days ago due to following line
+    double x = [NSDate date].timeIntervalSince1970 - 10*24*60*60;
     NSDate *thirtyDaysAgo = [NSDate dateWithTimeIntervalSince1970:x];
     
     [past30DaysQuery whereKey:@"createdAt" greaterThan:thirtyDaysAgo];
@@ -283,19 +283,21 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
     
     [cell setMaleName:maleName femaleName:femaleName matchRank:matchRank];
     
+    NSString *femaleKey = [NSString stringWithFormat:@"%@%lu", femaleID, indexPath.row];
+    NSString *maleKey = [NSString stringWithFormat:@"%@%lu", maleID, indexPath.row];
     
-    if (![_topMatchProfilePicViews objectForKey:femaleID])
+    if (![_topMatchProfilePicViews objectForKey:femaleKey])
     {
         FBProfilePictureView *profilePic = [[FBProfilePictureView alloc] initWithProfileID:femaleID pictureCropping:FBProfilePictureCroppingSquare];
-        [_topMatchProfilePicViews setObject:profilePic forKey:femaleID];
+        [_topMatchProfilePicViews setObject:profilePic forKey:femaleKey];
     }
-    if (![_topMatchProfilePicViews objectForKey:maleID])
+    if (![_topMatchProfilePicViews objectForKey:maleKey])
     {
         FBProfilePictureView *profilePic = [[FBProfilePictureView alloc] initWithProfileID:maleID pictureCropping:FBProfilePictureCroppingSquare];
-        [_topMatchProfilePicViews setObject:profilePic forKey:maleID];
+        [_topMatchProfilePicViews setObject:profilePic forKey:maleKey];
     }
     
-    [cell setMalePicture:[_topMatchProfilePicViews objectForKey:maleID] femalePicture:[_topMatchProfilePicViews objectForKey:femaleID]];
+    [cell setMalePicture:[_topMatchProfilePicViews objectForKey:maleKey] femalePicture:[_topMatchProfilePicViews objectForKey:femaleKey]];
     
     [self createDropShadow:cell];
     
@@ -334,7 +336,6 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
      {
          inProgress = NO;
-         
          if (!error && [objects count] > 0)
          {
              couple = [objects firstObject];

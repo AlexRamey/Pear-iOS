@@ -90,13 +90,17 @@
     _maleNameLabel.text = _maleName;
     _femaleNameLabel.text = _femaleName;
     
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"male"] == NSOrderedSame)
+    if ([_male caseInsensitiveCompare:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]] == NSOrderedSame)
     {
         _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think you and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _femaleName];
     }
-    else
+    else if ([_female caseInsensitiveCompare:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]] == NSOrderedSame)
     {
         _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and you would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName];
+    }
+    else
+    {
+        _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
     }
     
     [self loadComments];

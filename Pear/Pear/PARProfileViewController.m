@@ -5,7 +5,7 @@
 //  Created by Alex Ramey on 12/13/14.
 //  Copyright (c) 2014 Pear. All rights reserved.
 //
-
+//NOTE: EVERYTHING THAT SAYS 30 Days Ago is Really 10 days ago due to line annotated below
 #import "PARProfileViewController.h"
 #import "UIColor+Theme.h"
 #import "AppDelegate.h"
@@ -91,8 +91,8 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     past30DaysQuery.limit = 10;
     [past30DaysQuery orderByDescending:@"Score"];
     
-    double x = [NSDate date].timeIntervalSince1970 - 30*24*60*60;
-    //double x = [NSDate date].timeIntervalSince1970 - 1*24*60*60;
+    //NOTE: EVERYTHING THAT SAYS 30 Days Ago is Really 10 days ago due to following line
+    double x = [NSDate date].timeIntervalSince1970 - 10*24*60*60;
     NSDate *thirtyDaysAgo = [NSDate dateWithTimeIntervalSince1970:x];
     
     [past30DaysQuery whereKey:@"createdAt" greaterThan:thirtyDaysAgo];
@@ -414,13 +414,15 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     
     [cell setMatchName:matchName matchRank:matchRank];
     
-    if (![_topMatchProfilePicViews objectForKey:matchID])
+    NSString *matchKey = [NSString stringWithFormat:@"%@%lu", matchID, indexPath.row];
+    
+    if (![_topMatchProfilePicViews objectForKey:matchKey])
     {
         FBProfilePictureView *profilePic = [[FBProfilePictureView alloc] initWithProfileID:matchID pictureCropping:FBProfilePictureCroppingSquare];
-        [_topMatchProfilePicViews setObject:profilePic forKey:matchID];
+        [_topMatchProfilePicViews setObject:profilePic forKey:matchKey];
     }
     
-    [cell setPicture:_topMatchProfilePicViews[matchID]];
+    [cell setPicture:_topMatchProfilePicViews[matchKey]];
     
     [self createDropShadow:cell];
     
