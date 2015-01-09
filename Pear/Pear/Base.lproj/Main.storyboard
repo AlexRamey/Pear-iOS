@@ -775,7 +775,7 @@
                             <constraint firstItem="veJ-ab-duF" firstAttribute="trailing" secondItem="lGA-2J-IvV" secondAttribute="trailing" id="HVE-56-vva"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="top" secondItem="bVK-GK-j9t" secondAttribute="bottom" constant="15" id="I7U-ig-Rdc"/>
                             <constraint firstItem="ySU-U3-eCQ" firstAttribute="width" secondItem="veJ-ab-duF" secondAttribute="width" id="KqL-f8-fqv"/>
-                            <constraint firstItem="VKf-xz-aQ7" firstAttribute="top" secondItem="aVz-dB-mVX" secondAttribute="bottom" id="OnS-fX-5Oa"/>
+                            <constraint firstItem="VKf-xz-aQ7" firstAttribute="top" secondItem="aVz-dB-mVX" secondAttribute="bottom" id="RWb-4s-pkF"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="leading" secondItem="veJ-ab-duF" secondAttribute="trailing" constant="8" id="Shx-b5-F8W"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="trailing" secondItem="hvV-1A-pCz" secondAttribute="trailingMargin" id="Tv2-6j-X3V"/>
                             <constraint firstItem="lda-4q-hU7" firstAttribute="top" secondItem="LtD-wi-P2M" secondAttribute="top" id="fEV-Om-eDH"/>
@@ -823,6 +823,7 @@
                         <outlet property="maleShadowView" destination="Qb8-hl-vxX" id="GgO-V1-k0q"/>
                         <outlet property="rightSwipeRecognizer" destination="AGQ-IW-AEb" id="3D2-ai-xrs"/>
                         <outlet property="scrollView" destination="aVz-dB-mVX" id="4TB-W5-bVM"/>
+                        <outlet property="scrollViewBottomConstraint" destination="RWb-4s-pkF" id="yOc-jj-vhb"/>
                         <outlet property="twitterShare" destination="lGA-2J-IvV" id="jEr-cT-yv3"/>
                     </connections>
                 </viewController>
@@ -1179,6 +1180,6 @@
         <image name="wishlistTab" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="t8o-da-WUt"/>
+        <segue reference="0oN-O5-VR8"/>
     </inferredMetricsTieBreakers>
 </document>

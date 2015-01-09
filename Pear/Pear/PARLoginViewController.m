@@ -81,6 +81,8 @@
     
     CGFloat activityIndicatorDimension = 50.0;
     
+    success = NO;
+    
     if (success)
     {
         [self.view addSubview:backgroundImage];
@@ -96,7 +98,7 @@
     }
     else
     {
-        [_loginBtn drawWithPrimaryColor:[UIColor PAROrange] secondaryColor:[UIColor PAROrange]];
+        [_loginBtn drawWithPrimaryColor:[UIColor PAROrange] secondaryColor:[UIColor PARDarkOrange]];
         _loginBtn.frame = CGRectMake((self.view.frame.size.width - _loginBtn.frame.size.width)/ 2.0, 3*(self.view.frame.size.height/4.0) - (_loginBtn.frame.size.height / 2.0), _loginBtn.frame.size.width, _loginBtn.frame.size.height);
         _activityIndicator.frame = CGRectMake((self.view.frame.size.width - activityIndicatorDimension)/ 2.0, (self.view.frame.size.height/2.0) - (activityIndicatorDimension / 2.0), activityIndicatorDimension, activityIndicatorDimension);
     }

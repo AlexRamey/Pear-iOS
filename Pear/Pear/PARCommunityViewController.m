@@ -47,7 +47,7 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
     
     [_topMatchesCollection setBackgroundColor:[UIColor clearColor]];
     
-    _segmentedControl.tintColor = [UIColor PAROrange];
+    _segmentedControl.tintColor = [UIColor PARBlue];
 }
 
 - (void)viewWillAppear:(BOOL)animated

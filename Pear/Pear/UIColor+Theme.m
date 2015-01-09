@@ -14,20 +14,23 @@
 
 +(UIColor *)PARGreen
 {
-    return UIColorFromRGB(0x3abb2a);
+    return UIColorFromRGB(0x32CD32);
 }
 
 +(UIColor *)PARDarkGreen
 {
-    return UIColorFromRGB(0x32CD32);
+    return UIColorFromRGB(0x228B22);
     //return UIColorFromRGB(0xc7e5ba);
 }
 
 +(UIColor *)PAROrange
 {
-    return UIColorFromRGB(0xf79f05);
-    //return UIColorFromRGB(0xf5662c);
-    //return UIColorFromRGB(0x3c5a99);
+    return UIColorFromRGB(0xf79f05); //theme orange
+}
+
++(UIColor *)PARDarkOrange
+{
+    return UIColorFromRGB(0xf5662c); //random orange
 }
 
 +(UIColor *)PARBrown
@@ -38,7 +41,6 @@
 +(UIColor *)PARBlue
 {
     return UIColorFromRGB(0x3c5a99);
-    //return UIColorFromRGB(0xf5662c);
 }
 
 +(UIColor *)PARRed

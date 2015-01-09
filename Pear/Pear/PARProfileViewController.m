@@ -28,6 +28,11 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     if (self)
     {
         //custom initialization
+        UIButton *aboutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        [aboutButton addTarget:self action:@selector(aboutSelected:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *aboutBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:aboutButton];
+        self.navigationItem.rightBarButtonItem = aboutBarButtonItem;
+        
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"male"] == NSOrderedSame)
         {
             self.navigationController.tabBarItem.image = [UIImage imageNamed:@"profileTabMale"];
@@ -53,14 +58,15 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [_logoutBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
-    [_recentCommentsBtn drawWithPrimaryColor:[UIColor PAROrange] secondaryColor:[UIColor PAROrange]];
+    
+    [_recentCommentsBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
     [_recentCommentsBtn addTarget:self action:@selector(viewComments:) forControlEvents:UIControlEventTouchUpInside];
     
     [_topMatchesCollection registerClass:[PARTopMatchCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     [_topMatchesCollection setBackgroundColor:[UIColor clearColor]];
     
-    _segmentedControl.tintColor = [UIColor PAROrange];
+    _segmentedControl.tintColor = [UIColor PARBlue];
     
     _profileCard.backgroundColor = [UIColor whiteColor];
     
@@ -362,6 +368,30 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
 -(IBAction)viewComments:(id)sender
 {
     [self performSegueWithIdentifier:@"ProfileToComments" sender:self];
+}
+
+-(IBAction)aboutSelected:(id)sender
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *privacyPolicy = [UIAlertAction actionWithTitle:@"Privacy Policy" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSURL *url = [NSURL URLWithString:@"http://thepeargame.com/privacy"];
+        [[UIApplication sharedApplication] openURL:url];
+    }];
+    
+    UIAlertAction *termsOfService = [UIAlertAction actionWithTitle:@"Terms of Service" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSURL *url = [NSURL URLWithString:@"http://www.thepeargame.com/terms"];
+        [[UIApplication sharedApplication] openURL:url];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    }];
+    
+    [alert addAction:privacyPolicy];
+    [alert addAction:termsOfService];
+    [alert addAction:cancel];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark <UICollectionViewDataSource>

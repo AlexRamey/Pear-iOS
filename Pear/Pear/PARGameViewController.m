@@ -291,7 +291,7 @@
         userVote = 1;
         
         [UIView animateWithDuration:0.5 animations:^{
-            self.view.backgroundColor = [UIColor PARDarkGreen];
+            self.view.backgroundColor = [UIColor PARGreen];
         }];
         [UIView animateWithDuration:0.5 animations:^{
             self.view.backgroundColor = [UIColor whiteColor];

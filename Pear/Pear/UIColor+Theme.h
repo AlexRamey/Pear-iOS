@@ -16,6 +16,8 @@
 
 +(UIColor *)PAROrange;
 
++(UIColor *)PARDarkOrange;
+
 +(UIColor *)PARBrown;
 
 +(UIColor *)PARBlue;

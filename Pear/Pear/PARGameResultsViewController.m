@@ -72,6 +72,27 @@
     
     [self createDropShadow:_maleShadowView];
     [self createDropShadow:_femaleShadowView];
+    
+    //message couple formula
+    
+    double upVotes = [_upvotes doubleValue];
+    double downVotes = [_downvotes doubleValue];
+    
+    if (downVotes == 0)
+    {
+        downVotes = 1.0;
+    }
+    
+    if ((pow(upVotes, 7/3) / pow(downVotes, 2) > 1 && upVotes + downVotes > 3))
+    {
+        _scrollViewBottomConstraint.constant = 48.0;
+        
+        PARButton *msgButton = [[PARButton alloc] initWithFrame:CGRectMake(self.view.center.x - 75, self.view.frame.size.height - 45.0, 150.0, 40.0)];
+        [msgButton drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
+        [msgButton setTitle:@"Message Couple" forState:UIControlStateNormal];
+        [msgButton addTarget:self action:@selector(messageCouple:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:msgButton];
+    }
 }
 
 -(void)createDropShadow:(UIView *)view
@@ -98,7 +119,7 @@
     
     if ([_userVote intValue] == 1)
     {
-        self.view.backgroundColor = [UIColor PARDarkGreen];
+        self.view.backgroundColor = [UIColor PARGreen];
     }
     else
     {
@@ -109,26 +130,6 @@
     _femaleNameLabel.text = _femaleName;
     
     _auxilaryLabel.text = [NSString stringWithFormat:@"%d out of %d people think %@ and %@ would make a good couple.", [_upvotes intValue], [_upvotes intValue] + [_downvotes intValue], _maleName, _femaleName];
-    
-    //message couple formula
-    
-    double upVotes = [_upvotes doubleValue];
-    double downVotes = [_downvotes doubleValue];
-    
-    if (downVotes == 0)
-    {
-        downVotes = 1.0;
-    }
-    
-    if (pow(upVotes, 7/3) / pow(downVotes, 2) > 1 && upVotes + downVotes > 3)
-    {
-        PARButton *msgButton = [[PARButton alloc] initWithFrame:CGRectMake(self.view.center.x - 75, self.view.frame.size.height - 45.0, 150.0, 40.0)];
-        [msgButton drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
-        [msgButton setTitle:@"Message Couple" forState:UIControlStateNormal];
-        [msgButton addTarget:self action:@selector(messageCouple:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:msgButton];
-        [_scrollView setContentInset:UIEdgeInsetsMake(0.0, 0.0, 45.0, 0.0)];
-    }
     
     [self loadComments];
 }

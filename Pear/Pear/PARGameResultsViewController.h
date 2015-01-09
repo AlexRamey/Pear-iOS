@@ -11,6 +11,8 @@
 #import "PARWriteCommentCard.h"
 #import "FacebookSDK.h"
 
+@class PARButton;
+
 @interface PARGameResultsViewController : UIViewController <CommentCardCallback, WriteCommentCardCallback>
 {
     FBProfilePictureView *maleView;
@@ -46,6 +48,7 @@
 @property (nonatomic, weak) IBOutlet UISwipeGestureRecognizer *rightSwipeRecognizer;
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBottomConstraint;
 
 @property (nonatomic, strong) NSArray *colors;
 
