@@ -81,8 +81,6 @@
     
     CGFloat activityIndicatorDimension = 50.0;
     
-    success = NO;
-    
     if (success)
     {
         [self.view addSubview:backgroundImage];
