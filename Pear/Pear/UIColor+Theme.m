@@ -25,7 +25,8 @@
 
 +(UIColor *)PAROrange
 {
-    return UIColorFromRGB(0xf5662c);
+    return UIColorFromRGB(0xf79f05);
+    //return UIColorFromRGB(0xf5662c);
     //return UIColorFromRGB(0x3c5a99);
 }
 
@@ -37,7 +38,6 @@
 +(UIColor *)PARBlue
 {
     return UIColorFromRGB(0x3c5a99);
-    //return UIColorFromRGB(0xf79f05);
     //return UIColorFromRGB(0xf5662c);
 }
 

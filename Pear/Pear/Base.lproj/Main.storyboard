@@ -258,7 +258,7 @@
         <!--Community-->
         <scene sceneID="7yB-xj-RHF">
             <objects>
-                <viewController id="nhs-yN-efi" customClass="PARCommunityViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="nhs-yN-efi" customClass="PARCommunityViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9sn-Gl-BKq"/>
                         <viewControllerLayoutGuide type="bottom" id="FPl-P2-cWd"/>
@@ -654,24 +654,6 @@
                                     <constraint firstAttribute="height" constant="100" id="mw6-4k-XbW"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wv6-tN-dSQ" customClass="PARButton">
-                                <rect key="frame" x="225" y="550" width="150" height="30"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="x66-ao-L4q"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Login">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="loginButtonTouchHandler:" destination="5jx-YL-mQO" eventType="touchUpInside" id="jRj-VN-5aO"/>
-                                </connections>
-                            </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="GfE-Ax-Icm">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
-                            </activityIndicatorView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thePearGame" translatesAutoresizingMaskIntoConstraints="NO" id="Iim-7a-irS">
                                 <rect key="frame" x="180" y="102" width="240" height="140"/>
                                 <constraints>
@@ -681,19 +663,15 @@
                             </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="Wv6-tN-dSQ" secondAttribute="centerX" id="FjK-Du-Azk"/>
                             <constraint firstAttribute="centerX" secondItem="Iim-7a-irS" secondAttribute="centerX" id="FwV-le-hGQ"/>
-                            <constraint firstAttribute="centerY" secondItem="GfE-Ax-Icm" secondAttribute="centerY" id="ROK-ed-BbM"/>
-                            <constraint firstAttribute="centerX" secondItem="GfE-Ax-Icm" secondAttribute="centerX" id="Wxu-oo-dcg"/>
-                            <constraint firstItem="4Rj-wM-5DK" firstAttribute="top" secondItem="Wv6-tN-dSQ" secondAttribute="bottom" constant="20" id="XWV-Ly-jzU"/>
                             <constraint firstAttribute="centerY" secondItem="2vS-fO-4KM" secondAttribute="centerY" id="lp5-Si-tfl"/>
                             <constraint firstAttribute="centerX" secondItem="2vS-fO-4KM" secondAttribute="centerX" id="mqj-O2-Rno"/>
                             <constraint firstItem="2vS-fO-4KM" firstAttribute="top" secondItem="Iim-7a-irS" secondAttribute="bottom" constant="8" id="uF7-BA-xAP"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityIndicator" destination="GfE-Ax-Icm" id="iMT-or-EyQ"/>
-                        <outlet property="loginBtn" destination="Wv6-tN-dSQ" id="xrG-Q1-jxe"/>
+                        <outlet property="pearLogo" destination="2vS-fO-4KM" id="lIC-rx-ebQ"/>
+                        <outlet property="thePearGameLabel" destination="Iim-7a-irS" id="nVe-eT-Ocn"/>
                         <segue destination="RFR-sV-cSz" kind="presentation" identifier="LoginToTab" id="sSh-9G-dcV"/>
                     </connections>
                 </viewController>
@@ -1201,6 +1179,6 @@
         <image name="wishlistTab" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Y6m-tK-akN"/>
+        <segue reference="t8o-da-WUt"/>
     </inferredMetricsTieBreakers>
 </document>

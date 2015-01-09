@@ -12,7 +12,9 @@
 
 @interface PARLoginViewController : UIViewController <FBLoginViewDelegate>
 
-@property (nonatomic, weak) IBOutlet PARButton *loginBtn;
-@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, weak) IBOutlet UIView *thePearGameLabel;
+@property (nonatomic, weak) IBOutlet UIView *pearLogo;
+@property (nonatomic, strong) PARButton *loginBtn;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 @end

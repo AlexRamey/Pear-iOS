@@ -53,14 +53,14 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [_logoutBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
-    [_recentCommentsBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
+    [_recentCommentsBtn drawWithPrimaryColor:[UIColor PAROrange] secondaryColor:[UIColor PAROrange]];
     [_recentCommentsBtn addTarget:self action:@selector(viewComments:) forControlEvents:UIControlEventTouchUpInside];
     
     [_topMatchesCollection registerClass:[PARTopMatchCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     [_topMatchesCollection setBackgroundColor:[UIColor clearColor]];
     
-    _segmentedControl.tintColor = [UIColor PARBlue];
+    _segmentedControl.tintColor = [UIColor PAROrange];
     
     _profileCard.backgroundColor = [UIColor whiteColor];
     

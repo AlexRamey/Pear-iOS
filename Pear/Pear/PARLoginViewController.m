@@ -18,6 +18,14 @@
 
 @implementation PARLoginViewController
 
+#define IS_IPHONE_4 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )480) < DBL_EPSILON )
+
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+
+#define IS_IPHONE_6 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )667 ) < DBL_EPSILON )
+
+#define IS_IPHONE_6PLUS ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )736 ) < DBL_EPSILON )
+
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -26,6 +34,13 @@
     {
         //custom initialization
         [FBSettings enablePlatformCompatibility: YES];
+        
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        [_activityIndicator setHidesWhenStopped:YES];
+        
+        _loginBtn = [[PARButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 150.0, 30.0)];
+        [_loginBtn setTitle:@"Login" forState:UIControlStateNormal];
+        [_loginBtn addTarget:self action:@selector(loginButtonTouchHandler:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return self;
@@ -36,7 +51,58 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor PARBlue];
-    [_loginBtn drawWithPrimaryColor:[UIColor PAROrange] secondaryColor:[UIColor PAROrange]];
+}
+
+-(void)viewDidLayoutSubviews
+{
+    UIImageView *backgroundImage = [[UIImageView alloc] initWithFrame:self.view.frame];
+    BOOL success = NO;
+    
+    if (IS_IPHONE_4)
+    {
+        [backgroundImage setImage:[UIImage imageNamed:@"pear4background.png"]];
+        success = YES;
+    }
+    else if (IS_IPHONE_5)
+    {
+        [backgroundImage setImage:[UIImage imageNamed:@"pear5background.png"]];
+        success = YES;
+    }
+    else if (IS_IPHONE_6)
+    {
+        [backgroundImage setImage:[UIImage imageNamed:@"pear6background.png"]];
+        success = YES;
+    }
+    else if (IS_IPHONE_6PLUS)
+    {
+        [backgroundImage setImage:[UIImage imageNamed:@"pear6plusbackground.png"]];
+        success = YES;
+    }
+    
+    CGFloat activityIndicatorDimension = 50.0;
+    
+    if (success)
+    {
+        [self.view addSubview:backgroundImage];
+        [self.view sendSubviewToBack:backgroundImage];
+        [_loginBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
+        
+        _loginBtn.frame = CGRectMake((self.view.frame.size.width - _loginBtn.frame.size.width)/ 2.0, 3*(self.view.frame.size.height/4.0) - (_loginBtn.frame.size.height / 2.0), _loginBtn.frame.size.width, _loginBtn.frame.size.height);
+        
+        _activityIndicator.frame = CGRectMake((self.view.frame.size.width - activityIndicatorDimension)/ 2.0, (self.view.frame.size.height/4.0), activityIndicatorDimension, activityIndicatorDimension);
+        
+        [_thePearGameLabel removeFromSuperview];
+        [_pearLogo removeFromSuperview];
+    }
+    else
+    {
+        [_loginBtn drawWithPrimaryColor:[UIColor PAROrange] secondaryColor:[UIColor PAROrange]];
+        _loginBtn.frame = CGRectMake((self.view.frame.size.width - _loginBtn.frame.size.width)/ 2.0, 3*(self.view.frame.size.height/4.0) - (_loginBtn.frame.size.height / 2.0), _loginBtn.frame.size.width, _loginBtn.frame.size.height);
+        _activityIndicator.frame = CGRectMake((self.view.frame.size.width - activityIndicatorDimension)/ 2.0, (self.view.frame.size.height/2.0) - (activityIndicatorDimension / 2.0), activityIndicatorDimension, activityIndicatorDimension);
+    }
+    
+    [self.view addSubview:_loginBtn];
+    [self.view addSubview:_activityIndicator];
 }
 
 -(void)viewWillAppear:(BOOL)animated
