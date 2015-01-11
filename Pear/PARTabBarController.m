@@ -44,7 +44,7 @@
     if (codeIndex == [secretCode count])
     {
         codeIndex = 0;
-        UIAlertView *secret = [[UIAlertView alloc] initWithTitle:@"Creator" message:@"Alex Ramey made this app." delegate:nil cancelButtonTitle:@"Roll Tide" otherButtonTitles: nil];
+        UIAlertView *secret = [[UIAlertView alloc] initWithTitle:@"Easter Egg" message:@"Alex Ramey made this app." delegate:nil cancelButtonTitle:@"Roll Tide" otherButtonTitles: nil];
         [secret show];
     }
 }
