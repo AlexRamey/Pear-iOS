@@ -135,10 +135,10 @@
             _loginBtn.enabled = YES;
             NSString *errorMessage = nil;
             if (!error) {
-                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+                //NSLog(@"Uh oh. The user cancelled the Facebook login.");
                 errorMessage = @"Uh oh. The user cancelled the Facebook login.";
             } else {
-                NSLog(@"Uh oh. An error occurred: %@", error);
+                //NSLog(@"Uh oh. An error occurred: %@", error);
                 errorMessage = [error localizedDescription];
             }
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
@@ -149,10 +149,10 @@
             [alert show];
         } else {
             if (user.isNew) {
-                NSLog(@"User with facebook signed up and logged in!");
+                //NSLog(@"User with facebook signed up and logged in!");
                 newUser = user;
             } else {
-                NSLog(@"User with facebook logged in!");
+                //NSLog(@"User with facebook logged in!");
             }
             
             [self retrieveUserInfoAndTransition:newUser];
@@ -170,7 +170,7 @@
             // result is a dictionary with the user's Facebook data
             NSDictionary *userData = (NSDictionary *)result;
             
-            NSLog(@"User Data: %@", userData);
+            //NSLog(@"User Data: %@", userData);
             
             [[NSUserDefaults standardUserDefaults] setObject:userData forKey:USER_DATA_KEY];
             
@@ -259,7 +259,7 @@
                      {
                          if (error)
                          {
-                             NSLog(@"Error: %@", error);
+                             //Means we'll probably end up revoting on some couples . . .
                          }
                          [self requestFriendsAndTransition];
                      }];
@@ -280,7 +280,7 @@
         }
         else
         {
-            NSLog(@"Some other error: %@", error);
+            //NSLog(@"Some other error: %@", error);
             _loginBtn.enabled = YES;
             [_activityIndicator stopAnimating];
         }
@@ -293,19 +293,23 @@
     
     FBRequest *permissionsRequest = [FBRequest requestForGraphPath:@"/me/permissions"];
     [permissionsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        NSLog(@"PERMISSIONS: %@", result);
+        //NSLog(@"PERMISSIONS: %@", result);
+        if ([FBErrorUtility shouldNotifyUserForError:error])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[FBErrorUtility userMessageForError:error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+        }
     }];
     
     [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSArray *friends = [result objectForKey:@"data"];
-        NSLog(@"Friends: %@", friends);
+        //NSLog(@"Friends: %@", friends);
         [PARDataStore sharedStore].friends = friends;
         
         [[PARDataStore sharedStore] nextCoupleWithCompletion:^(NSError *error) {
             if (error)
             {
-                //TODO: Implement This
-                //network error occurred . . .
+                //If error, it will be stored in defaults and caught by PARGameController in viewWillAppear
             }
             [self performSegueWithIdentifier:@"LoginToTab" sender:self];
             [_activityIndicator stopAnimating];

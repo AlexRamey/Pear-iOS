@@ -145,7 +145,7 @@
         {
             if (retryCounter++ == 0)
             {
-                NSLog(@"Retry Initiated!");
+                //NSLog(@"Retry Initiated!");
                 [[PARDataStore sharedStore] nextCoupleWithCompletion:^(NSError *error) {
                     [self viewWillAppear:animated];
                 }];
@@ -228,7 +228,6 @@
             
             //if (e) it means network error
             //either way (network or no more couples), error will be stored in Defaults and caught by this view controller when it tries to load the next couple in viewWillAppear
-            //TODO ERROR HANDLING THAT PREVENTS SEQUE . . .
             [self performSegueWithIdentifier:@"GameToResults" sender:self];
         }];
     };

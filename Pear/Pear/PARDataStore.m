@@ -688,7 +688,7 @@
                 if (exists == NO)
                 {
                     [validPushCoupleOffsets addObject:[NSNumber numberWithInt:offset]];
-                    NSLog(@"Successful Offset: %d", offset);
+                    //NSLog(@"Successful Offset: %d", offset);
                     validPushCounter++;
                 }
                 if (validPushCounter == 3 || pushIndexOffset > maxOffset) //we're done
@@ -801,7 +801,7 @@
             if (succeeded)
             {
                 oneSuccess = YES;
-                NSLog(@"One Success");
+                //NSLog(@"One Success");
             }
             
             if (++callbackCounter == uploadCounter)

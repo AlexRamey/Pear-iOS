@@ -27,6 +27,7 @@
 		D03CDE921A5F1BE900D11E9F /* PARCommunityMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE911A5F1BE900D11E9F /* PARCommunityMatchCell.m */; };
 		D03CDE951A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */; };
 		D03CDE981A5F92E200D11E9F /* PARCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */; };
+		D0BC21CB1A62E84C00C2D765 /* PARTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */; };
 		D0C2608B1A5F9AEC0068BCF3 /* PARTapRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C2608A1A5F9AEC0068BCF3 /* PARTapRecognizer.m */; };
 		D0C2608E1A60257F0068BCF3 /* pear6plusbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C2608D1A60257F0068BCF3 /* pear6plusbackground.png */; };
 		D0C260901A6025A10068BCF3 /* pear5background.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C2608F1A6025A10068BCF3 /* pear5background.png */; };
@@ -97,6 +98,8 @@
 		D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommunityCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		D03CDE961A5F92E200D11E9F /* PARCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARCommentsViewController.h; sourceTree = "<group>"; };
 		D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommentsViewController.m; sourceTree = "<group>"; };
+		D0BC21C91A62E84C00C2D765 /* PARTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARTabBarController.h; sourceTree = "<group>"; };
+		D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARTabBarController.m; sourceTree = "<group>"; };
 		D0C260891A5F9AEC0068BCF3 /* PARTapRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARTapRecognizer.h; sourceTree = "<group>"; };
 		D0C2608A1A5F9AEC0068BCF3 /* PARTapRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARTapRecognizer.m; sourceTree = "<group>"; };
 		D0C2608D1A60257F0068BCF3 /* pear6plusbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pear6plusbackground.png; sourceTree = "<group>"; };
@@ -186,6 +189,16 @@
 			name = Community;
 			sourceTree = "<group>";
 		};
+		D0BC21C81A62E80F00C2D765 /* PARTabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				D0BC21C91A62E84C00C2D765 /* PARTabBarController.h */,
+				D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */,
+			);
+			name = PARTabBarController;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		D0C2608C1A6025670068BCF3 /* BackgroundImages */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,6 +277,7 @@
 		D0F5941D19EB0D3C00B09260 /* Pear */ = {
 			isa = PBXGroup;
 			children = (
+				D0BC21C81A62E80F00C2D765 /* PARTabBarController */,
 				D0C2608C1A6025670068BCF3 /* BackgroundImages */,
 				D031DBB81A4F2962000C37C0 /* Community */,
 				D031DBAC1A485F45000C37C0 /* Theme */,
@@ -524,6 +538,7 @@
 				D031DB881A3CBA2E000C37C0 /* PARProfileViewController.m in Sources */,
 				D0F5945919EC5F4C00B09260 /* PARCommentCard.m in Sources */,
 				D0F5942419EB0D3C00B09260 /* AppDelegate.m in Sources */,
+				D0BC21CB1A62E84C00C2D765 /* PARTabBarController.m in Sources */,
 				D0F5942119EB0D3C00B09260 /* main.m in Sources */,
 				D031DBAF1A485F95000C37C0 /* PARTheme.m in Sources */,
 				D0F5944A19EB6FFF00B09260 /* PARLoginViewController.m in Sources */,

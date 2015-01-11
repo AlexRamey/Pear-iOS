@@ -600,7 +600,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="tNc-Sa-YSq">
             <objects>
-                <tabBarController id="RFR-sV-cSz" sceneMemberID="viewController">
+                <tabBarController id="RFR-sV-cSz" customClass="PARTabBarController" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="C7d-w0-xps">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>

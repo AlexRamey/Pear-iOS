@@ -278,10 +278,17 @@
                                           if(error) {
                                               // An error occurred, we need to handle the error
                                               // See: https://developers.facebook.com/docs/ios/errors
-                                              NSLog(@"Error publishing story: %@", error.description);
+                                              //NSLog(@"Error publishing story: %@", error.description);
+                                              
+                                              if ([FBErrorUtility shouldNotifyUserForError:error])
+                                              {
+                                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[FBErrorUtility userMessageForError:error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                                  [alert show];
+                                              }
+                                              
                                           } else {
                                               // Success
-                                              NSLog(@"result %@", results);
+                                              //NSLog(@"result %@", results);
                                           }
                                       }];
     } else {
@@ -302,23 +309,28 @@
                                                       if (error) {
                                                           // An error occurred, we need to handle the error
                                                           // See: https://developers.facebook.com/docs/ios/errors
-                                                          NSLog(@"Error publishing story: %@", error.description);
+                                                          //NSLog(@"Error publishing story: %@", error.description);
+                                                          if ([FBErrorUtility shouldNotifyUserForError:error])
+                                                          {
+                                                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[FBErrorUtility userMessageForError:error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                                              [alert show];
+                                                          }
                                                       } else {
                                                           if (result == FBWebDialogResultDialogNotCompleted) {
                                                               // User cancelled.
-                                                              NSLog(@"User cancelled.");
+                                                              //NSLog(@"User cancelled.");
                                                           } else {
                                                               // Handle the publish feed callback
                                                               NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
                                                               
                                                               if (![urlParams valueForKey:@"post_id"]) {
                                                                   // User cancelled.
-                                                                  NSLog(@"User cancelled.");
+                                                                  //NSLog(@"User cancelled.");
                                                                   
                                                               } else {
                                                                   // User clicked the Share button
                                                                   NSString *result = [NSString stringWithFormat: @"Posted story, id: %@", [urlParams valueForKey:@"post_id"]];
-                                                                  NSLog(@"result %@", result);
+                                                                  //NSLog(@"result %@", result);
                                                               }
                                                           }
                                                       }
@@ -383,10 +395,15 @@
                                             if(error) {
                                                 // An error occurred, we need to handle the error
                                                 // See: https://developers.facebook.com/docs/ios/errors
-                                                NSLog(@"Error messaging link: %@", error);
+                                                //NSLog(@"Error messaging link: %@", error);
+                                                if ([FBErrorUtility shouldNotifyUserForError:error])
+                                                {
+                                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[FBErrorUtility userMessageForError:error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                                    [alert show];
+                                                }
                                             } else {
                                                 // Success
-                                                NSLog(@"result %@", results);
+                                                //NSLog(@"result %@", results);
                                             }
                                         }];
     }  else {

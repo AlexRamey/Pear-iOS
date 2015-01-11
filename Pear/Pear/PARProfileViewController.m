@@ -331,7 +331,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
         }
         else
         {
-            NSLog(@"ERROR: %@", error);
+            //NSLog(@"ERROR: %@", error);
         }
     }];
 }
