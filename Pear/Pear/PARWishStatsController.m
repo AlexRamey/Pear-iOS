@@ -118,7 +118,8 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
     query.limit = 50;
     [query orderByDescending:@"createdAt"];
-    [query whereKey:@"coupleObjectID" equalTo:_selectedCoupleID];
+    [query whereKey:@"MaleID" equalTo:_male];
+    [query whereKey:@"FemaleID" equalTo:_female];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         UIScrollView *strongScrollView = _scrollView;

@@ -196,6 +196,21 @@
     _femaleName.text = fName;
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSNumber *firstLaunch = [[NSUserDefaults standardUserDefaults] objectForKey:PAR_IS_FIRST_LAUNCH_GAME_KEY];
+    
+    if ([firstLaunch boolValue])
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:PAR_IS_FIRST_LAUNCH_GAME_KEY];
+        
+        UIAlertView *hint = [[UIAlertView alloc] initWithTitle:@"HINT" message:@"Use the buttons or swipe up or down to cast your vote!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [hint show];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -296,6 +311,7 @@
             self.view.backgroundColor = [UIColor whiteColor];
         }];
         
+         
         [query getObjectInBackgroundWithId:objectId block:^(PFObject *couple, NSError *error) {
             if (!error)
             {

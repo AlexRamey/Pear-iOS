@@ -97,6 +97,9 @@
             comment[@"authorLiked"] = _authorLiked;
             comment[@"coupleMaleName"] = _coupleMaleName;
             comment[@"coupleFemaleName"] = _coupleFemaleName;
+            comment[@"MaleID"] = _coupleMaleID;
+            comment[@"FemaleID"] = _coupleFemaleID;
+            comment[@"coupleURL"] = [NSString stringWithFormat:@"http://thepeargame.com/webapp/index.html?male=%@&female=%@", _coupleMaleID, _coupleFemaleID];
             
             [comment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded)

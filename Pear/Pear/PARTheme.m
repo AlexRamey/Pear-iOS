@@ -17,7 +17,7 @@
     t.barStyle = UIBarStyleDefault;
     
     //Set navigation bar's background color to theme blue and button tints to white
-    t.barTintColor = [UIColor PARBlue];
+    t.barTintColor = [UIColor PAROrange];
     t.tintColor = [UIColor whiteColor];
     t.translucent = NO;
     

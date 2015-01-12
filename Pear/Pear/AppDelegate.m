@@ -34,7 +34,11 @@ NSString * const NETWORK_ERROR_DOMAIN = @"NETWORK_ERROR_DOMAIN";
 
 NSString * const WISHLIST_DEFAULTS_KEY = @"WISHLIST_DEFAULTS_KEY";
 
-NSString * const PAR_IS_FIRST_LAUNCH_KEY = @"PAR_IS_FIRST_LAUNCH_KEY";
+NSString * const PAR_IS_FIRST_LAUNCH_GAME_KEY = @"PAR_IS_FIRST_LAUNCH_GAME_KEY";
+
+NSString * const PAR_IS_FIRST_LAUNCH_RESULTS_KEY = @"PAR_IS_FIRST_LAUNCH_RESULTS_KEY";
+
+NSString * const PAR_IS_FIRST_LAUNCH_PEAR_KEY = @"PAR_IS_FIRST_LAUNCH_PEAR_KEY";
 
 +(void)initialize
 {
@@ -44,7 +48,9 @@ NSString * const PAR_IS_FIRST_LAUNCH_KEY = @"PAR_IS_FIRST_LAUNCH_KEY";
     //persists, so once a value has been set, factory defaults will always be ignored
     
     NSDictionary *defaults = @{
-                               PAR_IS_FIRST_LAUNCH_KEY : @YES,
+                               PAR_IS_FIRST_LAUNCH_GAME_KEY : @YES,
+                               PAR_IS_FIRST_LAUNCH_RESULTS_KEY : @YES,
+                               PAR_IS_FIRST_LAUNCH_PEAR_KEY : @YES
                                };
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];

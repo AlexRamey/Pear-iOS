@@ -21,6 +21,8 @@
 @property (nonatomic, strong) NSString *coupleObjectID;
 @property (nonatomic, strong) NSString *coupleMaleName;
 @property (nonatomic, strong) NSString *coupleFemaleName;
+@property (nonatomic, strong) NSString *coupleMaleID;
+@property (nonatomic, strong) NSString *coupleFemaleID;
 
 @property (nonatomic, strong) NSNumber *authorLiked;
 

@@ -92,7 +92,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap a Button or Swipe Up or Down to Cast Your Vote!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZO-IG-415">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="19" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZO-IG-415">
                                 <rect key="frame" x="16" y="491" width="568" height="19"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -158,7 +158,7 @@
                         <outlet property="maleShadowView" destination="mBW-uQ-iNk" id="YQO-TW-fn0"/>
                         <outlet property="upSwipeRecognizer" destination="D44-rP-eQm" id="1RB-Nu-nho"/>
                         <outlet property="upVote" destination="mTc-Vy-xKR" id="WEn-Mu-Iaz"/>
-                        <segue destination="yJe-l6-r8o" kind="presentation" identifier="GameToResults" modalTransitionStyle="flipHorizontal" id="cvT-Um-9MR"/>
+                        <segue destination="yJe-l6-r8o" kind="presentation" identifier="GameToResults" modalTransitionStyle="crossDissolve" id="cvT-Um-9MR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Fu-kN-4IW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -839,7 +839,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="859" y="-769"/>
+            <point key="canvasLocation" x="854" y="-769"/>
         </scene>
         <!--Wish Results-->
         <scene sceneID="noW-EU-8cW">

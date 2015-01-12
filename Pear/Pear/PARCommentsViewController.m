@@ -67,7 +67,8 @@
         PARTapRecognizer *tapRecognizer = [[PARTapRecognizer alloc] initWithTarget:self action:@selector(commentSelected:)];
         tapRecognizer.numberOfTouchesRequired = 1;
         tapRecognizer.numberOfTapsRequired = 1;
-        tapRecognizer.coupleObjectID = comment[@"coupleObjectID"];
+        tapRecognizer.male = comment[@"MaleID"];
+        tapRecognizer.female = comment[@"FemaleID"];
         [commentCard addGestureRecognizer:tapRecognizer];
         
         [_scrollView addSubview:commentCard];
@@ -101,17 +102,17 @@
         inProgress = YES;
         
         PARTapRecognizer *tapRecognizer = (PARTapRecognizer *)sender;
-        NSString *coupleID = tapRecognizer.coupleObjectID;
-        
         PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
+        [query whereKey:@"Male" equalTo:tapRecognizer.male];
+        [query whereKey:@"Female" equalTo:tapRecognizer.female];
         
-        [query getObjectInBackgroundWithId:coupleID block:^(PFObject *object, NSError *error){
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
             inProgress = NO;
             
-            if (!error)
+            if (!error && [objects count] > 0)
             {
-                couple = object;
+                couple = [objects objectAtIndex:0];
                 [self performSegueWithIdentifier:@"CommentsToMatchDetails" sender:self];
             }
             else
@@ -120,13 +121,12 @@
                 [alert show];
                 couple = nil;
                 
+                
                 [self performSegueWithIdentifier:@"CommentsToMatchDetails" sender:self];
             }
             
             
         }];
-        
-        
     }
 }
 

@@ -10,6 +10,7 @@
 
 @interface PARTapRecognizer : UITapGestureRecognizer
 
-@property (nonatomic, strong) NSString *coupleObjectID;
+@property (nonatomic, strong) NSString *male;
+@property (nonatomic, strong) NSString *female;
 
 @end

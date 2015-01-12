@@ -40,7 +40,7 @@
 
 +(UIColor *)PARBlue
 {
-    return UIColorFromRGB(0x3c5a99);
+    return UIColorFromRGB(0x3c5b99);
 }
 
 +(UIColor *)PARRed

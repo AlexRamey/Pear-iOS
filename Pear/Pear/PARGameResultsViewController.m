@@ -19,6 +19,18 @@
 
 @implementation PARGameResultsViewController
 
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    
+    if (self)
+    {
+        //custom init
+    }
+    
+    return self;
+}
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
@@ -83,15 +95,25 @@
         downVotes = 1.0;
     }
     
-    if ((pow(upVotes, 7/3) / pow(downVotes, 2) > 1 && upVotes + downVotes > 3))
+    if (((pow(upVotes, 7/3) / pow(downVotes, 2) > 1 && upVotes + downVotes > 3)))
     {
         _scrollViewBottomConstraint.constant = 48.0;
         
         PARButton *msgButton = [[PARButton alloc] initWithFrame:CGRectMake(self.view.center.x - 75, self.view.frame.size.height - 45.0, 150.0, 40.0)];
         [msgButton drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
-        [msgButton setTitle:@"Message Couple" forState:UIControlStateNormal];
+        [msgButton setTitle:@"Pear" forState:UIControlStateNormal];
         [msgButton addTarget:self action:@selector(messageCouple:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:msgButton];
+        
+        NSNumber *firstLaunch = [[NSUserDefaults standardUserDefaults] objectForKey:PAR_IS_FIRST_LAUNCH_PEAR_KEY];
+        
+        if ([firstLaunch boolValue])
+        {
+            [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:PAR_IS_FIRST_LAUNCH_PEAR_KEY];
+            
+            UIAlertView *hint = [[UIAlertView alloc] initWithTitle:@"HINT" message:@"Tap 'Pear' to message this couple on Facebook." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [hint show];
+        }
     }
 }
 
@@ -138,11 +160,11 @@
 {
     [super viewDidAppear:animated];
     
-    NSNumber *firstLaunch = [[NSUserDefaults standardUserDefaults] objectForKey:PAR_IS_FIRST_LAUNCH_KEY];
+    NSNumber *firstLaunch = [[NSUserDefaults standardUserDefaults] objectForKey:PAR_IS_FIRST_LAUNCH_RESULTS_KEY];
     
     if ([firstLaunch boolValue])
     {
-        [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:PAR_IS_FIRST_LAUNCH_KEY];
+        [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:PAR_IS_FIRST_LAUNCH_RESULTS_KEY];
         
         UIAlertView *hint = [[UIAlertView alloc] initWithTitle:@"HINT" message:@"Side swipe to escape this screen" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [hint show];
@@ -171,13 +193,16 @@
     [writeCard setCoupleMaleName:_maleName];
     [writeCard setCallback:self];
     [writeCard setAuthorLiked:_userVote];
+    [writeCard setCoupleMaleID:_male];
+    [writeCard setCoupleFemaleID:_female];
     [_scrollView addSubview:writeCard];
     yOffset = writeCard.frame.size.height + 10;
     
     PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
     query.limit = 50;
     [query orderByDescending:@"createdAt"];
-    [query whereKey:@"coupleObjectID" equalTo:_coupleObjectID];
+    [query whereKey:@"MaleID" equalTo:_male];
+    [query whereKey:@"FemaleID" equalTo:_female];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         UIScrollView *strongScrollView = _scrollView;
@@ -260,14 +285,14 @@
 {
     // Check if the Facebook app is installed and we can present the share dialog
     FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
-    params.link = [NSURL URLWithString:@"http://thepeargame.parseapp.com/"];
+    params.link = [NSURL URLWithString:[NSString stringWithFormat:@"http://thepeargame.com/webapp/index.html?male=%@&female=%@", _male, _female]];
     
     NSString *name = @"The Pear Game";
-    NSString *caption = [[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName];
-    NSString *description = @"Give your opinion on couples made up of your Facebook friends. See who your friends think you should be with.";
-    NSString *picture = @"http://thepeargame.parseapp.com/img/pear%20icon%201024x1024.png";
+    NSString *caption = nil;
+    NSString *description = [[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName];
+    NSString *picture = @"http://thepeargame.com/img/pear%20icon%20fb%20share.png";
     NSURL *pictureURL = [NSURL URLWithString:picture];
-    NSString *link =  @"http://thepeargame.parseapp.com/";
+    NSString *link =  [NSString stringWithFormat:@"http://thepeargame.com/webapp/index.html?male=%@&female=%@", _male, _female];
     
     // If the Facebook app is installed and we can present the share dialog
     
@@ -358,7 +383,8 @@
     {
         SLComposeViewController *tweetSheet = [SLComposeViewController
                                                composeViewControllerForServiceType:SLServiceTypeTwitter];
-        NSString *initialText = [[[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName] stringByAppendingString:@"The Pear Game! Give your opinion on couples made up of your Facebook friends. See who your friends think you should be with. http://thepeargame.parseapp.com/"];
+        NSString *initialText = [[[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName] stringByAppendingString:[NSString stringWithFormat:@" The Pear Game @ thepeargame.com/webapp/index.html?male=%@&female=%@", _male, _female]];
+        
         [tweetSheet setInitialText:initialText];
         [self presentViewController:tweetSheet animated:YES completion:nil];
     }
@@ -371,46 +397,44 @@
 
 -(IBAction)messageCouple:(id)sender
 {
-    // Check if the Facebook app is installed and we can present
-    // the message dialog
     NSString *name = @"The Pear Game";
-    NSString *caption = [[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName];
-    NSString *description = @"Give your opinion on couples made up of your Facebook friends. See who your friends think you should be with.";
-    NSString *picture = @"http://thepeargame.parseapp.com/img/pear%20icon%201024x1024.png";
-    NSString *link =  @"http://thepeargame.parseapp.com/";
+    NSString *pear = [[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName];
     
-    FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
-    params.link = [NSURL URLWithString:link];
-    params.name = name;
-    params.caption = caption;
-    params.picture = [NSURL URLWithString:picture];
-    params.linkDescription = description;
+    NSString *description = [pear stringByAppendingString:[NSString stringWithFormat:@" @ http://thepeargame.com/webapp/index.html?male=%@&female=%@", _male, _female]];
     
-    // If the Facebook app is installed and we can present the share dialog
-    if ([FBDialogs canPresentMessageDialogWithParams:params]) {
-        // Enable button or other UI to initiate launch of the Message Dialog
-        // Present message dialog
-        [FBDialogs presentMessageDialogWithLink:[NSURL URLWithString:link] name:name caption:caption description:description picture:[NSURL URLWithString:picture] clientState:nil
-                                        handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-                                            if(error) {
-                                                // An error occurred, we need to handle the error
-                                                // See: https://developers.facebook.com/docs/ios/errors
-                                                //NSLog(@"Error messaging link: %@", error);
-                                                if ([FBErrorUtility shouldNotifyUserForError:error])
-                                                {
-                                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[FBErrorUtility userMessageForError:error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                                                    [alert show];
-                                                }
-                                            } else {
-                                                // Success
-                                                //NSLog(@"result %@", results);
-                                            }
-                                        }];
-    }  else {
-        // Disable button or other UI for Message Dialog
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"User must have native Facebook Messenger app installed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
-    }
+    NSArray *suggestedFriends = [[NSArray alloc] initWithObjects:
+                                 _male, _female,
+                                 nil];
+    
+    // Create a dictionary of key/value pairs which are the parameters of the dialog
+    
+    // 1. No additional parameters provided - enables generic Multi-friend selector
+    NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     // 2. Optionally provide a 'to' param to direct the request at a specific user
+                                     [suggestedFriends componentsJoinedByString:@","], @"to", // Ali
+                                     description, @"data",
+                                     nil];
+    
+    [FBWebDialogs presentRequestsDialogModallyWithSession:nil
+                                                  message:description
+                                                    title:name
+                                               parameters:params
+                                                  handler:^(FBWebDialogResult result,
+                                                            NSURL *resultURL,
+                                                            NSError *error) {
+                                                      if (error) {
+                                                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not send request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                                          [alert show];
+                                                      } else {
+                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                              // Case B: User clicked the "x" icon
+                                                              //NSLog(@"User canceled request.");
+                                                          } else {
+                                                              //NSLog(@"Request Sent.");
+                                                          }
+                                                      }
+                                                  }
+                                              friendCache:nil];
 }
 
 #pragma mark - CommentViewCallback protocol methods

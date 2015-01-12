@@ -25,7 +25,11 @@ extern NSString * const NETWORK_ERROR_DOMAIN;
 
 extern NSString * const WISHLIST_DEFAULTS_KEY;
 
-extern NSString * const PAR_IS_FIRST_LAUNCH_KEY;
+extern NSString * const PAR_IS_FIRST_LAUNCH_GAME_KEY;
+
+extern NSString * const PAR_IS_FIRST_LAUNCH_RESULTS_KEY;
+
+extern NSString * const PAR_IS_FIRST_LAUNCH_PEAR_KEY;
 
 @property (strong, nonatomic) UIWindow *window;
 
