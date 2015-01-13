@@ -310,7 +310,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
             
             UIFont *boldFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
             
-            NSString *swagScoreText = [NSString stringWithFormat:@"%@, you are on the wishlist of %lu %@", userName, wishesCount, oppositeGender];
+            NSString *swagScoreText = [NSString stringWithFormat:@"%@, you are on the wishlist of %lu %@", userName, (unsigned long)wishesCount, oppositeGender];
             
             NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:swagScoreText];
             
@@ -450,7 +450,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     
     [cell setMatchName:matchName matchRank:matchRank];
     
-    NSString *matchKey = [NSString stringWithFormat:@"%@%lu", matchID, indexPath.row];
+    NSString *matchKey = [NSString stringWithFormat:@"%@%lu", matchID, (long)indexPath.row];
     
     if (![_topMatchProfilePicViews objectForKey:matchKey])
     {

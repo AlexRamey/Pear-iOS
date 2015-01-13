@@ -283,8 +283,8 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
     
     [cell setMaleName:maleName femaleName:femaleName matchRank:matchRank];
     
-    NSString *femaleKey = [NSString stringWithFormat:@"%@%lu", femaleID, indexPath.row];
-    NSString *maleKey = [NSString stringWithFormat:@"%@%lu", maleID, indexPath.row];
+    NSString *femaleKey = [NSString stringWithFormat:@"%@%lu", femaleID, (long)indexPath.row];
+    NSString *maleKey = [NSString stringWithFormat:@"%@%lu", maleID, (long)indexPath.row];
     
     if (![_topMatchProfilePicViews objectForKey:femaleKey])
     {
