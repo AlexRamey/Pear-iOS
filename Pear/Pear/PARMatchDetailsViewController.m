@@ -110,33 +110,37 @@
 {
     yOffset = 0.0;
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
-    query.limit = 50;
-    [query orderByDescending:@"createdAt"];
-    [query whereKey:@"MaleID" equalTo:_male];
-    [query whereKey:@"FemaleID" equalTo:_female];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        UIScrollView *strongScrollView = _scrollView;
-        if (strongScrollView && !error)
-        {
-            for (PFObject *comment in objects)
+    if (_male && _female)
+    {
+        PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
+        query.limit = 50;
+        [query orderByDescending:@"createdAt"];
+        [query whereKey:@"MaleID" equalTo:_male];
+        [query whereKey:@"FemaleID" equalTo:_female];
+        
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            UIScrollView *strongScrollView = _scrollView;
+            if (strongScrollView && !error)
             {
-                PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] authorLiked:comment[@"authorLiked"] offset:yOffset callback:self];
-                
-                [_scrollView addSubview:commentCard];
+                for (PFObject *comment in objects)
+                {
+                    PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] authorLiked:comment[@"authorLiked"] offset:yOffset callback:self];
+                    
+                    [_scrollView addSubview:commentCard];
+                }
             }
-        }
-        if (strongScrollView && [objects count] == 0)
-        {
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, (strongScrollView.frame.size.height / 2.0) - 15.0, [UIScreen mainScreen].bounds.size.width, 30.0)];
-            label.textAlignment = NSTextAlignmentCenter;
-            UIFont *font = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:16.0];
-            [label setFont:font];
-            [label setText:@"No Comments"];
-            [strongScrollView addSubview:label];
-        }
-    }];
+            if (strongScrollView && [objects count] == 0)
+            {
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, (strongScrollView.frame.size.height / 2.0) - 15.0, [UIScreen mainScreen].bounds.size.width, 30.0)];
+                label.textAlignment = NSTextAlignmentCenter;
+                UIFont *font = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:16.0];
+                [label setFont:font];
+                [label setText:@"No Comments"];
+                [strongScrollView addSubview:label];
+            }
+        }];
+    }
+    
 }
 
 

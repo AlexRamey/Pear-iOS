@@ -100,33 +100,46 @@
         }
         
         inProgress = YES;
-        
         PARTapRecognizer *tapRecognizer = (PARTapRecognizer *)sender;
-        PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
-        [query whereKey:@"Male" equalTo:tapRecognizer.male];
-        [query whereKey:@"Female" equalTo:tapRecognizer.female];
         
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (tapRecognizer.male && tapRecognizer.female)
+        {
+            PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
             
+            [query whereKey:@"Male" equalTo:tapRecognizer.male];
+            [query whereKey:@"Female" equalTo:tapRecognizer.female];
+            
+            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                
+                inProgress = NO;
+                
+                if (!error && [objects count] > 0)
+                {
+                    couple = [objects objectAtIndex:0];
+                    [self performSegueWithIdentifier:@"CommentsToMatchDetails" sender:self];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch match details." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [alert show];
+                    couple = nil;
+                    
+                    [self performSegueWithIdentifier:@"CommentsToMatchDetails" sender:self];
+                }
+                
+                
+            }];
+        }
+        else //no result will be found . . .
+        {
             inProgress = NO;
             
-            if (!error && [objects count] > 0)
-            {
-                couple = [objects objectAtIndex:0];
-                [self performSegueWithIdentifier:@"CommentsToMatchDetails" sender:self];
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch match details." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                [alert show];
-                couple = nil;
-                
-                
-                [self performSegueWithIdentifier:@"CommentsToMatchDetails" sender:self];
-            }
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch match details." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            couple = nil;
             
-            
-        }];
+            [self performSegueWithIdentifier:@"CommentsToMatchDetails" sender:self];
+        }
     }
 }
 
