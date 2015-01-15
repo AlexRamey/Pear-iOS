@@ -175,7 +175,7 @@
         NSString *key = [couple[@"Male"] stringByAppendingString:couple[@"Female"]];
         NSString *priorSavedCoupleID = [_coupleObjectsAlreadyVotedOn objectForKey:key];
         
-        if (priorSavedCoupleID) //already pulled a couple with same male/female
+        if (priorSavedCoupleID && [priorSavedCoupleID caseInsensitiveCompare:couple.objectId] != NSOrderedSame) //already pulled a couple with same male/female
         {
             PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
             [query getObjectInBackgroundWithId:priorSavedCoupleID block:^(PFObject *object, NSError *error) {
@@ -205,6 +205,10 @@
                     
                     priorSavedCouple[@"Upvotes"] = [NSNumber numberWithInt:priorSavedUpvotes + incomingUpvotes];
                     priorSavedCouple[@"Downvotes"] = [NSNumber numberWithInt:priorSavedDownvotes + incomingDownvotes];
+                    
+                    double uVotes = [priorSavedCouple[@"Upvotes"] doubleValue];
+                    double dVotes = [priorSavedCouple[@"Downvotes"] doubleValue];
+                    priorSavedCouple[@"Score"] = [self computeScoreFromUpvotes:uVotes andDownvotes:dVotes];
                     
                     //save the updated priorSavedCouple
                     [priorSavedCouple saveInBackground];
@@ -225,7 +229,10 @@
         NSString *key = [couple[@"Male"] stringByAppendingString:couple[@"Female"]];
         NSString *priorSavedCoupleID = [_coupleObjectsAlreadyVotedOn objectForKey:key];
         
-        if (priorSavedCoupleID) //already pulled a couple with same male/female
+        if (priorSavedCoupleID && [priorSavedCoupleID caseInsensitiveCompare:couple.objectId] != NSOrderedSame)
+            //already pulled a couple with same male/female, but make sure it's not
+            //the same couple before deleting! (in case we voted twice for some multiplatform
+            //race condition reason)
         {
             PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
             [query getObjectInBackgroundWithId:priorSavedCoupleID block:^(PFObject *object, NSError *error) {
@@ -255,6 +262,10 @@
                     
                     priorSavedCouple[@"Upvotes"] = [NSNumber numberWithInt:priorSavedUpvotes + incomingUpvotes];
                     priorSavedCouple[@"Downvotes"] = [NSNumber numberWithInt:priorSavedDownvotes + incomingDownvotes];
+                    
+                    double uVotes = [priorSavedCouple[@"Upvotes"] doubleValue];
+                    double dVotes = [priorSavedCouple[@"Downvotes"] doubleValue];
+                    priorSavedCouple[@"Score"] = [self computeScoreFromUpvotes:uVotes andDownvotes:dVotes];
                     
                     //save the updated priorSavedCouple
                     [priorSavedCouple saveInBackground];
@@ -876,6 +887,10 @@
                 priorSavedCouple[@"Upvotes"] = [NSNumber numberWithInt:priorSavedUpvotes + incomingUpvotes];
                 priorSavedCouple[@"Downvotes"] = [NSNumber numberWithInt:priorSavedDownvotes + incomingDownvotes];
                 
+                double uVotes = [priorSavedCouple[@"Upvotes"] doubleValue];
+                double dVotes = [priorSavedCouple[@"Downvotes"] doubleValue];
+                priorSavedCouple[@"Score"] = [self computeScoreFromUpvotes:uVotes andDownvotes:dVotes];
+                
                 //save the updated priorSavedCouple
                 [priorSavedCouple saveInBackground];
                 
@@ -910,6 +925,18 @@
     
     [_coupleObjectsAlreadyVotedOn setObject:[coupleInfo objectForKey:@"ObjectId"] forKey:key];
     completion(nil);
+}
+
+-(NSNumber *)computeScoreFromUpvotes:(double)uVotes andDownvotes:(double)dVotes
+{
+    if (dVotes == 0)
+    {
+        dVotes = 1.0;
+    }
+    
+    double score = pow(uVotes, 7/3) / pow(dVotes, 2);
+    
+    return [NSNumber numberWithDouble:score];
 }
 
 -(void)saveUserWithCompletion:(void (^)(void))completion
