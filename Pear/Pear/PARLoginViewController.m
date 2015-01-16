@@ -170,7 +170,7 @@
             // result is a dictionary with the user's Facebook data
             NSDictionary *userData = (NSDictionary *)result;
             
-            NSLog(@"User Data: %@", userData);
+            //NSLog(@"User Data: %@", userData);
             
             [[NSUserDefaults standardUserDefaults] setObject:userData forKey:USER_DATA_KEY];
             
