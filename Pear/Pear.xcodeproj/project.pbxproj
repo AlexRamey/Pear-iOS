@@ -99,6 +99,7 @@
 		D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommunityCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		D03CDE961A5F92E200D11E9F /* PARCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARCommentsViewController.h; sourceTree = "<group>"; };
 		D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommentsViewController.m; sourceTree = "<group>"; };
+		D086602A1A6888C2008A7FDF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D0BC21C91A62E84C00C2D765 /* PARTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARTabBarController.h; sourceTree = "<group>"; };
 		D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARTabBarController.m; sourceTree = "<group>"; };
 		D0BC22111A635E4A00C2D765 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -159,6 +160,7 @@
 		5954EBDCD5F34B149298BFC2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D086602A1A6888C2008A7FDF /* UIKit.framework */,
 				D031DBA71A474C65000C37C0 /* Social.framework */,
 				43C287D5BBFD4FE6AD6425C7 /* libPods-Pear.a */,
 			);

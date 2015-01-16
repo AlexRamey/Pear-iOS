@@ -20,6 +20,8 @@
 
 @implementation PARProfileViewController
 
+#define IS_IPHONE_4 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )480) < DBL_EPSILON )
+
 static NSString * const reuseIdentifier = @"TopMatchCell";
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -31,6 +33,13 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
         UIButton *aboutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         [aboutButton addTarget:self action:@selector(aboutSelected:) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *aboutBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:aboutButton];
+        
+        if (IS_IPHONE_4)
+        {
+            UIBarButtonItem *logout = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(facebookLogout:)];
+            self.navigationItem.leftBarButtonItem = logout;
+        }
+        
         self.navigationItem.rightBarButtonItem = aboutBarButtonItem;
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"male"] == NSOrderedSame)
@@ -57,8 +66,8 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [_logoutBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
     
+    [_logoutBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
     [_recentCommentsBtn drawWithPrimaryColor:[UIColor PARBlue] secondaryColor:[UIColor PARBlue]];
     [_recentCommentsBtn addTarget:self action:@selector(viewComments:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -341,6 +350,13 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     [super viewDidLayoutSubviews];
     
     [self createDropShadow:_profileCard];
+    
+    if (IS_IPHONE_4)
+    {
+        [_logoutBtn removeFromSuperview];
+        _cardHeight.constant = 120.0;
+        _collectionViewBottomConstraint.constant = 0.0;
+    }
 }
 
 -(void)createDropShadow:(UIView *)view

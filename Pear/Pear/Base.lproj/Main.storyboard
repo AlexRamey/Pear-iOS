@@ -417,6 +417,7 @@
                                 <rect key="frame" x="225" y="513" width="150" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="3o7-10-Nxg"/>
                                     <constraint firstAttribute="width" constant="150" id="sdP-lV-buE"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -550,6 +551,7 @@
                         <constraints>
                             <constraint firstItem="KYk-g7-qNw" firstAttribute="top" secondItem="M47-02-TUy" secondAttribute="bottom" constant="8" id="3cp-vt-pnF"/>
                             <constraint firstItem="86g-Or-XOt" firstAttribute="top" secondItem="KYk-g7-qNw" secondAttribute="bottom" constant="8" id="5L9-h6-FoG"/>
+                            <constraint firstItem="nng-LQ-qxj" firstAttribute="top" secondItem="cy8-VA-NFW" secondAttribute="bottom" constant="41" id="9Uj-od-27k"/>
                             <constraint firstItem="nng-LQ-qxj" firstAttribute="top" secondItem="Tqx-Lv-Tej" secondAttribute="bottom" constant="8" id="Blw-nb-jzK"/>
                             <constraint firstItem="cy8-VA-NFW" firstAttribute="leading" secondItem="SC4-Gt-1ge" secondAttribute="leadingMargin" constant="-16" id="Fnp-gN-mL3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="X7U-8g-x8C" secondAttribute="trailing" constant="-16" id="GY9-zB-Uqm"/>
@@ -575,6 +577,7 @@
                             <mask key="constraints">
                                 <exclude reference="T45-9E-oOG"/>
                                 <exclude reference="WXl-Wf-Fdz"/>
+                                <exclude reference="qee-mv-clt"/>
                             </mask>
                         </variation>
                     </view>
@@ -582,6 +585,8 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="USK-K3-UMN"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="cardHeight" destination="LDn-8F-E0N" id="WjY-3H-G8q"/>
+                        <outlet property="collectionViewBottomConstraint" destination="9Uj-od-27k" id="khs-ac-zjN"/>
                         <outlet property="logoutBtn" destination="Tqx-Lv-Tej" id="g5P-nw-cvR"/>
                         <outlet property="profileCard" destination="M47-02-TUy" id="vCu-3Z-mcl"/>
                         <outlet property="profilePicFillerView" destination="VKv-N8-V7c" id="UxG-e9-chk"/>
@@ -682,7 +687,7 @@
         <!--Results-->
         <scene sceneID="qeh-9N-ZH8">
             <objects>
-                <viewController id="yJe-l6-r8o" customClass="PARGameResultsViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="yJe-l6-r8o" customClass="PARGameResultsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bVK-GK-j9t"/>
                         <viewControllerLayoutGuide type="bottom" id="VKf-xz-aQ7"/>

@@ -26,6 +26,9 @@
 @property (nonatomic, weak) IBOutlet UICollectionView *topMatchesCollection;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentedControl;
 
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *collectionViewBottomConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *cardHeight;
+
 @property (nonatomic, strong) NSMutableDictionary *topMatchProfilePicViews;
 @property (nonatomic, strong) NSMutableArray *topMatchesAllTime;
 @property (nonatomic, strong) NSMutableArray *topMatchesPast30Days;

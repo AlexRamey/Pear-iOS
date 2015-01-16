@@ -166,11 +166,12 @@
     _downVote.enabled = YES;
     
     objectId = [coupleToVoteOn objectForKey:@"ObjectId"];
+    
     maleId = [coupleToVoteOn objectForKey:@"Male"];
     femaleId = [coupleToVoteOn objectForKey:@"Female"];
     mName = [coupleToVoteOn objectForKey:@"MaleName"];
     fName = [coupleToVoteOn objectForKey:@"FemaleName"];
-    
+     
     if ([[coupleToVoteOn objectForKey:@"Upvotes"] isKindOfClass:[NSNumber class]])
     {
         upVotes = [[coupleToVoteOn objectForKey:@"Upvotes"] intValue];
