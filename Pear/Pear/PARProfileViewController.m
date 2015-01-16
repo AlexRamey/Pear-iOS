@@ -356,6 +356,8 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
         [_logoutBtn removeFromSuperview];
         _cardHeight.constant = 120.0;
         _collectionViewBottomConstraint.constant = 0.0;
+        
+        [_wishlistSwag setNumberOfLines:2];
     }
 }
 

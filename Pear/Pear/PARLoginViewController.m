@@ -170,7 +170,7 @@
             // result is a dictionary with the user's Facebook data
             NSDictionary *userData = (NSDictionary *)result;
             
-            //NSLog(@"User Data: %@", userData);
+            NSLog(@"User Data: %@", userData);
             
             [[NSUserDefaults standardUserDefaults] setObject:userData forKey:USER_DATA_KEY];
             
@@ -195,13 +195,17 @@
                             }
                         }
                         
-                        NSDictionary *year = mostRecent[@"year"];
-                        if (year)
+                        if ([mostRecent[@"year"] isKindOfClass:[NSDictionary class]])
                         {
+                            NSDictionary *year = mostRecent[@"year"];
                             if (year[@"name"])
                             {
                                 newUser[@"EducationYear"] = year[@"name"];
                             }
+                        }
+                        else if (mostRecent[@"year"]) //it's a number
+                        {
+                            newUser[@"EducationYear"] = mostRecent[@"year"];
                         }
                     }
                 }
