@@ -285,8 +285,13 @@
                 }
                 else //login fails
                 {
+                    [PFUser logOut];
                     _loginBtn.enabled = YES;
                     [_activityIndicator stopAnimating];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Please Try Again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                        [alert show];
+                    });
                 }
             }];
         }
