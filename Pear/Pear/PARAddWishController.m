@@ -329,11 +329,11 @@ static NSString * const reuseIdentifider = @"CELL";
 {
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"female"] == NSOrderedSame)
     {
-        return @"Choose your man";
+        return @"Choose Your Gentleman";
     }
     else
     {
-        return @"Choose your lady";
+        return @"Choose Your Lady";
     }
 }
 

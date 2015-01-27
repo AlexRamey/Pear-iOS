@@ -124,6 +124,7 @@
 - (IBAction)loginButtonTouchHandler:(id)sender  {
     //disable loginBtn
     _loginBtn.enabled = NO;
+    
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[@"public_profile", @"email", @"user_friends", @"friends_location", @"friends_education_history"];
     
@@ -133,6 +134,7 @@
         
         if (!user) {
             _loginBtn.enabled = YES;
+            [_activityIndicator stopAnimating];
             NSString *errorMessage = nil;
             if (!error) {
                 //NSLog(@"Uh oh. The user cancelled the Facebook login.");
@@ -141,6 +143,9 @@
                 //NSLog(@"Uh oh. An error occurred: %@", error);
                 errorMessage = [error localizedDescription];
             }
+            
+            [errorMessage stringByAppendingString:@" Pleae try again."];
+            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
                                                             message:errorMessage
                                                            delegate:nil
@@ -170,7 +175,7 @@
             // result is a dictionary with the user's Facebook data
             NSDictionary *userData = (NSDictionary *)result;
             
-            //NSLog(@"User Data: %@", userData);
+            NSLog(@"User Data: %@", userData);
             
             [[NSUserDefaults standardUserDefaults] setObject:userData forKey:USER_DATA_KEY];
             
@@ -255,7 +260,7 @@
                 if (!error && [objects count] > 0)
                 {
                     PFObject *userObject = [objects firstObject];
-                    [[PARDataStore sharedStore] setUserObject:userObject];
+                    [[PARDataStore sharedStore] setUserObject:[PFUser currentUser]];
                     NSDictionary *wishlist = [userObject objectForKey:@"Wishlist"];
                     [[NSUserDefaults standardUserDefaults] setObject:wishlist forKey:WISHLIST_DEFAULTS_KEY];
                     
@@ -263,9 +268,19 @@
                      {
                          if (error)
                          {
-                             //Means we'll probably end up revoting on some couples . . .
+                             [PFUser logOut];
+                             _loginBtn.enabled = YES;
+                             [_activityIndicator stopAnimating];
+                             
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Please Try Again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                 [alert show];
+                             });
                          }
-                         [self requestFriendsAndTransition];
+                         else
+                         {
+                             [self requestFriendsAndTransition];
+                         }
                      }];
                 }
                 else //login fails
@@ -281,12 +296,22 @@
             [PFUser logOut];
             _loginBtn.enabled = YES;
             [_activityIndicator stopAnimating];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Please Try Again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+            });
         }
         else
         {
-            //NSLog(@"Some other error: %@", error);
+            [PFUser logOut];
             _loginBtn.enabled = YES;
             [_activityIndicator stopAnimating];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Please Try Again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+            });
         }
     }];
 }
@@ -306,18 +331,33 @@
     }];
     
     [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        NSArray *friends = [result objectForKey:@"data"];
-        //NSLog(@"Friends: %@", friends);
-        [PARDataStore sharedStore].friends = friends;
         
-        [[PARDataStore sharedStore] nextCoupleWithCompletion:^(NSError *error) {
-            if (error)
-            {
-                //If error, it will be stored in defaults and caught by PARGameController in viewWillAppear
-            }
-            [self performSegueWithIdentifier:@"LoginToTab" sender:self];
+        if (!error)
+        {
+            NSArray *friends = [result objectForKey:@"data"];
+            //NSLog(@"Friends: %@", friends);
+            [PARDataStore sharedStore].friends = friends;
+            [[PARDataStore sharedStore] nextCoupleWithCompletion:^(NSError *error) {
+                if (error)
+                {
+                    //If error, it will be stored in defaults and caught by PARGameController in viewWillAppear
+                }
+                [self performSegueWithIdentifier:@"LoginToTab" sender:self];
+                [_activityIndicator stopAnimating];
+            }];
+        }
+        else
+        {
+            //login fails
+            [PFUser logOut];
+            _loginBtn.enabled = YES;
             [_activityIndicator stopAnimating];
-        }];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Please Try Again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+            });
+        }
     }];
 }
 #pragma mark - Navigation

@@ -675,6 +675,7 @@
     {
         NSError *noMoreCouplesError = [[NSError alloc] initWithDomain:NO_MORE_COUPLES_DOMAIN code:000 userInfo:nil];
         completion(noMoreCouplesError);
+        return;
     }
     
     NSMutableArray *validPushCoupleOffsets = [[NSMutableArray alloc] init];
@@ -917,7 +918,7 @@
     }
     else
     {
-        [_couplesLiked addObject:couple];
+        [_couplesDisliked addObject:couple];
         relation = [_userObject relationForKey:@"couplesDisliked"];
     }
     

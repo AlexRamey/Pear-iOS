@@ -50,7 +50,8 @@ NSString * const PAR_IS_FIRST_LAUNCH_PEAR_KEY = @"PAR_IS_FIRST_LAUNCH_PEAR_KEY";
     NSDictionary *defaults = @{
                                PAR_IS_FIRST_LAUNCH_GAME_KEY : @YES,
                                PAR_IS_FIRST_LAUNCH_RESULTS_KEY : @YES,
-                               PAR_IS_FIRST_LAUNCH_PEAR_KEY : @YES
+                               PAR_IS_FIRST_LAUNCH_PEAR_KEY : @YES,
+                               WISHLIST_DEFAULTS_KEY : @{}
                                };
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];

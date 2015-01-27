@@ -171,7 +171,13 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
              
              _allTimeRanks[0] = [NSNumber numberWithInt:1];
              
-             NSNumber *tempScore = [_topMatchesAllTime[0] objectForKey:@"Score"];
+             
+             NSNumber *tempScore = nil;
+             
+             if ([_topMatchesAllTime count] != 0)
+             {
+                 tempScore = [_topMatchesAllTime[0] objectForKey:@"Score"];
+             }
              
              int offset = 1;
              
@@ -252,7 +258,12 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
              
              _past30DayRanks[0] = [NSNumber numberWithInt:1];
              
-             NSNumber *tempScore = [_topMatchesPast30Days[0] objectForKey:@"Score"];
+             NSNumber *tempScore = nil;
+             
+             if ([_topMatchesPast30Days count] != 0)
+             {
+                 tempScore = [_topMatchesPast30Days[0] objectForKey:@"Score"];
+             }
              
              int offset = 1;
              
@@ -550,6 +561,9 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
         
         //Logout
         [PFUser logOut];
+        
+        //Set _userObject to nil
+        [PARDataStore sharedStore].userObject = nil;
         
         //Return to Login Screen
         [self.parentViewController.parentViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
