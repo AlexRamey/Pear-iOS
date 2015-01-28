@@ -144,7 +144,7 @@
                 errorMessage = [error localizedDescription];
             }
             
-            [errorMessage stringByAppendingString:@" Pleae try again."];
+            [errorMessage stringByAppendingString:@" Pleae try again. If the problem persists, try Settings > General > Reset > Reset location and privacy."];
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
                                                             message:errorMessage
