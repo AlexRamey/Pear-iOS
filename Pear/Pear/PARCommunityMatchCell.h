@@ -17,7 +17,6 @@
     UILabel *maleName;
     UIView *femalePictureFiller;
     UILabel *femaleName;
-    PARButton *detailsButton;
 }
 
 @property (nonatomic, strong) NSString *coupleObjectID;

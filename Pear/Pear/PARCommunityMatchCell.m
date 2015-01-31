@@ -66,7 +66,6 @@
         [self addSubview:femalePictureFiller];
         [self addSubview:maleName];
         [self addSubview:femaleName];
-        [self addSubview:detailsButton];
         [self addSubview:rank];
     }
     
