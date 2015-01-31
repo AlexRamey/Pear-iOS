@@ -403,6 +403,11 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
+    UIAlertAction *writeReview = [UIAlertAction actionWithTitle:@"Write a Review" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSURL *url = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id957882121"];
+        [[UIApplication sharedApplication] openURL:url];
+    }];
+    
     UIAlertAction *privacyPolicy = [UIAlertAction actionWithTitle:@"Privacy Policy" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSURL *url = [NSURL URLWithString:@"http://thepeargame.com/privacy"];
         [[UIApplication sharedApplication] openURL:url];
@@ -416,6 +421,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
     }];
     
+    [alert addAction:writeReview];
     [alert addAction:privacyPolicy];
     [alert addAction:termsOfService];
     [alert addAction:cancel];
