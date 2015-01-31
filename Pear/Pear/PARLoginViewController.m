@@ -121,8 +121,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)loginButtonTouchHandler:(id)sender  {
-    //disable loginBtn
+- (IBAction)loginButtonTouchHandler:(id)sender
+{
     _loginBtn.enabled = NO;
     
     // Set permissions required from the facebook user account
@@ -130,27 +130,31 @@
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
-        if (!user) {
+        if (!user)
+        {
             _loginBtn.enabled = YES;
             [_activityIndicator stopAnimating];
             NSString *errorMessage = nil;
-            if (!error) {
-                //NSLog(@"Uh oh. The user cancelled the Facebook login.");
-                errorMessage = @"Uh oh. The user cancelled the Facebook login.";
-            } else {
-                //NSLog(@"Uh oh. An error occurred: %@", error);
+            if (!error)
+            {
+                errorMessage = @"The user cancelled the Facebook login.";
+            }
+            else
+            {
                 errorMessage = [error localizedDescription];
             }
             
             [errorMessage stringByAppendingString:@" Pleae try again. If the problem persists, try Settings > General > Reset > Reset location and privacy."];
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Error"
                                                             message:errorMessage
                                                            delegate:nil
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:@"Dismiss", nil];
             [alert show];
-        } else {
+        }
+        else
+        {
             [self retrieveUserInfoAndTransition:user];
         }
     }];
@@ -162,157 +166,169 @@
 {
     FBRequest *request = [FBRequest requestForMe];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        if (!error) {
+        if (!error)
+        {
             // result is a dictionary with the user's Facebook data
             NSDictionary *userData = (NSDictionary *)result;
-            
             [[NSUserDefaults standardUserDefaults] setObject:userData forKey:USER_DATA_KEY];
             
-            NSArray *education = userData[@"education"];
-            if (education)
-            {
-                NSDictionary *mostRecent = [education lastObject];
-                if (mostRecent)
+            __block void (^postSaveUserBlock)() = ^{
+                NSString *facebookID = userData[@"id"];
+                [[NSUserDefaults standardUserDefaults] setObject:facebookID forKey:USER_FB_ID_KEY];
+                NSString *userGender = userData[@"gender"];
+                if (userGender)
                 {
-                    NSDictionary *school = mostRecent[@"school"];
-                    if (school)
+                    [[NSUserDefaults standardUserDefaults] setObject:userGender forKey:USER_GENDER_KEY];
+                }
+                else //if no gender is provided, assume male
+                {
+                    [[NSUserDefaults standardUserDefaults] setObject:@"male" forKey:USER_GENDER_KEY];
+                }
+                
+                //Attempt to retrieve wishlist and user object
+                //if this fails, then login fails
+                
+                PFQuery *userQuery = [PFUser query];
+                userQuery.limit = 1;
+                [userQuery whereKey:@"FBID" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
+                [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if (!error && [objects count] > 0)
                     {
-                        if (school[@"id"])
-                        {
-                            user[@"Education"] = school[@"id"];
-                        }
-                        if (school[@"name"])
-                        {
-                            user[@"EducationName"] = school[@"name"];
-                        }
+                        PFObject *userObject = [objects firstObject];
+                        [[PARDataStore sharedStore] setUserObject:[PFUser currentUser]];
+                        NSDictionary *wishlist = [userObject objectForKey:@"Wishlist"];
+                        [[NSUserDefaults standardUserDefaults] setObject:wishlist forKey:WISHLIST_DEFAULTS_KEY];
+                        
+                        [[PARDataStore sharedStore] pullCouplesAlreadyVotedOnWithCompletion:^(NSError *error)
+                         {
+                             if (error)
+                             {
+                                 [PFUser logOut];
+                                 
+                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                     _loginBtn.enabled = YES;
+                                     [_activityIndicator stopAnimating];
+                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Please Try Again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                     [alert show];
+                                 });
+                             }
+                             else
+                             {
+                                 [self requestFriendsAndTransition];
+                             }
+                         }];
                     }
-                    
-                    if ([mostRecent[@"year"] isKindOfClass:[NSDictionary class]])
+                    else //login fails
                     {
-                        NSDictionary *year = mostRecent[@"year"];
-                        if (year[@"name"])
+                        [PFUser logOut];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            _loginBtn.enabled = YES;
+                            [_activityIndicator stopAnimating];
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Failed to retrieve user information." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                            [alert show];
+                        });
+                    }
+                }];
+            };
+            
+            if (user)
+            {
+                NSArray *education = userData[@"education"];
+                if (education)
+                {
+                    NSDictionary *mostRecent = [education lastObject];
+                    if (mostRecent)
+                    {
+                        NSDictionary *school = mostRecent[@"school"];
+                        if (school)
                         {
-                            NSString *eduYear = year[@"name"];
+                            if (school[@"id"])
+                            {
+                                user[@"Education"] = school[@"id"];
+                            }
+                            if (school[@"name"])
+                            {
+                                user[@"EducationName"] = school[@"name"];
+                            }
+                        }
+                        
+                        if ([mostRecent[@"year"] isKindOfClass:[NSDictionary class]])
+                        {
+                            NSDictionary *year = mostRecent[@"year"];
+                            if (year[@"name"])
+                            {
+                                NSString *eduYear = year[@"name"];
+                                user[@"EducationYear"] = [NSNumber numberWithInt:[eduYear intValue]];
+                            }
+                        }
+                        else if (mostRecent[@"year"])
+                        {
+                            NSString *eduYear = mostRecent[@"year"];
                             user[@"EducationYear"] = [NSNumber numberWithInt:[eduYear intValue]];
                         }
                     }
-                    else if (mostRecent[@"year"])
-                    {
-                        NSString *eduYear = mostRecent[@"year"];
-                        user[@"EducationYear"] = [NSNumber numberWithInt:[eduYear intValue]];
-                    }
                 }
-            }
-            
-            if (userData[@"name"])
-            {
-                user[@"Name"] = userData[@"name"];
-            }
-            
-            if (userData[@"gender"])
-            {
-                user[@"Gender"] = userData[@"gender"];
-            }
-            
-            if (userData[@"email"])
-            {
-                user[@"email"] = userData[@"email"];
-            }
-            
-            if (userData[@"id"])
-            {
-                user[@"FBID"] = userData[@"id"];
-            }
-            
-            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded)
+                
+                if (userData[@"name"])
                 {
-                    NSString *facebookID = userData[@"id"];
-                    [[NSUserDefaults standardUserDefaults] setObject:facebookID forKey:USER_FB_ID_KEY];
-                    NSString *userGender = userData[@"gender"];
-                    if (userGender)
+                    user[@"Name"] = userData[@"name"];
+                }
+                
+                if (userData[@"gender"])
+                {
+                    user[@"Gender"] = userData[@"gender"];
+                }
+                
+                if (userData[@"email"])
+                {
+                    user[@"email"] = userData[@"email"];
+                }
+                
+                if (userData[@"id"])
+                {
+                    user[@"FBID"] = userData[@"id"];
+                }
+                
+                [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (succeeded)
                     {
-                        [[NSUserDefaults standardUserDefaults] setObject:userGender forKey:USER_GENDER_KEY];
+                        postSaveUserBlock();
                     }
-                    else //if no gender is provided, assume male
+                    else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
+                              isEqualToString: @"OAuthException"])
                     {
-                        [[NSUserDefaults standardUserDefaults] setObject:@"male" forKey:USER_GENDER_KEY];
-                    }
-                    
-                    //Attempt to retrieve wishlist and user object
-                    //if this fails, then login fails
-                    
-                    PFQuery *userQuery = [PFUser query];
-                    userQuery.limit = 1;
-                    [userQuery whereKey:@"FBID" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]];
-                    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                        if (!error && [objects count] > 0)
-                        {
-                            PFObject *userObject = [objects firstObject];
-                            [[PARDataStore sharedStore] setUserObject:[PFUser currentUser]];
-                            NSDictionary *wishlist = [userObject objectForKey:@"Wishlist"];
-                            [[NSUserDefaults standardUserDefaults] setObject:wishlist forKey:WISHLIST_DEFAULTS_KEY];
-                            
-                            [[PARDataStore sharedStore] pullCouplesAlreadyVotedOnWithCompletion:^(NSError *error)
-                             {
-                                 if (error)
-                                 {
-                                     [PFUser logOut];
-                                     _loginBtn.enabled = YES;
-                                     [_activityIndicator stopAnimating];
-                                     
-                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Please Try Again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                                         [alert show];
-                                     });
-                                 }
-                                 else
-                                 {
-                                     [self requestFriendsAndTransition];
-                                 }
-                             }];
-                        }
-                        else //login fails
-                        {
-                            [PFUser logOut];
+                        [PFUser logOut];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
                             _loginBtn.enabled = YES;
                             [_activityIndicator stopAnimating];
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Failed to retrieve user information." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                                [alert show];
-                            });
-                        }
-                    }];
-                }
-                else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
-                          isEqualToString: @"OAuthException"])
-                {
-                    [PFUser logOut];
-                    _loginBtn.enabled = YES;
-                    [_activityIndicator stopAnimating];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Failed to update user data." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                        [alert show];
-                    });
-                }
-                else
-                {
-                    [PFUser logOut];
-                    _loginBtn.enabled = YES;
-                    [_activityIndicator stopAnimating];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Failed to update user data." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                        [alert show];
-                    });
-                }
-            }];
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Failed to update user data." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                            [alert show];
+                        });
+                    }
+                    else
+                    {
+                        [PFUser logOut];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            _loginBtn.enabled = YES;
+                            [_activityIndicator stopAnimating];
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Failed to update user data." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                            [alert show];
+                        });
+                    }
+                }];
+            }
+            else
+            {
+                postSaveUserBlock();
+            }
         }
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Failed to fetch user data." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Failed to fetch user data from Facebook." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alert show];
             });
         }
@@ -325,7 +341,6 @@
     
     FBRequest *permissionsRequest = [FBRequest requestForGraphPath:@"/me/permissions"];
     [permissionsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        //NSLog(@"PERMISSIONS: %@", result);
         if ([FBErrorUtility shouldNotifyUserForError:error])
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[FBErrorUtility userMessageForError:error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -338,7 +353,6 @@
         if (!error)
         {
             NSArray *friends = [result objectForKey:@"data"];
-            //NSLog(@"Friends: %@", friends);
             [PARDataStore sharedStore].friends = friends;
             [[PARDataStore sharedStore] nextCoupleWithCompletion:^(NSError *error) {
                 if (error)
@@ -353,10 +367,10 @@
         {
             //login fails
             [PFUser logOut];
-            _loginBtn.enabled = YES;
-            [_activityIndicator stopAnimating];
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                _loginBtn.enabled = YES;
+                [_activityIndicator stopAnimating];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Please Try Again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alert show];
             });
