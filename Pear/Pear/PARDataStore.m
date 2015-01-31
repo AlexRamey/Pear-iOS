@@ -332,8 +332,6 @@
                     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:@{@"Error" : NETWORK_ERROR_DOMAIN}] forKey:NEXT_COUPLE_TO_VOTE_ON_KEY];
                     completion(error);
                 }
-                
-                
             }
         }];
     }
@@ -377,11 +375,6 @@
     [query whereKey:@"Female" containedIn:_femaleFriendIDs];
     [query whereKey:@"objectId" notContainedIn:[_coupleObjectsAlreadyVotedOn allValues]];
     
-    //for testing purposes
-    /*
-    [query whereKey:@"Female" containedIn:@[@"1230104186"]];
-    [query whereKey:@"Male" containedIn:@[@"1160804880"]];
-    */
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         for (PFObject *couple in objects)
         {
@@ -739,26 +732,33 @@
 
 -(void)executeQueryWithOffset:(int)offset completion:(void (^)(BOOL, int))completion
 {
-    NSDictionary *potentialCouple = [_potentialCouples objectAtIndex:pushIndex + offset];
-    PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
-    query.limit = 5;
-    [query whereKey:@"Male" containedIn:@[[potentialCouple objectForKey:@"Male"]]];
-    [query whereKey:@"Female" containedIn:@[[potentialCouple objectForKey:@"Female"]]];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (error) //consider pushIndex--
-        {
-            completion(YES, offset); //assume the worst (couple exists)
-        }
-        else if ([objects count] > 0)
-        {
-            completion(YES, offset); //couple exists
-        }
-        else
-        {
-            completion(NO, offset); //couple does not exist
-        }
-    }];
+    if ([_potentialCouples count] > pushIndex + offset)
+    {
+        NSDictionary *potentialCouple = [_potentialCouples objectAtIndex:pushIndex + offset];
+        PFQuery *query = [PFQuery queryWithClassName:@"Couples"];
+        query.limit = 5;
+        [query whereKey:@"Male" containedIn:@[[potentialCouple objectForKey:@"Male"]]];
+        [query whereKey:@"Female" containedIn:@[[potentialCouple objectForKey:@"Female"]]];
+        
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) //consider pushIndex--
+            {
+                completion(YES, offset); //assume the worst (couple exists)
+            }
+            else if ([objects count] > 0)
+            {
+                completion(YES, offset); //couple exists
+            }
+            else
+            {
+                completion(NO, offset); //couple does not exist
+            }
+        }];
+    }
+    else
+    {
+        completion(YES, offset); //report the worst (couple exists); out of bounds will be caught by completion()
+    }
 }
 
 -(void)executeUploadsWithOffsets:(NSArray *)offsets completion:(void (^)(NSError *))completion
