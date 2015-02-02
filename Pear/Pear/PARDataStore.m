@@ -448,9 +448,10 @@
                                 maleSchoolYear = [NSNumber numberWithInt:[[year objectForKey:@"name"] intValue]];
                             }
                         }
-                        else if ([maleEdu objectForKey:@"year"]) //it's a number
+                        else if ([maleEdu objectForKey:@"year"])
                         {
-                            maleSchoolYear = [maleEdu objectForKey:@"year"];
+                            NSString *mYear = [maleEdu objectForKey:@"year"];
+                            maleSchoolYear = [NSNumber numberWithInt:[mYear intValue]];
                         }
                         
                     }
@@ -478,9 +479,10 @@
                                 femaleSchoolYear = [NSNumber numberWithInt:[[year objectForKey:@"name"] intValue]];
                             }
                         }
-                        else if ([femaleEdu objectForKey:@"year"]) //it's a number
+                        else if ([femaleEdu objectForKey:@"year"])
                         {
-                            femaleSchoolYear = [femaleEdu objectForKey:@"year"];
+                            NSString *fYear = [femaleEdu objectForKey:@"year"];
+                            femaleSchoolYear = [NSNumber numberWithInt:[fYear intValue]];
                         }
                     }
                     
