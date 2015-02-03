@@ -111,6 +111,7 @@
     if ([PFUser currentUser] && // Check if user is cached
         [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) { // Check if user is linked to Facebook
         [_activityIndicator startAnimating];
+        [[PARDataStore sharedStore] setUserObject:[PFUser currentUser]];
         [self retrieveUserInfoAndTransition:nil];
         _loginBtn.enabled = NO;
     }
