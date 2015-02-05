@@ -38,8 +38,8 @@
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [_activityIndicator setHidesWhenStopped:YES];
         
-        _loginBtn = [[PARButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 150.0, 30.0)];
-        [_loginBtn setTitle:@"Login" forState:UIControlStateNormal];
+        _loginBtn = [[PARButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 50.0)];
+        [_loginBtn setTitle:@"Log in with Facebook" forState:UIControlStateNormal];
         [_loginBtn addTarget:self action:@selector(loginButtonTouchHandler:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -108,6 +108,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     _loginBtn.enabled = YES;
+    
     if ([PFUser currentUser] && // Check if user is cached
         [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) { // Check if user is linked to Facebook
         [_activityIndicator startAnimating];
@@ -170,6 +171,7 @@
         {
             // result is a dictionary with the user's Facebook data
             NSDictionary *userData = (NSDictionary *)result;
+            //NSLog(@"USER DATA: %@", userData);
             [[NSUserDefaults standardUserDefaults] setObject:userData forKey:USER_DATA_KEY];
             
             __block void (^postSaveUserBlock)() = ^{
