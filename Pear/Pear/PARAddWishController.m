@@ -65,8 +65,6 @@ static NSString * const reuseIdentifider = @"CELL";
     // Do any additional setup after loading the view.
     
     [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reuseIdentifider];
-    [_tableView setEditing:YES];
-    [_tableView setAllowsSelectionDuringEditing:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -310,11 +308,6 @@ static NSString * const reuseIdentifider = @"CELL";
     }];
 }
 
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewCellEditingStyleInsert;
-}
-
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
@@ -347,7 +340,6 @@ static NSString * const reuseIdentifider = @"CELL";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifider];
-    cell.editing = YES;
     
     cell.textLabel.text = [[_potentialWishes objectAtIndex:indexPath.row] wishName];
     
