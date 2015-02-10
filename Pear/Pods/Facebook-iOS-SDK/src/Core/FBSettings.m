@@ -47,6 +47,7 @@ NSString *const FBLoggingBehaviorPerformanceCharacteristics = @"perf_characteris
 NSString *const FBLoggingBehaviorAppEvents = @"app_events";
 NSString *const FBLoggingBehaviorInformational = @"informational";
 NSString *const FBLoggingBehaviorCacheErrors = @"cache_errors";
+NSString *const FBLoggingBehaviorUIControlErrors = @"ui_control_errors";
 NSString *const FBLoggingBehaviorDeveloperErrors = @"developer_errors";
 
 NSString *const FBLastAttributionPing = @"com.facebook.sdk:lastAttributionPing%@";
@@ -61,7 +62,6 @@ NSTimeInterval const FBPublishDelay = 0.1;
 @implementation FBSettings
 
 static NSSet *g_loggingBehavior;
-static BOOL g_autoPublishInstall = YES;
 static dispatch_once_t g_publishInstallOnceToken;
 static NSString *g_appVersion;
 static NSUInteger g_betaFeatures = 0;
@@ -278,32 +278,9 @@ static BOOL g_enableLegacyGraphAPI = NO;
     }
 }
 
-+ (BOOL)shouldAutoPublishInstall {
-    return g_autoPublishInstall;
-}
-
-+ (void)setShouldAutoPublishInstall:(BOOL)newValue {
-    g_autoPublishInstall = newValue;
-}
-
 + (NSString *)defaultURLSchemeWithAppID:(NSString *)appID urlSchemeSuffix:(NSString *)urlSchemeSuffix {
     return [NSString stringWithFormat:@"fb%@%@", appID ?: [self defaultAppID], urlSchemeSuffix ?: [self defaultUrlSchemeSuffix] ?: @""];
 }
-
-+ (void)autoPublishInstall:(NSString *)appID {
-    if ([FBSettings shouldAutoPublishInstall]) {
-        dispatch_once(&g_publishInstallOnceToken, ^{
-            // dispatch_once is great, but not re-entrant.  Inside publishInstall we use FBRequest, which will
-            // cause this function to get invoked a second time.  By scheduling the work, we can sidestep the problem.
-            [[FBSettings class] performSelector:@selector(autoPublishInstallImpl:) withObject:appID afterDelay:FBPublishDelay];
-        });
-    }
-}
-
-+ (void)autoPublishInstallImpl:(NSString *)appID {
-    [FBSettings publishInstall:appID isAutoPublish:YES];
-}
-
 
 + (void)enableBetaFeatures:(NSUInteger)betaFeatures {
     g_betaFeatures |= betaFeatures;
@@ -342,11 +319,6 @@ static BOOL g_enableLegacyGraphAPI = NO;
 #pragma mark proto-activity publishing code
 
 + (void)publishInstall:(NSString *)appID {
-    [FBSettings publishInstall:appID isAutoPublish:NO];
-}
-
-+ (void)publishInstall:(NSString *)appID
-         isAutoPublish:(BOOL)isAutoPublish {
     @try {
         if (!appID) {
             appID = [FBSettings defaultAppID];
@@ -357,27 +329,15 @@ static BOOL g_enableLegacyGraphAPI = NO;
             return;
         }
 
-        // We turn off auto-publish, since this was manually called and the expectation
-        // is that it's only ever necessary to call this once.
-        if (!isAutoPublish) {
-            [FBSettings setShouldAutoPublishInstall:NO];
-        }
-
         // look for a previous ping & grab the facebook app's current attribution id.
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *pingKey = [NSString stringWithFormat:FBLastAttributionPing, appID, nil];
         NSString *responseKey = [NSString stringWithFormat:FBLastInstallResponse, appID, nil];
 
         NSDate *lastPing = [defaults objectForKey:pingKey];
-        NSString *attributionID = [FBUtility attributionID];
-        NSString *advertiserID = [FBUtility advertiserID];
 
         if (lastPing) {
             // Short circuit
-            return;
-        }
-
-        if (!(attributionID || advertiserID)) {
             return;
         }
 
@@ -404,30 +364,15 @@ static BOOL g_enableLegacyGraphAPI = NO;
                            callback:^(FBFetchedAppSettings *settings, NSError *error) {
                                if (!error) {
                                    @try {
-                                       if (settings.supportsAttribution) {
-                                           // set up the HTTP POST to publish the attribution ID.
-                                           NSString *publishPath = [NSString stringWithFormat:FBPublishActivityPath, appID, nil];
-                                           NSMutableDictionary<FBGraphObject> *installActivity = [FBGraphObject graphObject];
-                                           [installActivity setObject:FBMobileInstallEvent forKey:@"event"];
+                                       // set up the HTTP POST to publish the attribution ID.
+                                       NSMutableDictionary<FBGraphObject> *installActivity =
+                                           [FBUtility activityParametersDictionaryForEvent:FBMobileInstallEvent
+                                                                        implicitEventsOnly:NO
+                                                                 shouldAccessAdvertisingID:settings.shouldAccessAdvertisingID];
 
-                                           if (attributionID) {
-                                               [installActivity setObject:attributionID forKey:@"attribution"];
-                                           }
-                                           if (advertiserID) {
-                                               [installActivity setObject:advertiserID forKey:@"advertiser_id"];
-                                           }
-                                           [FBUtility updateParametersWithEventUsageLimitsAndBundleInfo:installActivity accessAdvertisingTrackingStatus:YES];
-
-                                           [installActivity setObject:[NSNumber numberWithBool:isAutoPublish].stringValue forKey:@"auto_publish"];
-
-                                           FBRequest *publishRequest = [[[FBRequest alloc] initForPostWithSession:nil graphPath:publishPath graphObject:installActivity] autorelease];
-                                           [publishRequest startWithCompletionHandler:publishCompletionBlock];
-                                       } else {
-                                           // the app has turned off install insights.  prevent future attempts.
-                                           [defaults setObject:[NSDate date] forKey:pingKey];
-                                           [defaults setObject:nil forKey:responseKey];
-                                           [defaults synchronize];
-                                       }
+                                       NSString *publishPath = [NSString stringWithFormat:FBPublishActivityPath, appID, nil];
+                                       FBRequest *publishRequest = [[[FBRequest alloc] initForPostWithSession:nil graphPath:publishPath graphObject:installActivity] autorelease];
+                                       [publishRequest startWithCompletionHandler:publishCompletionBlock];
                                    } @catch (NSException *ex2) {
                                        NSString *errorMessage = [NSString stringWithFormat:@"Failure during install publish: %@", ex2.reason];
                                        [FBLogger singleShotLogEntry:FBLoggingBehaviorInformational logEntry:errorMessage];
