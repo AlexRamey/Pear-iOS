@@ -329,7 +329,11 @@
         }
         else
         {
+            [PFUser logOut];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
+                _loginBtn.enabled = YES;
+                [_activityIndicator stopAnimating];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed." message:@"Failed to fetch user data from Facebook." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alert show];
             });

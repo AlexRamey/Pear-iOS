@@ -252,7 +252,7 @@
     PARDataStore *sharedStore = [PARDataStore sharedStore];
     NSDictionary *coupleJustVotedOn = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]];
     
-    if ((voteBtn && voteBtn.frame.origin.x == _downVote.frame.origin.x) || (gestureRecognizer && gestureRecognizer.direction == UISwipeGestureRecognizerDirectionDown))
+    if ((voteBtn && voteBtn.frame.origin.y == _downVote.frame.origin.y) || (gestureRecognizer && gestureRecognizer.direction == UISwipeGestureRecognizerDirectionDown))
     {
         // downvote behavior
         userVote = -1;

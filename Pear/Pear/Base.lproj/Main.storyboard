@@ -26,7 +26,7 @@
         <!--The Pear Game-->
         <scene sceneID="5aO-6q-tX5">
             <objects>
-                <viewController title="The Pear Game" id="x9d-w7-p0Z" customClass="PARGameViewController" sceneMemberID="viewController">
+                <viewController title="The Pear Game" automaticallyAdjustsScrollViewInsets="NO" id="x9d-w7-p0Z" customClass="PARGameViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UYY-qb-Jze"/>
                         <viewControllerLayoutGuide type="bottom" id="tyR-uo-vEO"/>
@@ -52,35 +52,12 @@
                                     <constraint firstAttribute="width" secondItem="m89-h5-HUc" secondAttribute="height" multiplier="1:1" id="b4i-Rm-3rw"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mTc-Vy-xKR">
-                                <rect key="frame" x="304" y="403" width="80" height="80"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="CRC-Id-ta4"/>
-                                    <constraint firstAttribute="width" constant="80" id="Ksn-PS-ewr"/>
-                                </constraints>
-                                <state key="normal" image="upVote">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="voteCast:" destination="x9d-w7-p0Z" eventType="touchUpInside" id="TCR-Fw-qIv"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q3q-wu-iws">
-                                <rect key="frame" x="216" y="403" width="80" height="80"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="HXt-o2-In0"/>
-                                    <constraint firstAttribute="height" constant="80" id="KNP-8J-Vr0"/>
-                                </constraints>
-                                <state key="normal" image="downVote">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="voteCast:" destination="x9d-w7-p0Z" eventType="touchUpInside" id="AsW-R3-oB8"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FEMALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="hMD-rx-TUT">
                                 <rect key="frame" x="304" y="374" width="280" height="19"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="19" id="o8m-S8-BR6"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -88,34 +65,85 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="FWh-FX-A2Y">
                                 <rect key="frame" x="16" y="374" width="280" height="19"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="19" id="Ffd-NH-K3r"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="19" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZO-IG-415">
-                                <rect key="frame" x="16" y="491" width="568" height="19"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hSF-nc-3K4">
+                                <rect key="frame" x="250" y="401" width="100" height="142"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb4-lx-PyN">
+                                        <rect key="frame" x="7" y="8" width="86" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="vb4-lx-PyN" secondAttribute="height" multiplier="43:30" id="3xq-Vg-DWv"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="upVoteV2">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="voteCast:" destination="x9d-w7-p0Z" eventType="touchUpInside" id="Q3Z-wt-4QU"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VSd-re-GUk">
+                                        <rect key="frame" x="7" y="74" width="86" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="VSd-re-GUk" secondAttribute="height" multiplier="43:30" id="o1R-zK-MbV"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="downVoteV2">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="voteCast:" destination="x9d-w7-p0Z" eventType="touchUpInside" id="DnW-7f-99Y"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="hSF-nc-3K4" secondAttribute="height" multiplier="53:75" id="4Cp-5h-RU6"/>
+                                    <constraint firstAttribute="trailing" secondItem="VSd-re-GUk" secondAttribute="trailing" constant="7" id="IYm-ud-vit"/>
+                                    <constraint firstItem="VSd-re-GUk" firstAttribute="leading" secondItem="hSF-nc-3K4" secondAttribute="leading" constant="7" id="Mie-E9-lGA"/>
+                                    <constraint firstItem="vb4-lx-PyN" firstAttribute="leading" secondItem="hSF-nc-3K4" secondAttribute="leading" constant="7" id="NGc-9Z-zbk"/>
+                                    <constraint firstAttribute="width" secondItem="hSF-nc-3K4" secondAttribute="height" multiplier="53:75" id="SEO-Re-gIi"/>
+                                    <constraint firstAttribute="trailing" secondItem="VSd-re-GUk" secondAttribute="trailing" constant="7" id="VCg-zI-iZd"/>
+                                    <constraint firstItem="VSd-re-GUk" firstAttribute="leading" secondItem="hSF-nc-3K4" secondAttribute="leading" constant="7" id="VEY-IW-cKT"/>
+                                    <constraint firstAttribute="bottom" secondItem="VSd-re-GUk" secondAttribute="bottom" constant="8" id="Y8S-jf-BLt"/>
+                                    <constraint firstAttribute="trailing" secondItem="vb4-lx-PyN" secondAttribute="trailing" constant="7" id="eXb-p9-jE0"/>
+                                    <constraint firstItem="VSd-re-GUk" firstAttribute="top" secondItem="vb4-lx-PyN" secondAttribute="bottom" constant="6" id="f5J-cc-XSE"/>
+                                    <constraint firstItem="vb4-lx-PyN" firstAttribute="width" secondItem="VSd-re-GUk" secondAttribute="width" id="gYy-tE-rsc"/>
+                                    <constraint firstItem="vb4-lx-PyN" firstAttribute="top" secondItem="hSF-nc-3K4" secondAttribute="top" constant="8" id="mgX-qJ-Lpy"/>
+                                    <constraint firstItem="vb4-lx-PyN" firstAttribute="height" secondItem="VSd-re-GUk" secondAttribute="height" id="vzj-lA-GIZ"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="SEO-Re-gIi"/>
+                                        <exclude reference="gYy-tE-rsc"/>
+                                        <exclude reference="vzj-lA-GIZ"/>
+                                        <exclude reference="Mie-E9-lGA"/>
+                                        <exclude reference="VCg-zI-iZd"/>
+                                        <exclude reference="f5J-cc-XSE"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="tyR-uo-vEO" firstAttribute="top" secondItem="hSF-nc-3K4" secondAttribute="bottom" constant="8" id="0I8-T8-0wy"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="width" secondItem="jak-iO-yQb" secondAttribute="width" id="0u3-eO-K6s"/>
-                            <constraint firstItem="q3q-wu-iws" firstAttribute="trailing" secondItem="m89-h5-HUc" secondAttribute="trailing" id="29C-R0-9hP"/>
+                            <constraint firstAttribute="centerX" secondItem="hSF-nc-3K4" secondAttribute="centerX" id="69q-6v-78I"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="leading" secondItem="jak-iO-yQb" secondAttribute="leading" id="6tI-e7-5qH"/>
-                            <constraint firstItem="wZO-IG-415" firstAttribute="trailing" secondItem="zGb-ZM-Eq4" secondAttribute="trailingMargin" id="7n4-97-jxk"/>
                             <constraint firstItem="FWh-FX-A2Y" firstAttribute="bottom" secondItem="mBW-uQ-iNk" secondAttribute="bottom" id="BQI-zi-sMb"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="top" secondItem="jak-iO-yQb" secondAttribute="top" id="Cc3-LT-FOh"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="30" id="D5N-uA-MQc"/>
+                            <constraint firstItem="hSF-nc-3K4" firstAttribute="top" secondItem="jak-iO-yQb" secondAttribute="bottom" constant="8" id="DC3-mE-B4N"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="width" secondItem="05x-ZP-oMv" secondAttribute="width" id="J0q-4O-vka"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="top" secondItem="05x-ZP-oMv" secondAttribute="bottom" id="LrB-Ib-PkF"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="trailing" secondItem="05x-ZP-oMv" secondAttribute="trailing" id="LsR-uL-ipr"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="leading" secondItem="m89-h5-HUc" secondAttribute="trailing" constant="8" id="M6q-dR-sdC"/>
-                            <constraint firstItem="wZO-IG-415" firstAttribute="top" secondItem="mTc-Vy-xKR" secondAttribute="bottom" constant="8" id="M88-Ov-Gf2"/>
                             <constraint firstItem="m89-h5-HUc" firstAttribute="width" secondItem="mBW-uQ-iNk" secondAttribute="width" id="MJd-FG-FuQ"/>
-                            <constraint firstItem="q3q-wu-iws" firstAttribute="top" secondItem="FWh-FX-A2Y" secondAttribute="bottom" constant="10" id="SXd-jr-b1j"/>
                             <constraint firstItem="m89-h5-HUc" firstAttribute="leading" secondItem="mBW-uQ-iNk" secondAttribute="leading" id="TAF-tG-XFz"/>
                             <constraint firstItem="FWh-FX-A2Y" firstAttribute="top" secondItem="m89-h5-HUc" secondAttribute="bottom" id="Vko-9S-WjM"/>
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="bottom" secondItem="jak-iO-yQb" secondAttribute="bottom" id="XFU-jV-Rog"/>
@@ -124,21 +152,14 @@
                             <constraint firstItem="hMD-rx-TUT" firstAttribute="leading" secondItem="05x-ZP-oMv" secondAttribute="leading" id="cnt-ME-dEs"/>
                             <constraint firstItem="m89-h5-HUc" firstAttribute="top" secondItem="UYY-qb-Jze" secondAttribute="bottom" constant="30" id="dDk-AA-zWr"/>
                             <constraint firstItem="05x-ZP-oMv" firstAttribute="width" secondItem="m89-h5-HUc" secondAttribute="width" id="eb6-WZ-4tk"/>
-                            <constraint firstItem="mTc-Vy-xKR" firstAttribute="top" secondItem="hMD-rx-TUT" secondAttribute="bottom" constant="10" id="fFF-Eh-x6q"/>
-                            <constraint firstItem="mTc-Vy-xKR" firstAttribute="top" secondItem="05x-ZP-oMv" secondAttribute="bottom" constant="16" id="fNu-TF-cbp"/>
                             <constraint firstItem="FWh-FX-A2Y" firstAttribute="width" secondItem="m89-h5-HUc" secondAttribute="width" id="fil-0g-Gvp"/>
                             <constraint firstItem="m89-h5-HUc" firstAttribute="height" secondItem="05x-ZP-oMv" secondAttribute="height" id="k5F-HW-6c2"/>
-                            <constraint firstItem="mTc-Vy-xKR" firstAttribute="leading" secondItem="05x-ZP-oMv" secondAttribute="leading" id="nRs-XK-a07"/>
-                            <constraint firstItem="wZO-IG-415" firstAttribute="leading" secondItem="zGb-ZM-Eq4" secondAttribute="leadingMargin" id="qdX-N8-iDH"/>
                             <constraint firstItem="m89-h5-HUc" firstAttribute="top" secondItem="mBW-uQ-iNk" secondAttribute="top" id="stF-LI-jw4"/>
                             <constraint firstItem="FWh-FX-A2Y" firstAttribute="leading" secondItem="m89-h5-HUc" secondAttribute="leading" id="up8-WE-HD9"/>
-                            <constraint firstItem="q3q-wu-iws" firstAttribute="top" secondItem="m89-h5-HUc" secondAttribute="bottom" constant="16" id="v6f-dm-zCG"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="v6f-dm-zCG"/>
                                 <exclude reference="LsR-uL-ipr"/>
-                                <exclude reference="fNu-TF-cbp"/>
                             </mask>
                         </variation>
                         <connections>
@@ -149,7 +170,7 @@
                     <navigationItem key="navigationItem" title="The Pear Game" id="8fr-TQ-156"/>
                     <connections>
                         <outlet property="downSwipeRecognizer" destination="xWx-MJ-65f" id="gx4-rJ-neC"/>
-                        <outlet property="downVote" destination="q3q-wu-iws" id="xvu-rj-zp4"/>
+                        <outlet property="downVote" destination="VSd-re-GUk" id="cNs-q7-BZj"/>
                         <outlet property="femaleName" destination="hMD-rx-TUT" id="YYL-p9-6ke"/>
                         <outlet property="femaleProfileFillerView" destination="05x-ZP-oMv" id="k7e-7w-mLF"/>
                         <outlet property="femaleShadowView" destination="jak-iO-yQb" id="Q7L-u2-0ZY"/>
@@ -157,7 +178,7 @@
                         <outlet property="maleProfileFillerView" destination="m89-h5-HUc" id="9UJ-rQ-u5O"/>
                         <outlet property="maleShadowView" destination="mBW-uQ-iNk" id="YQO-TW-fn0"/>
                         <outlet property="upSwipeRecognizer" destination="D44-rP-eQm" id="1RB-Nu-nho"/>
-                        <outlet property="upVote" destination="mTc-Vy-xKR" id="WEn-Mu-Iaz"/>
+                        <outlet property="upVote" destination="vb4-lx-PyN" id="Erq-IJ-zqr"/>
                         <segue destination="yJe-l6-r8o" kind="presentation" identifier="GameToResults" modalTransitionStyle="crossDissolve" id="cvT-Um-9MR"/>
                     </connections>
                 </viewController>
@@ -1176,12 +1197,12 @@
     <resources>
         <image name="bigPear" width="512" height="512"/>
         <image name="communityTab" width="25" height="25"/>
-        <image name="downVote" width="32" height="32"/>
+        <image name="downVoteV2" width="200" height="141"/>
         <image name="facebookShare" width="93" height="31"/>
         <image name="pearTab" width="25" height="25"/>
         <image name="thePearGame" width="283" height="27"/>
         <image name="twitterShare" width="161" height="51"/>
-        <image name="upVote" width="32" height="32"/>
+        <image name="upVoteV2" width="200" height="141"/>
         <image name="wishlistTab" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
