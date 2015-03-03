@@ -37,11 +37,18 @@
     // Do any additional setup after loading the view
     self.view.backgroundColor = [UIColor whiteColor];
     
-    maleView = [[FBProfilePictureView alloc] init];
-    femaleView = [[FBProfilePictureView alloc] init];
+    maleView = [[UIImageView alloc] init];
+    [maleView setContentMode:UIViewContentModeScaleAspectFill];
+    [maleView setBackgroundColor:[UIColor whiteColor]];
+    [maleView setClipsToBounds:YES];
     
-    [_maleProfileFillerView addSubview:maleView];
-    [_femaleProfileFillerView addSubview:femaleView];
+    femaleView = [[UIImageView alloc] init];
+    [femaleView setContentMode:UIViewContentModeScaleAspectFill];
+    [femaleView setBackgroundColor:[UIColor whiteColor]];
+    [femaleView setClipsToBounds:YES];
+    
+    [_maleProfileFillerView insertSubview:maleView atIndex:0];
+    [_femaleProfileFillerView insertSubview:femaleView atIndex:0];
     
     [maleView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_maleProfileFillerView addConstraints:[NSLayoutConstraint
@@ -75,8 +82,8 @@
 {
     [super viewDidLayoutSubviews];
     
-    [self createDropShadow:_maleShadowView];
-    [self createDropShadow:_femaleShadowView];
+    [self createDropShadow:_maleProfileFillerView];
+    [self createDropShadow:_femaleProfileFillerView];
 }
 
 -(void)createDropShadow:(UIView *)view
@@ -116,8 +123,8 @@
         }
     }
     
-    maleView.profileID = nil;
-    femaleView.profileID = nil;
+    maleView.image = nil;
+    femaleView.image= nil;
     
     _maleName.text = @"";
     _femaleName.text = @"";
@@ -133,8 +140,6 @@
         //disable UI
         _upSwipeRecognizer.enabled = NO;
         _downSwipeRecognizer.enabled = NO;
-        _upVote.enabled = NO;
-        _downVote.enabled = NO;
         
         if ([error caseInsensitiveCompare:NO_MORE_COUPLES_DOMAIN] == NSOrderedSame)
         {
@@ -162,8 +167,6 @@
     retryCounter = 0;
     _upSwipeRecognizer.enabled = YES;
     _downSwipeRecognizer.enabled = YES;
-    _upVote.enabled = YES;
-    _downVote.enabled = YES;
     
     objectId = [coupleToVoteOn objectForKey:@"ObjectId"];
     
@@ -190,8 +193,33 @@
         downVotes = 0;
     }
     
-    maleView.profileID = maleId;
-    femaleView.profileID = femaleId;
+    //load images
+    
+    NSURL *malePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=300&height=300", maleId]];
+    
+    NSURLRequest *malePictureRequest = [NSURLRequest requestWithURL:malePictureURL];
+    
+    [NSURLConnection sendAsynchronousRequest:malePictureRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (!connectionError)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                maleView.image = [UIImage imageWithData:data];
+            });
+        }
+    }];
+    
+    NSURL *femalePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=300&height=300", femaleId]];
+    
+    NSURLRequest *femalePictureRequest = [NSURLRequest requestWithURL:femalePictureURL];
+    
+    [NSURLConnection sendAsynchronousRequest:femalePictureRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (!connectionError)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                femaleView.image = [UIImage imageWithData:data];
+            });
+        }
+    }];
     
     _maleName.text = mName;
     _femaleName.text = fName;
@@ -219,22 +247,10 @@
 
 -(IBAction)voteCast:(id)sender
 {
-    UIButton *voteBtn = nil;
-    UISwipeGestureRecognizer *gestureRecognizer = nil;
-    
-    if ([sender class] == [UIButton class])
-    {
-        voteBtn = (UIButton *)sender;
-    }
-    else
-    {
-        gestureRecognizer = (UISwipeGestureRecognizer *)sender;
-    }
+    UISwipeGestureRecognizer *gestureRecognizer = (UISwipeGestureRecognizer *)sender;
     
     _upSwipeRecognizer.enabled = NO;
     _downSwipeRecognizer.enabled = NO;
-    _upVote.enabled = NO;
-    _downVote.enabled = NO;
     
     void (^nextCoupleBlock)(NSError *) = ^void(NSError *e){
         //Load the next couple
@@ -252,7 +268,7 @@
     PARDataStore *sharedStore = [PARDataStore sharedStore];
     NSDictionary *coupleJustVotedOn = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:NEXT_COUPLE_TO_VOTE_ON_KEY]];
     
-    if ((voteBtn && voteBtn.frame.origin.y == _downVote.frame.origin.y) || (gestureRecognizer && gestureRecognizer.direction == UISwipeGestureRecognizerDirectionDown))
+    if (gestureRecognizer.direction == UISwipeGestureRecognizerDirectionDown)
     {
         // downvote behavior
         userVote = -1;

@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse.h"
-#import "FacebookSDK.h"
 
 @interface PARGameViewController : UIViewController
 {
-    FBProfilePictureView *maleView;
-    FBProfilePictureView *femaleView;
+    UIImageView *maleView;
+    UIImageView *femaleView;
     NSString *maleId;
     NSString *femaleId;
     NSString *mName;
@@ -30,12 +29,6 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *maleName;
 @property (nonatomic, weak) IBOutlet UILabel *femaleName;
-
-@property (nonatomic, weak) IBOutlet UIButton *upVote;
-@property (nonatomic, weak) IBOutlet UIButton *downVote;
-
-@property (nonatomic, weak) IBOutlet UIView *maleShadowView;
-@property (nonatomic, weak) IBOutlet UIView *femaleShadowView;
 
 @property (nonatomic, weak) IBOutlet UISwipeGestureRecognizer *upSwipeRecognizer;
 @property (nonatomic, weak) IBOutlet UISwipeGestureRecognizer *downSwipeRecognizer;
