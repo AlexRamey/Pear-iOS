@@ -13,6 +13,7 @@
 #import "FacebookSDK.h"
 #import "AppDelegate.h"
 #import "UIColor+Theme.h"
+#import "PARResultsOverlayView.h"
 
 @interface PARGameViewController ()
 
@@ -27,6 +28,11 @@
     if (self)
     {
         retryCounter = 0;
+        
+        UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"navBarPearIcon"]];
+        [logo setContentMode:UIViewContentModeScaleAspectFit];
+        
+        self.navigationItem.titleView = logo;
     }
     
     return self;
@@ -260,7 +266,8 @@
             
             //if (e) it means network error
             //either way (network or no more couples), error will be stored in Defaults and caught by this view controller when it tries to load the next couple in viewWillAppear
-            [self performSegueWithIdentifier:@"GameToResults" sender:self];
+            //[self performSegueWithIdentifier:@"GameToResults" sender:self];
+            [self displayResultsPopover];
         }];
     };
     
@@ -380,6 +387,46 @@
     return [NSNumber numberWithDouble:score];
 }
 
+- (void)displayResultsPopover
+{
+    PARResultsOverlayView *overlay = nil;
+    
+    if (userVote == 1)
+    {
+        overlay = [[PARResultsOverlayView alloc] initForGivenScreenSize:[UIScreen mainScreen].bounds.size voteType:YES];
+    }
+    else
+    {
+        overlay = [[PARResultsOverlayView alloc] initForGivenScreenSize:[UIScreen mainScreen].bounds.size voteType:NO];
+    }
+    
+    [overlay setCallback:self];
+    [overlay loadImagesForMale:maleId female:femaleId];
+    [overlay setMaleNameText:mName femaleNameText:fName];
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *bluredEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [bluredEffectView setFrame:self.navigationController.view.frame];
+    
+    [self.navigationController.view addSubview:bluredEffectView];
+    [self.navigationController.view addSubview:overlay];
+    
+    [overlay flyInAnimatingUpToPercent:((upVotes * 1.0) / (downVotes + upVotes))];
+}
+
+- (IBAction)dismissResults:(id)sender
+{
+    PARResultsOverlayView *overlay = (PARResultsOverlayView *)[self.navigationController.view.subviews lastObject];
+    
+    [UIView animateWithDuration:.4 animations:^{
+        overlay.center = CGPointMake([UIScreen mainScreen].bounds.size.width * (-.9), overlay.center.y);
+    }
+     completion:^(BOOL finished) {
+         [[self.navigationController.view.subviews lastObject] removeFromSuperview];
+         [[self.navigationController.view.subviews lastObject] removeFromSuperview];
+         [self viewWillAppear:NO];
+     }];
+}
 
 #pragma mark - Navigation
 

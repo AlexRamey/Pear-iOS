@@ -38,13 +38,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m89-h5-HUc">
                                 <rect key="frame" x="16" y="72" width="568" height="232"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999973" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="FWh-FX-A2Y">
-                                        <rect key="frame" x="0.0" y="213" width="568" height="19"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" MALE NAME" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="FWh-FX-A2Y">
+                                        <rect key="frame" x="0.0" y="202" width="568" height="30"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="19" id="i51-2I-Q4L"/>
+                                            <constraint firstAttribute="height" constant="30" id="i51-2I-Q4L"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -58,13 +58,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="05x-ZP-oMv">
                                 <rect key="frame" x="16" y="312" width="568" height="231"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999973" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FEMALE NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="hMD-rx-TUT">
-                                        <rect key="frame" x="0.0" y="212" width="568" height="19"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" FEMALE NAME" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="hMD-rx-TUT">
+                                        <rect key="frame" x="0.0" y="201" width="568" height="30"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="19" id="drM-Nr-sT5"/>
+                                            <constraint firstAttribute="height" constant="30" id="drM-Nr-sT5"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -93,7 +93,7 @@
                             <outletCollection property="gestureRecognizers" destination="xWx-MJ-65f" appends="YES" id="1xa-Sv-vje"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="The Pear Game" id="8fr-TQ-156"/>
+                    <navigationItem key="navigationItem" id="8fr-TQ-156"/>
                     <connections>
                         <outlet property="downSwipeRecognizer" destination="xWx-MJ-65f" id="gx4-rJ-neC"/>
                         <outlet property="femaleName" destination="hMD-rx-TUT" id="YYL-p9-6ke"/>

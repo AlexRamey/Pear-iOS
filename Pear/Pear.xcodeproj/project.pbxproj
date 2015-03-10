@@ -27,6 +27,7 @@
 		D03CDE921A5F1BE900D11E9F /* PARCommunityMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE911A5F1BE900D11E9F /* PARCommunityMatchCell.m */; };
 		D03CDE951A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */; };
 		D03CDE981A5F92E200D11E9F /* PARCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */; };
+		D0ACC3341AAF641F00FD2946 /* PARResultsOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ACC3331AAF641F00FD2946 /* PARResultsOverlayView.m */; };
 		D0BC21CB1A62E84C00C2D765 /* PARTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */; };
 		D0BC22121A635E4A00C2D765 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D0BC22111A635E4A00C2D765 /* Settings.bundle */; };
 		D0C2608B1A5F9AEC0068BCF3 /* PARTapRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C2608A1A5F9AEC0068BCF3 /* PARTapRecognizer.m */; };
@@ -101,6 +102,8 @@
 		D03CDE961A5F92E200D11E9F /* PARCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARCommentsViewController.h; sourceTree = "<group>"; };
 		D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARCommentsViewController.m; sourceTree = "<group>"; };
 		D086602A1A6888C2008A7FDF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D0ACC3321AAF641F00FD2946 /* PARResultsOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARResultsOverlayView.h; sourceTree = "<group>"; };
+		D0ACC3331AAF641F00FD2946 /* PARResultsOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARResultsOverlayView.m; sourceTree = "<group>"; };
 		D0BC21C91A62E84C00C2D765 /* PARTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARTabBarController.h; sourceTree = "<group>"; };
 		D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARTabBarController.m; sourceTree = "<group>"; };
 		D0BC22111A635E4A00C2D765 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -370,6 +373,8 @@
 			children = (
 				D0F5945019EC314C00B09260 /* PARGameViewController.h */,
 				D0F5945119EC314C00B09260 /* PARGameViewController.m */,
+				D0ACC3321AAF641F00FD2946 /* PARResultsOverlayView.h */,
+				D0ACC3331AAF641F00FD2946 /* PARResultsOverlayView.m */,
 				D0F5945419EC526700B09260 /* PARGameResultsViewController.h */,
 				D0F5945519EC526700B09260 /* PARGameResultsViewController.m */,
 			);
@@ -545,6 +550,7 @@
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
 				D03CDE921A5F1BE900D11E9F /* PARCommunityMatchCell.m in Sources */,
 				D03CDE951A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m in Sources */,
+				D0ACC3341AAF641F00FD2946 /* PARResultsOverlayView.m in Sources */,
 				D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */,
 				D031DBA11A43609F000C37C0 /* PARWish.m in Sources */,
 				D031DBF41A5DDABA000C37C0 /* PARMatchDetailsViewController.m in Sources */,

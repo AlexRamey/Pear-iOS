@@ -17,6 +17,11 @@
     return UIColorFromRGB(0x32CD32);
 }
 
++(UIColor *)PARResultsGreen
+{
+    return UIColorFromRGB(0x87D37C);
+}
+
 +(UIColor *)PARDarkGreen
 {
     return UIColorFromRGB(0x228B22);
@@ -46,6 +51,11 @@
 +(UIColor *)PARRed
 {
     return UIColorFromRGB(0xe93a31);
+}
+
++(UIColor *)PARResultsRed
+{
+    return UIColorFromRGB(0xE74C3C);
 }
 
 +(UIColor *)PARDarkRed
