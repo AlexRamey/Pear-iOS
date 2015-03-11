@@ -10,6 +10,8 @@
 
 @interface UIColor (Theme)
 
++(UIColor *)PARWhite;
+
 +(UIColor *)PARGreen;
 
 +(UIColor *)PARResultsGreen;

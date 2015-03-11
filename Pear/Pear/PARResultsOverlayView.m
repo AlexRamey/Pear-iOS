@@ -9,8 +9,10 @@
 #import "PARResultsOverlayView.h"
 #import "UIColor+Theme.h"
 #import "PARGameViewController.h"
+#import "AppDelegate.h"
+#import "PARDataStore.h"
 
-@interface PARResultsOverlayView ()
+@interface PARResultsOverlayView () <UIAlertViewDelegate>
 {
     CGSize phoneScreenSize;
 }
@@ -27,10 +29,16 @@
 //Bottom Half
 @property (nonatomic, strong) UIView *bottomBackground;
 @property (nonatomic, strong) UIScrollView *comments;
+@property (nonatomic, strong) UIImageView *watermarkBackground;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIButton *dismissResults;
+@property (nonatomic, strong) UIImageView *moreComments;
 
 //Gesture Recognizer
 @property (nonatomic, strong) UISwipeGestureRecognizer *leftSwipeRecognizer;
+
+//Data Properties
+@property (nonatomic, strong) NSMutableArray *commentCards;
 
 @end
 
@@ -70,7 +78,7 @@
     
     _maleName = [[UILabel alloc] initWithFrame:CGRectMake(.05 * screenSize.width, .05 * screenSize.height + .125 * screenSize.height + 8, .125 * screenSize.height, 14.0)];
     _maleName.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:12.0];
-    _maleName.textColor = [UIColor whiteColor];
+    _maleName.textColor = [UIColor PARWhite];
     _maleName.textAlignment = NSTextAlignmentCenter;
     
     _femaleImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - .125 * screenSize.height - .05 * screenSize.width, .05 * screenSize.height, .125 * screenSize.height, .125 * screenSize.height)];
@@ -80,7 +88,7 @@
     
     _femaleName = [[UILabel alloc] initWithFrame:CGRectMake(_femaleImage.frame.origin.x, .05 * screenSize.height + .125 * screenSize.height + 8, .125 * screenSize.height, 14.0)];
     _femaleName.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:12.0];
-    _femaleName.textColor = [UIColor whiteColor];
+    _femaleName.textColor = [UIColor PARWhite];
     
     NSMutableAttributedString *percentText = [[NSMutableAttributedString alloc] initWithString:@"100%"];
     [percentText addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Superclarendon-Bold" size:52.0] range:NSMakeRange(0, percentText.length - 1)];
@@ -91,7 +99,7 @@
     [_percentApproval setTextAlignment:NSTextAlignmentCenter];
     _percentApproval.attributedText = percentText;
     [_percentApproval sizeToFit];
-    _percentApproval.center = CGPointMake(self.frame.size.width / 2.0, _maleName.frame.origin.y + _maleName.frame.size.height + .02 * screenSize.height + _percentApproval.frame.size.height / 2.0);
+    _percentApproval.center = CGPointMake(self.frame.size.width / 2.0, _maleName.frame.origin.y + _maleName.frame.size.height + .01 * screenSize.height + _percentApproval.frame.size.height / 2.0);
     
     _cleverQuote = [[UILabel alloc] init];
     [_cleverQuote setTextAlignment:NSTextAlignmentCenter];
@@ -116,6 +124,15 @@
     _bottomBackground.backgroundColor = [UIColor whiteColor];
     
     _comments = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.frame.size.width, .345 * screenSize.height)];
+    [_comments setBackgroundColor:[UIColor clearColor]];
+    [_comments setPagingEnabled:YES];
+    
+    _watermarkBackground = [[UIImageView alloc] initWithFrame:_comments.frame];
+    [_watermarkBackground setContentMode:UIViewContentModeScaleAspectFit];
+    
+    _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _activityIndicator.center = _comments.center;
+    _activityIndicator.hidesWhenStopped = YES;
     
     UIView *buttonsBar = [[UIView alloc] initWithFrame:CGRectMake(0.0, .345 * screenSize.height, self.frame.size.width, .095 * screenSize.height)];
     
@@ -152,17 +169,29 @@
     dismissContainer.layer.shadowRadius = 2.0;
     dismissContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dismissContainer.bounds cornerRadius:dismissContainer.frame.size.width/2.0].CGPath;
     
+    _moreComments = [[UIImageView alloc] initWithImage:nil];
+    [_moreComments setBackgroundColor:[UIColor clearColor]];
+    _moreComments.frame = CGRectMake((buttonsBar.frame.size.width - (buttonsBar.frame.size.height - 16.0)) / 2.0, 8.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0);
+    [_moreComments setContentMode:UIViewContentModeScaleAspectFit];
     
     [buttonsBar addSubview:addContainer];
     [buttonsBar addSubview:dismissContainer];
+    [buttonsBar addSubview:_moreComments];
+    
+    [_bottomBackground addSubview:_watermarkBackground];
     [_bottomBackground addSubview:_comments];
+    [_bottomBackground addSubview:_activityIndicator];
     [_bottomBackground addSubview:buttonsBar];
     
     [self addSubview:_bottomBackground];
     
+    //Gesture Recognizer
     _leftSwipeRecognizer = [[UISwipeGestureRecognizer alloc] init];
     [_leftSwipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
     [self addGestureRecognizer:_leftSwipeRecognizer];
+    
+    //Initialize Data Properties
+    _commentCards = [NSMutableArray new];
     
     return self;
 }
@@ -221,6 +250,11 @@
     }
 }
 
+- (void)setQuoteTextForPercent:(CGFloat)percent
+{
+    
+}
+
 - (void)flyInAnimatingUpToPercent:(CGFloat)percent
 {
     NSMutableAttributedString *percentText = [[NSMutableAttributedString alloc] initWithString:@"0%"];
@@ -251,7 +285,6 @@
         _femaleName.center = CGPointMake(_femaleName.center.x - magnitudeOfImageMovement, _femaleName.center.y);
     }];
     
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         for (int i = 1; i < roundedPercent + 1; i ++) {
             usleep(animationDuration/roundedPercent * 1000000); // sleep in microseconds
@@ -264,6 +297,8 @@
             });
         }
     });
+    
+    [self loadComments];
 }
 
 -(void)setCallback:(PARGameViewController *)callback
@@ -272,11 +307,221 @@
     [_leftSwipeRecognizer addTarget:callback action:@selector(dismissResults:)];
 }
 
-- (IBAction)makeComment:(id)sender
+- (void)loadComments
 {
-    NSLog(@"Test");
+    [_comments scrollRectToVisible:CGRectMake(0.0, 0.0, _comments.frame.size.width, _comments.frame.size.height) animated:YES];
+    
+    [_activityIndicator startAnimating];
+    
+    for (UIView *view in [_comments subviews])
+    {
+        [view removeFromSuperview];
+    }
+    
+    [_commentCards removeAllObjects];
+    
+    //_moreComments.image = nil;
+    
+    NSArray *backgroundReds = @[@0xEF, @0xD2, @0x66, @0x41, @0x87, @0xE8,
+                                @0xBE, @0x81, @0x87, @0xF4, @0xE0];
+    
+    NSArray *backgroundGreens = @[@0x48, @0x52, @0x33, @0x83, @0xD3, @0x7E,
+                                  @0x90, @0xCF, @0xD3, @0xD0, @0x82];
+    
+    NSArray *backgroundBlues = @[@0x36, @0x7F, @0x99, @0xD7, @0x7C, @0x04,
+                                 @0xD4, @0xE0, @0x7C, @0x3F, @0x83];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
+    query.limit = 50;
+    [query orderByDescending:@"createdAt"];
+    
+    [query whereKey:@"MaleID" equalTo:_maleID];
+    [query whereKey:@"FemaleID" equalTo:_femaleID];
+     
+    /* testing purposes
+    [query whereKey:@"MaleID" equalTo:@"589608147"];
+    [query whereKey:@"FemaleID" equalTo:@"1537906103"];
+    */
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error)
+        {
+            int i = 0;
+            CGFloat offset = 0.0;
+            for (PFObject *comment in objects)
+            {
+                UIView *commentCard = [[UIView alloc] initWithFrame:CGRectMake(.9 * phoneScreenSize.width * pow(-1, i), offset, .9 * phoneScreenSize.width, .115 *  phoneScreenSize.height)];
+                if (i == 0)
+                {
+                    commentCard.backgroundColor = [UIColor colorWithRed:0xf9 / 255.0 green:0xf9 / 255.0 blue:0xf9 / 255.0 alpha:1.0];
+                }
+                else
+                {
+                    commentCard.backgroundColor = [UIColor whiteColor];
+                }
+                
+                UILabel *initialsLabel = [[UILabel alloc] initWithFrame:CGRectMake(i * (.9 * phoneScreenSize.width - .115 * phoneScreenSize.height), 0.0, .115 * phoneScreenSize.height, .115 * phoneScreenSize.height)];
+                [initialsLabel setTextAlignment:NSTextAlignmentCenter];
+                [initialsLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:22.0]];
+                NSUInteger r = arc4random_uniform(2);
+                if (r == 0)
+                {
+                    [initialsLabel setTextColor:[UIColor whiteColor]];
+                    NSUInteger bc = arc4random_uniform(6);
+                    [initialsLabel setBackgroundColor:[UIColor colorWithRed:[backgroundReds[bc] intValue] / 255.0 green:[backgroundGreens[bc] intValue] / 255.0 blue:[backgroundBlues[bc] intValue] / 255.0 alpha:1.0]];
+                }
+                else
+                {
+                    [initialsLabel setTextColor:[UIColor blackColor]];
+                    NSUInteger bc = arc4random_uniform(5) + 6;
+                    [initialsLabel setBackgroundColor:[UIColor colorWithRed:[backgroundReds[bc] intValue] / 255.0 green:[backgroundGreens[bc] intValue] / 255.0 blue:[backgroundBlues[bc] intValue] / 255.0 alpha:1.0]];
+                }
+                NSString *authorName = comment[@"AuthorName"];
+                NSRange spaceRange = [authorName rangeOfString:@" " options:NSBackwardsSearch];
+                
+                if (spaceRange.location != NSNotFound && authorName.length > spaceRange.location + 1)
+                {
+                    [initialsLabel setText:[[NSString stringWithFormat:@"%@%@", [authorName substringToIndex:1], [authorName substringWithRange:NSMakeRange(spaceRange.location + 1, 1)]] uppercaseString]];
+                }
+                else
+                {
+                    [initialsLabel setText:[[authorName substringToIndex:1] uppercaseString]];
+                }
+                
+                UITextView *textContainer = [[UITextView alloc] initWithFrame:CGRectMake(((i + 1)%2) * .115 * phoneScreenSize.height, 0.0, .9 * phoneScreenSize.width - .115 * phoneScreenSize.height, .115 * phoneScreenSize.height)];
+                [textContainer setEditable:NO];
+                [textContainer setFont:[UIFont fontWithName:@"HelveticaNeue" size:14]];
+                [textContainer setTextColor:[UIColor blackColor]];
+                [textContainer setText:comment[@"Text"]];
+                [textContainer setSelectable:NO];
+                
+                [commentCard addSubview:initialsLabel];
+                [commentCard addSubview:textContainer];
+                [_commentCards addObject:commentCard];
+                offset += .115*phoneScreenSize.height;
+                i = (i+1) % 2;
+            }
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([_commentCards count] > 0 && [_commentCards count] < 3)
+                    {
+                        NSArray *watermarkBackgroundImages =
+                        @[@"DarkWatermark", @"LightWatermark",
+                          @"DarkWatermarkNoFace", @"LightWatermarkNoFace"];
+                        NSUInteger r = arc4random_uniform(4);
+                        [_watermarkBackground setImage:[UIImage imageNamed:watermarkBackgroundImages[r]]];
+                    }
+                    else if ([_commentCards count] >= 3)
+                    {
+                        NSArray *watermarkBackgroundImages =
+                        @[@"DarkWatermark", @"LightWatermark",
+                          @"DarkWatermarkNoFace", @"LightWatermarkNoFace",
+                          @"DarkWatermarkWithText",@"LightWatermarkWithText"];
+                        NSUInteger r = arc4random_uniform(6);
+                        [_watermarkBackground setImage:[UIImage imageNamed:watermarkBackgroundImages[r]]];
+                    }
+                    else //0 comments
+                    {
+                        NSArray *initialBackgroundWatermarks =
+                        @[@"DarkWatermark",@"LightWatermark",
+                          @"DarkWatermarkNoComments", @"LightWatermarkNoComments",
+                          @"DarkWatermarkNoFace", @"LightWatermarkNoFace"];
+                        NSUInteger r = arc4random_uniform(6);
+                        [_watermarkBackground setImage:[UIImage imageNamed:initialBackgroundWatermarks[r]]];
+                    }
+                });
+                
+                for (int j = 0; j < [_commentCards count]; j ++) {
+                    if (j!=0)
+                    {
+                        usleep(.7 * 1000000); // sleep in microseconds
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [UIView animateWithDuration:.5 animations:^{
+                            UIView *card = _commentCards[j];
+                            [_comments addSubview:card];
+                            card.frame = CGRectMake(0.0, card.frame.origin.y, card.frame.size.width, card.frame.size.height);
+                            [_comments setContentSize:CGSizeMake(_comments.frame.size.width, _comments.contentSize.height + .115 * phoneScreenSize.height)];
+                        }];
+                    });
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    CGFloat bufferspace = (3 - ([_commentCards count] % 3)) * .115 *phoneScreenSize.height;
+                    NSLog(@"BufferSpace: %5.2f", bufferspace);
+                    [_comments setContentSize:CGSizeMake(_comments.frame.size.width, _comments.contentSize.height + bufferspace)];
+                    
+                    if ([_commentCards count] > 3)
+                    {
+                        //_moreComments.image = [UIImage imageNamed:@"downArrow"];
+                    }
+                });
+                
+                
+                
+            });
+        }
+        
+        [_activityIndicator stopAnimating];
+    }];
 }
 
+- (IBAction)makeComment:(id)sender
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Comment" message:nil delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:@"Submit", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+#pragma mark - UIAlertViewDelegateMethods
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *commentText = [alertView textFieldAtIndex:0].text;
+    
+    if (buttonIndex == 1 && commentText.length > 0)
+    {
+        PFObject *userObject = [[PARDataStore sharedStore] userObject];
+        NSDictionary *userData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DATA_KEY];
+        NSString *userName = userData[@"name"];
+        
+        PFObject *comment = [PFObject objectWithClassName:@"Comments"];
+        comment[@"coupleObjectID"] = _coupleObjectID;
+        comment[@"Text"] = commentText;
+        comment[@"AuthorFBID"] = [[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY];;
+        comment[@"AuthorObjectID"] = userObject.objectId;
+        comment[@"AuthorName"] = userName;
+        comment[@"authorLiked"] = _authorLiked;
+        comment[@"coupleMaleName"] = _maleNameText;
+        comment[@"coupleFemaleName"] = _femaleNameText;
+        comment[@"MaleID"] = _maleID;
+        comment[@"FemaleID"] = _femaleID;
+        comment[@"coupleURL"] = [NSString stringWithFormat:@"http://thepeargame.com/webapp/index.html?male=%@&female=%@", _maleID, _femaleID];
+        
+        [comment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded)
+            {
+                PFQuery *coupleQuery = [PFQuery queryWithClassName:@"Couples"];
+                [coupleQuery getObjectInBackgroundWithId:_coupleObjectID block:^(PFObject *object, NSError *error) {
+                    if (!error)
+                    {
+                        [object incrementKey:@"NumberOfComments"];
+                        [object saveInBackground];
+                    }
+                }];
+                
+                [self loadComments];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to save comment." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+        }];
+
+    }
+}
 
 
 /*

@@ -11,11 +11,20 @@
 @class PARGameViewController;
 @interface PARResultsOverlayView : UIView
 
+@property (nonatomic, strong) NSString *maleID;
+@property (nonatomic, strong) NSString *femaleID;
+@property (nonatomic, strong) NSString *maleNameText;
+@property (nonatomic, strong) NSString *femaleNameText;
+@property (nonatomic, strong) NSString *coupleObjectID;
+@property (nonatomic, strong) NSNumber *authorLiked;
+
 - (id)initForGivenScreenSize:(CGSize)screenSize voteType:(BOOL)yesVote;
 
 - (void)loadImagesForMale:(NSString *)maleID female:(NSString *)femaleID;
 
 - (void)setMaleNameText:(NSString *)maleName femaleNameText:(NSString *)femaleName;
+
+- (void)setQuoteTextForPercent:(CGFloat)percent;
 
 - (void)flyInAnimatingUpToPercent:(CGFloat)percent;
 

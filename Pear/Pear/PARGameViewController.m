@@ -400,6 +400,13 @@
         overlay = [[PARResultsOverlayView alloc] initForGivenScreenSize:[UIScreen mainScreen].bounds.size voteType:NO];
     }
     
+    overlay.maleID = maleId;
+    overlay.femaleID = femaleId;
+    overlay.maleNameText = mName;
+    overlay.femaleNameText = fName;
+    overlay.coupleObjectID = objectId;
+    overlay.authorLiked = [NSNumber numberWithInt:userVote];
+    
     [overlay setCallback:self];
     [overlay loadImagesForMale:maleId female:femaleId];
     [overlay setMaleNameText:mName femaleNameText:fName];
