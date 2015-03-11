@@ -10,8 +10,9 @@
 #import "PARButton.h"
 #import "FacebookSDK.h"
 #import "Parse.h"
+#import "PARResultsOverlayView.h"
 
-@interface PARProfileViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface PARProfileViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, OverlayCallback>
 {
     PFObject *couple;
     BOOL inProgress;

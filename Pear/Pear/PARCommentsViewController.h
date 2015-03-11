@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "PARCommentCard.h"
 #import "Parse.h"
+#import "PARResultsOverlayView.h"
 
-@interface PARCommentsViewController : UIViewController <CommentCardCallback>
+@interface PARCommentsViewController : UIViewController <CommentCardCallback, OverlayCallback>
 {
     PFObject *couple;
     BOOL inProgress;

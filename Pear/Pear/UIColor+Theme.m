@@ -70,4 +70,9 @@
     //return UIColorFromRGB(0xf5b8ad);
 }
 
++(UIColor *)PARResultNeutral
+{
+    return UIColorFromRGB(0xe4ac49);
+}
+
 @end

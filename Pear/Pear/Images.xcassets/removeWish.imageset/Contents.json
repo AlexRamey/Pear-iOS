@@ -2,18 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "pear white icon 44x44.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "pear white icon 88x88.png"
+      "filename" : "IMG_0370.PNG"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "pear white icon 132x132.png"
+      "filename" : "IMG_0371.PNG"
     }
   ],
   "info" : {

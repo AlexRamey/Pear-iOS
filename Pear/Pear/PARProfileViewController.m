@@ -13,6 +13,7 @@
 #import "PARProfileCollectionViewFlowLayout.h"
 #import "PARMatchDetailsViewController.h"
 #import "PARDataStore.h"
+#import "PARGameResultsOverlayView.h"
 
 @interface PARProfileViewController ()
 
@@ -310,9 +311,24 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error)
         {
+            NSDictionary *userData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_DATA_KEY];
+            
+            NSString *userFirstName = userData[@"first_name"];
+            NSString *userName = userData[@"name"];
+            
             NSUInteger wishesCount = [objects count];
             
-            NSString *userName = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_DATA_KEY] objectForKey:@"first_name"];
+            if (wishesCount == 0 && userName)
+            {
+                int sum = 0;
+                
+                for (int i = 0; i < userName.length; i++)
+                {
+                    sum += [userName characterAtIndex:i];
+                }
+                
+                wishesCount = sum % 2;
+            }
             
             NSString *oppositeGender = nil;
             
@@ -332,11 +348,11 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
             
             UIFont *boldFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
             
-            NSString *swagScoreText = [NSString stringWithFormat:@"%@, you are on the wishlist of %lu %@", userName, (unsigned long)wishesCount, oppositeGender];
+            NSString *swagScoreText = [NSString stringWithFormat:@"%@, you are on the wishlist of %lu %@", userFirstName, (unsigned long)wishesCount, oppositeGender];
             
             NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:swagScoreText];
             
-            NSUInteger loc = [userName length] + 29;
+            NSUInteger loc = [userFirstName length] + 29;
             
             NSUInteger endLoc = [swagScoreText rangeOfString:@" " options:NSLiteralSearch range:NSMakeRange(loc, 5)].location;
             
@@ -431,6 +447,65 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     [alert addAction:cancel];
     
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)displayResultsPopover
+{
+    PARGameResultsOverlayView *overlay = nil;
+    
+    overlay = [[PARGameResultsOverlayView alloc] initForGivenScreenSize:[UIScreen mainScreen].bounds.size voteType:PARNoVote];
+    
+    overlay.maleID = couple[@"Male"];
+    overlay.femaleID = couple[@"Female"];
+    overlay.maleNameText = couple[@"MaleName"];
+    overlay.femaleNameText = couple[@"FemaleName"];
+    overlay.coupleObjectID = couple.objectId;
+    overlay.authorLiked = [NSNumber numberWithInt:0];
+    
+    [overlay setCallback:self];
+    [overlay loadImagesForMale:couple[@"Male"]female:couple[@"Female"]];
+    [overlay setMaleNameText:couple[@"MaleName"] femaleNameText:couple[@"FemaleName"]];
+    
+    int upVotes = 0;
+    int downVotes = 0;
+    if ([couple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+    {
+        upVotes = [couple[@"Upvotes"] intValue];
+    }
+    if ([couple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+    {
+        downVotes = [couple[@"Downvotes"] intValue];
+    }
+    
+    [overlay setQuoteTextForUpvotes:upVotes downvotes:downVotes];
+    
+    
+    [self createDropShadow:overlay];
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *bluredEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [bluredEffectView setFrame:self.navigationController.view.frame];
+    
+    [self.navigationController.view addSubview:bluredEffectView];
+    [self.navigationController.view addSubview:overlay];
+    
+    [overlay flyInAnimatingUpToPercent:((upVotes * 1.0) / (downVotes + upVotes))];
+}
+
+#pragma mark - OverlayCallback
+
+- (IBAction)dismissOverlay:(id)sender
+{
+    PARResultsOverlayView *overlay = (PARResultsOverlayView *)[self.navigationController.view.subviews lastObject];
+    
+    [UIView animateWithDuration:.4 animations:^{
+        overlay.center = CGPointMake([UIScreen mainScreen].bounds.size.width * (-.9), overlay.center.y);
+    }
+                     completion:^(BOOL finished) {
+                         [[self.navigationController.view.subviews lastObject] removeFromSuperview];
+                         [[self.navigationController.view.subviews lastObject] removeFromSuperview];
+                         [self viewWillAppear:NO];
+                     }];
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -550,7 +625,8 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
          if (!error && [objects count] > 0)
          {
              couple = [objects firstObject];
-             [self performSegueWithIdentifier:@"ProfileToMatchDetails" sender:self];
+             [self displayResultsPopover];
+             //[self performSegueWithIdentifier:@"ProfileToMatchDetails" sender:self];
          }
          else
          {
@@ -558,7 +634,7 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
              [alert show];
              couple = nil;
              
-             [self performSegueWithIdentifier:@"ProfileToMatchDetails" sender:self];
+             //[self performSegueWithIdentifier:@"ProfileToMatchDetails" sender:self];
          }
      }];
 }

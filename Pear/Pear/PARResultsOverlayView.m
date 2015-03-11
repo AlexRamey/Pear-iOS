@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "PARDataStore.h"
 #import "PARNewCommentCard.h"
+#import "FacebookSDK.h"
 
 @interface PARResultsOverlayView () <UIAlertViewDelegate>
 {
@@ -33,7 +34,6 @@
 @property (nonatomic, strong) UIImageView *watermarkBackground;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIButton *dismissResults;
-@property (nonatomic, strong) UIImageView *moreComments;
 
 //Gesture Recognizer
 @property (nonatomic, strong) UISwipeGestureRecognizer *leftSwipeRecognizer;
@@ -45,32 +45,41 @@
 
 @implementation PARResultsOverlayView
 
-- (id)initForGivenScreenSize:(CGSize)screenSize voteType:(BOOL)yesVote
+- (id)initForGivenScreenSize:(CGSize)screenSize voteType:(VoteType)voteType
 {
     //Programmatic View Layout, My Favorite . . .
     
     phoneScreenSize = screenSize;
     
-    if (yesVote) //start below screen
+    if (voteType == PARPositiveVote) //start below screen
     {
         self = [super initWithFrame:CGRectMake(.05 * screenSize.width, screenSize.height, .9 * screenSize.width, .83 * screenSize.height)];
     }
-    else //start on top of screen
+    else if (voteType == PARNegativeVote) //start on top of screen
     {
         self = [super initWithFrame:CGRectMake(.05 * screenSize.width, (-1) * screenSize.height + .17 * screenSize.height, .9 * screenSize.width, .83 * screenSize.height)];
+    }
+    else
+    {
+        //no previous vote . . .
+        self = [super initWithFrame:CGRectMake(.05 * screenSize.width, screenSize.height, .9 * screenSize.width, .83 * screenSize.height)];
     }
     
     //Top Half
     
     _topBackground = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.frame.size.width, .39 * screenSize.height)];
     
-    if (yesVote)
+    if (voteType == PARNegativeVote)
+    {
+        [_topBackground setBackgroundColor:[UIColor PARResultsRed]];
+    }
+    else if (voteType == PARPositiveVote)
     {
         [_topBackground setBackgroundColor:[UIColor PARResultsGreen]];
     }
     else
     {
-        [_topBackground setBackgroundColor:[UIColor PARResultsRed]];
+        [_topBackground setBackgroundColor:[UIColor PARResultNeutral]];
     }
     
     _maleImage = [[UIImageView alloc] initWithFrame:CGRectMake(.05 * screenSize.width, .05 * screenSize.height, .125 * screenSize.height, .125 * screenSize.height)];
@@ -136,30 +145,52 @@
     
     UIView *buttonsBar = [[UIView alloc] initWithFrame:CGRectMake(0.0, .345 * screenSize.height, self.frame.size.width, .095 * screenSize.height)];
     
+    //left container
+    UIView *leftContainer = [[UIView alloc] initWithFrame:CGRectMake(8.0, 8.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0)];
+    leftContainer.backgroundColor = [UIColor clearColor];
     
-    UIView *addContainer = [[UIView alloc] initWithFrame:CGRectMake(8.0, 8.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0)];
-    addContainer.backgroundColor = [UIColor clearColor];
+    _leftBarButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0)];
+    [_leftBarButton.layer setCornerRadius:_leftBarButton.frame.size.width / 2.0];
+    [_leftBarButton.layer setMasksToBounds:YES];
     
-    UIButton *addComment = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0)];
-    [addComment setImage:[UIImage imageNamed:@"addComment"] forState:UIControlStateNormal];
-    [addComment addTarget:self action:@selector(makeComment:) forControlEvents:UIControlEventTouchUpInside];
-    [addComment.layer setCornerRadius:addComment.frame.size.width / 2.0];
-    [addComment.layer setMasksToBounds:YES];
+    [leftContainer addSubview:_leftBarButton];
+    leftContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    leftContainer.layer.shadowOffset = CGSizeMake(2,3);
+    leftContainer.layer.shadowOpacity = 0.5;
+    leftContainer.layer.shadowRadius = 2.0;
+    leftContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:leftContainer.bounds cornerRadius:leftContainer.frame.size.width/2.0].CGPath;
     
-    [addContainer addSubview:addComment];
-    addContainer.layer.shadowColor = [UIColor blackColor].CGColor;
-    addContainer.layer.shadowOffset = CGSizeMake(2,3);
-    addContainer.layer.shadowOpacity = 0.5;
-    addContainer.layer.shadowRadius = 2.0;
-    addContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:addContainer.bounds cornerRadius:addContainer.frame.size.width/2.0].CGPath;
+    //middle container
+    UIView *middleContainer = [[UIView alloc] initWithFrame:CGRectMake((buttonsBar.frame.size.width - (buttonsBar.frame.size.height - 16.0)) / 2.0, 8.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0)];
+    middleContainer.backgroundColor = [UIColor clearColor];
     
+    _middleBarButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0)];
+    [_middleBarButton.layer setCornerRadius:_middleBarButton.frame.size.width / 2.0];
+    [_middleBarButton.layer setMasksToBounds:YES];
     
+    [middleContainer addSubview:_middleBarButton];
+    middleContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    middleContainer.layer.shadowOffset = CGSizeMake(2,3);
+    middleContainer.layer.shadowOpacity = 0.5;
+    middleContainer.layer.shadowRadius = 2.0;
+    middleContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:middleContainer.bounds cornerRadius:middleContainer.frame.size.width/2.0].CGPath;
+    
+    //right container
     UIView *dismissContainer = [[UIView alloc] initWithFrame:CGRectMake(buttonsBar.frame.size.width - (buttonsBar.frame.size.height - 16.0) - 8.0, 8.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0)];
-    addContainer.backgroundColor = [UIColor clearColor];
+    dismissContainer.backgroundColor = [UIColor clearColor];
     
     _dismissResults = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0)];
-    [_dismissResults setImage:[UIImage imageNamed:@"nextCouple"] forState:UIControlStateNormal];
-    [_dismissResults.layer setCornerRadius:addComment.frame.size.width / 2.0];
+    
+    if (voteType == PARNoVote)
+    {
+        [_dismissResults setImage:[UIImage imageNamed:@"closeButton"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [_dismissResults setImage:[UIImage imageNamed:@"nextCouple"] forState:UIControlStateNormal];
+    }
+    
+    [_dismissResults.layer setCornerRadius:_dismissResults.frame.size.width / 2.0];
     [_dismissResults.layer setMasksToBounds:YES];
     
     [dismissContainer addSubview:_dismissResults];
@@ -169,14 +200,9 @@
     dismissContainer.layer.shadowRadius = 2.0;
     dismissContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dismissContainer.bounds cornerRadius:dismissContainer.frame.size.width/2.0].CGPath;
     
-    _moreComments = [[UIImageView alloc] initWithImage:nil];
-    [_moreComments setBackgroundColor:[UIColor clearColor]];
-    _moreComments.frame = CGRectMake((buttonsBar.frame.size.width - (buttonsBar.frame.size.height - 16.0)) / 2.0, 8.0, buttonsBar.frame.size.height - 16.0, buttonsBar.frame.size.height - 16.0);
-    [_moreComments setContentMode:UIViewContentModeScaleAspectFit];
-    
-    [buttonsBar addSubview:addContainer];
+    [buttonsBar addSubview:leftContainer];
+    [buttonsBar addSubview:middleContainer];
     [buttonsBar addSubview:dismissContainer];
-    [buttonsBar addSubview:_moreComments];
     
     [_bottomBackground addSubview:_watermarkBackground];
     [_bottomBackground addSubview:_comments];
@@ -336,10 +362,10 @@
     [self loadComments];
 }
 
--(void)setCallback:(PARGameViewController *)callback
+-(void)setCallback:(id<OverlayCallback>)callback
 {
-    [_dismissResults addTarget:callback action:@selector(dismissResults:) forControlEvents:UIControlEventTouchUpInside];
-    [_leftSwipeRecognizer addTarget:callback action:@selector(dismissResults:)];
+    [_dismissResults addTarget:callback action:@selector(dismissOverlay:) forControlEvents:UIControlEventTouchUpInside];
+    [_leftSwipeRecognizer addTarget:callback action:@selector(dismissOverlay:)];
 }
 
 - (void)loadComments
@@ -356,8 +382,6 @@
     [_comments setContentSize:CGSizeMake(_comments.frame.size.width, 0.0)];
     
     [_commentCards removeAllObjects];
-    
-    //_moreComments.image = nil;
     
     
     PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
@@ -434,11 +458,6 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     CGFloat bufferspace = (3 - ([_commentCards count] % 3)) * .115 *phoneScreenSize.height;
                     [_comments setContentSize:CGSizeMake(_comments.frame.size.width, _comments.contentSize.height + bufferspace)];
-                    
-                    if ([_commentCards count] > 3)
-                    {
-                        //_moreComments.image = [UIImage imageNamed:@"downArrow"];
-                    }
                 });
                 
                 
@@ -448,6 +467,48 @@
         
         [_activityIndicator stopAnimating];
     }];
+}
+
+-(IBAction)makePear:(id)sender
+{
+    NSString *name = @"The Pear Game";
+    NSString *pear = [[_maleNameText stringByAppendingString:@" + "] stringByAppendingString:_femaleNameText];
+    
+    NSString *description = [pear stringByAppendingString:[NSString stringWithFormat:@" @ http://thepeargame.com/webapp/index.html?male=%@&female=%@", _maleID, _femaleID]];
+    
+    NSArray *suggestedFriends = [[NSArray alloc] initWithObjects:
+                                 _maleID, _femaleID,
+                                 nil];
+    
+    // Create a dictionary of key/value pairs which are the parameters of the dialog
+    
+    // 1. No additional parameters provided - enables generic Multi-friend selector
+    NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     // 2. Optionally provide a 'to' param to direct the request at a specific user
+                                     [suggestedFriends componentsJoinedByString:@","], @"to", // Ali
+                                     description, @"data",
+                                     nil];
+    
+    [FBWebDialogs presentRequestsDialogModallyWithSession:nil
+                                                  message:description
+                                                    title:name
+                                               parameters:params
+                                                  handler:^(FBWebDialogResult result,
+                                                            NSURL *resultURL,
+                                                            NSError *error) {
+                                                      if (error) {
+                                                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not send request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                                          [alert show];
+                                                      } else {
+                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                              // Case B: User clicked the "x" icon
+                                                              //NSLog(@"User canceled request.");
+                                                          } else {
+                                                              //NSLog(@"Request Sent.");
+                                                          }
+                                                      }
+                                                  }
+                                              friendCache:nil];
 }
 
 - (IBAction)makeComment:(id)sender

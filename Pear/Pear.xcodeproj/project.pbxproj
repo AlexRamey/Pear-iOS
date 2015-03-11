@@ -29,6 +29,8 @@
 		D03CDE981A5F92E200D11E9F /* PARCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */; };
 		D0ACC3341AAF641F00FD2946 /* PARResultsOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ACC3331AAF641F00FD2946 /* PARResultsOverlayView.m */; };
 		D0ACC3391AB0B05A00FD2946 /* PARNewCommentCard.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ACC3381AB0B05A00FD2946 /* PARNewCommentCard.m */; };
+		D0ACC33C1AB0E86C00FD2946 /* PARGameResultsOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ACC33B1AB0E86C00FD2946 /* PARGameResultsOverlayView.m */; };
+		D0ACC33F1AB0F3AD00FD2946 /* PARWishResultsOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ACC33E1AB0F3AD00FD2946 /* PARWishResultsOverlayView.m */; };
 		D0BC21CB1A62E84C00C2D765 /* PARTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */; };
 		D0BC22121A635E4A00C2D765 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D0BC22111A635E4A00C2D765 /* Settings.bundle */; };
 		D0C2608B1A5F9AEC0068BCF3 /* PARTapRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C2608A1A5F9AEC0068BCF3 /* PARTapRecognizer.m */; };
@@ -107,6 +109,10 @@
 		D0ACC3331AAF641F00FD2946 /* PARResultsOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARResultsOverlayView.m; sourceTree = "<group>"; };
 		D0ACC3371AB0B05A00FD2946 /* PARNewCommentCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARNewCommentCard.h; sourceTree = "<group>"; };
 		D0ACC3381AB0B05A00FD2946 /* PARNewCommentCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARNewCommentCard.m; sourceTree = "<group>"; };
+		D0ACC33A1AB0E86C00FD2946 /* PARGameResultsOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARGameResultsOverlayView.h; sourceTree = "<group>"; };
+		D0ACC33B1AB0E86C00FD2946 /* PARGameResultsOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARGameResultsOverlayView.m; sourceTree = "<group>"; };
+		D0ACC33D1AB0F3AD00FD2946 /* PARWishResultsOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARWishResultsOverlayView.h; sourceTree = "<group>"; };
+		D0ACC33E1AB0F3AD00FD2946 /* PARWishResultsOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARWishResultsOverlayView.m; sourceTree = "<group>"; };
 		D0BC21C91A62E84C00C2D765 /* PARTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARTabBarController.h; sourceTree = "<group>"; };
 		D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARTabBarController.m; sourceTree = "<group>"; };
 		D0BC22111A635E4A00C2D765 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -245,6 +251,8 @@
 				D031DB9A1A3D225E000C37C0 /* PARWishlistController.m */,
 				D031DB9C1A3E97E4000C37C0 /* PARAddWishController.h */,
 				D031DB9D1A3E97E4000C37C0 /* PARAddWishController.m */,
+				D0ACC33D1AB0F3AD00FD2946 /* PARWishResultsOverlayView.h */,
+				D0ACC33E1AB0F3AD00FD2946 /* PARWishResultsOverlayView.m */,
 				D031DBA41A43EB9E000C37C0 /* PARWishStatsController.h */,
 				D031DBA51A43EB9E000C37C0 /* PARWishStatsController.m */,
 				D031DB9F1A43609F000C37C0 /* PARWish.h */,
@@ -378,6 +386,8 @@
 				D0F5945119EC314C00B09260 /* PARGameViewController.m */,
 				D0ACC3321AAF641F00FD2946 /* PARResultsOverlayView.h */,
 				D0ACC3331AAF641F00FD2946 /* PARResultsOverlayView.m */,
+				D0ACC33A1AB0E86C00FD2946 /* PARGameResultsOverlayView.h */,
+				D0ACC33B1AB0E86C00FD2946 /* PARGameResultsOverlayView.m */,
 				D0F5945419EC526700B09260 /* PARGameResultsViewController.h */,
 				D0F5945519EC526700B09260 /* PARGameResultsViewController.m */,
 			);
@@ -559,8 +569,10 @@
 				D0ACC3341AAF641F00FD2946 /* PARResultsOverlayView.m in Sources */,
 				D0F5945619EC526700B09260 /* PARGameResultsViewController.m in Sources */,
 				D031DBA11A43609F000C37C0 /* PARWish.m in Sources */,
+				D0ACC33C1AB0E86C00FD2946 /* PARGameResultsOverlayView.m in Sources */,
 				D031DBF41A5DDABA000C37C0 /* PARMatchDetailsViewController.m in Sources */,
 				D031DBF11A5D75C4000C37C0 /* PARProfileCollectionViewFlowLayout.m in Sources */,
+				D0ACC33F1AB0F3AD00FD2946 /* PARWishResultsOverlayView.m in Sources */,
 				D031DBC01A4F43FB000C37C0 /* PARTopMatchCell.m in Sources */,
 				D031DBA61A43EB9E000C37C0 /* PARWishStatsController.m in Sources */,
 				D031DB9E1A3E97E4000C37C0 /* PARAddWishController.m in Sources */,

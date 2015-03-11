@@ -32,4 +32,6 @@
 
 +(UIColor *)PARDarkRed;
 
++(UIColor *)PARResultNeutral;
+
 @end

@@ -13,7 +13,7 @@
 #import "FacebookSDK.h"
 #import "AppDelegate.h"
 #import "UIColor+Theme.h"
-#import "PARResultsOverlayView.h"
+#import "PARGameResultsOverlayView.h"
 
 @interface PARGameViewController ()
 
@@ -199,7 +199,8 @@
         downVotes = 0;
     }
     
-    //load images
+    //load images, opposite gender on top
+    BOOL isMale = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"male"] == NSOrderedSame;
     
     NSURL *malePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=300&height=300", maleId]];
     
@@ -209,7 +210,14 @@
         if (!connectionError)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                maleView.image = [UIImage imageWithData:data];
+                if (isMale)
+                {
+                    femaleView.image = [UIImage imageWithData:data];
+                }
+                else
+                {
+                    maleView.image = [UIImage imageWithData:data];
+                }
             });
         }
     }];
@@ -222,13 +230,30 @@
         if (!connectionError)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                femaleView.image = [UIImage imageWithData:data];
+                if (isMale)
+                {
+                    maleView.image = [UIImage imageWithData:data];
+                }
+                else
+                {
+                    femaleView.image = [UIImage imageWithData:data];
+                }
             });
         }
     }];
     
-    _maleName.text = [@" " stringByAppendingString:mName];
-    _femaleName.text = [@" " stringByAppendingString:fName];
+    //name labels, opposite gender on top
+    
+    if (isMale)
+    {
+        _maleName.text = [@" " stringByAppendingString:fName];
+        _femaleName.text = [@" " stringByAppendingString:mName];
+    }
+    else
+    {
+        _maleName.text = [@" " stringByAppendingString:mName];
+        _femaleName.text = [@" " stringByAppendingString:fName];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -389,15 +414,15 @@
 
 - (void)displayResultsPopover
 {
-    PARResultsOverlayView *overlay = nil;
+    PARGameResultsOverlayView *overlay = nil;
     
     if (userVote == 1)
     {
-        overlay = [[PARResultsOverlayView alloc] initForGivenScreenSize:[UIScreen mainScreen].bounds.size voteType:YES];
+        overlay = [[PARGameResultsOverlayView alloc] initForGivenScreenSize:[UIScreen mainScreen].bounds.size voteType:PARPositiveVote];
     }
     else
     {
-        overlay = [[PARResultsOverlayView alloc] initForGivenScreenSize:[UIScreen mainScreen].bounds.size voteType:NO];
+        overlay = [[PARGameResultsOverlayView alloc] initForGivenScreenSize:[UIScreen mainScreen].bounds.size voteType:PARNegativeVote];
     }
     
     overlay.maleID = maleId;
@@ -423,7 +448,7 @@
     [overlay flyInAnimatingUpToPercent:((upVotes * 1.0) / (downVotes + upVotes))];
 }
 
-- (IBAction)dismissResults:(id)sender
+- (IBAction)dismissOverlay:(id)sender
 {
     PARResultsOverlayView *overlay = (PARResultsOverlayView *)[self.navigationController.view.subviews lastObject];
     

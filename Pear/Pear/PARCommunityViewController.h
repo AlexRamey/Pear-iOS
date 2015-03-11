@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse.h"
+#import "PARResultsOverlayView.h"
 
-@interface PARCommunityViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface PARCommunityViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, OverlayCallback>
 {
     PFObject *couple;
     BOOL inProgress;

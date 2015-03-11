@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse.h"
+#import "PARResultsOverlayView.h"
 
-@interface PARGameViewController : UIViewController
+@interface PARGameViewController : UIViewController <OverlayCallback>
 {
     UIImageView *maleView;
     UIImageView *femaleView;

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse.h"
+#import "PARResultsOverlayView.h"
 
-@interface PARWishlistController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
+@interface PARWishlistController : UICollectionViewController <UICollectionViewDelegateFlowLayout, OverlayCallback>
 {
     PFObject *couple;
     NSString *selectedWishID;

@@ -23,8 +23,6 @@
     NSArray *backgroundBlues = @[@0x36, @0x7F, @0x99, @0xD7, @0x7C, @0x04,
                                  @0xD4, @0xE0, @0x7C, @0x3F, @0x83];
     
-    CGSize phoneScreenSize = [UIScreen mainScreen].bounds.size;
-    
     int i = index % 2;
     
     float initialsDimension = self.frame.size.height;

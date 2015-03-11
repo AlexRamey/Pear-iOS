@@ -12,6 +12,7 @@
 #import "PARDataStore.h"
 #import "AppDelegate.h"
 #import "PARMatchDetailsViewController.h"
+#import "PARGameResultsOverlayView.h"
 
 @interface PARCommunityViewController ()
 
@@ -246,6 +247,65 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
     [_topMatchesCollection reloadData];
 }
 
+- (void)displayResultsPopover
+{
+    PARGameResultsOverlayView *overlay = nil;
+    
+    overlay = [[PARGameResultsOverlayView alloc] initForGivenScreenSize:[UIScreen mainScreen].bounds.size voteType:PARNoVote];
+    
+    overlay.maleID = couple[@"Male"];
+    overlay.femaleID = couple[@"Female"];
+    overlay.maleNameText = couple[@"MaleName"];
+    overlay.femaleNameText = couple[@"FemaleName"];
+    overlay.coupleObjectID = couple.objectId;
+    overlay.authorLiked = [NSNumber numberWithInt:0];
+    
+    [overlay setCallback:self];
+    [overlay loadImagesForMale:couple[@"Male"]female:couple[@"Female"]];
+    [overlay setMaleNameText:couple[@"MaleName"] femaleNameText:couple[@"FemaleName"]];
+    
+    int upVotes = 0;
+    int downVotes = 0;
+    if ([couple[@"Upvotes"] isKindOfClass:[NSNumber class]])
+    {
+        upVotes = [couple[@"Upvotes"] intValue];
+    }
+    if ([couple[@"Downvotes"] isKindOfClass:[NSNumber class]])
+    {
+        downVotes = [couple[@"Downvotes"] intValue];
+    }
+    
+    [overlay setQuoteTextForUpvotes:upVotes downvotes:downVotes];
+    
+    
+    [self createDropShadow:overlay];
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *bluredEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [bluredEffectView setFrame:self.navigationController.view.frame];
+    
+    [self.navigationController.view addSubview:bluredEffectView];
+    [self.navigationController.view addSubview:overlay];
+    
+    [overlay flyInAnimatingUpToPercent:((upVotes * 1.0) / (downVotes + upVotes))];
+}
+
+#pragma mark - OverlayCallback
+
+- (IBAction)dismissOverlay:(id)sender
+{
+    PARResultsOverlayView *overlay = (PARResultsOverlayView *)[self.navigationController.view.subviews lastObject];
+    
+    [UIView animateWithDuration:.4 animations:^{
+        overlay.center = CGPointMake([UIScreen mainScreen].bounds.size.width * (-.9), overlay.center.y);
+    }
+                     completion:^(BOOL finished) {
+                         [[self.navigationController.view.subviews lastObject] removeFromSuperview];
+                         [[self.navigationController.view.subviews lastObject] removeFromSuperview];
+                         [self viewWillAppear:NO];
+                     }];
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -348,7 +408,8 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
          if (!error && [objects count] > 0)
          {
              couple = [objects firstObject];
-             [self performSegueWithIdentifier:@"CommunityToMatchDetails" sender:self];
+             [self displayResultsPopover];
+             //[self performSegueWithIdentifier:@"CommunityToMatchDetails" sender:self];
          }
          else
          {
@@ -356,7 +417,7 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
              [alert show];
              couple = nil;
              
-             [self performSegueWithIdentifier:@"CommunityToMatchDetails" sender:self];
+             //[self performSegueWithIdentifier:@"CommunityToMatchDetails" sender:self];
          }
      }];
 }

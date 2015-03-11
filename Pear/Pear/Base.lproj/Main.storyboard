@@ -122,7 +122,7 @@
         <scene sceneID="4tT-P2-Bkj">
             <objects>
                 <navigationController id="OAM-Yc-Ffd" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Wishlist" image="wishlistTab" id="DXZ-kI-yNb"/>
+                    <tabBarItem key="tabBarItem" title="Wishlist" image="wishlistIcon" id="DXZ-kI-yNb"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="VeR-q7-uhJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -167,7 +167,7 @@
                     </collectionView>
                     <navigationItem key="navigationItem" title="Wishlist" id="mJu-W6-JG1">
                         <barButtonItem key="backBarButtonItem" title="Back" id="hZs-jv-1AN"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ReR-Wb-Fq4">
+                        <barButtonItem key="rightBarButtonItem" image="wishlistIcon" id="ReR-Wb-Fq4">
                             <connections>
                                 <segue destination="uBK-x9-Rpb" kind="show" id="BDI-JV-dCv"/>
                             </connections>
@@ -185,7 +185,7 @@
         <scene sceneID="ygE-jn-h79">
             <objects>
                 <navigationController id="bcK-yK-OTI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Community" image="communityTab" id="Yum-aQ-O8T"/>
+                    <tabBarItem key="tabBarItem" title="Community" image="communityTree" id="Yum-aQ-O8T"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="HCR-ZI-mnz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1118,12 +1118,12 @@
     </scenes>
     <resources>
         <image name="bigPear" width="512" height="512"/>
-        <image name="communityTab" width="25" height="25"/>
+        <image name="communityTree" width="25" height="25"/>
         <image name="facebookShare" width="93" height="31"/>
         <image name="pearTab" width="25" height="25"/>
         <image name="thePearGame" width="283" height="27"/>
         <image name="twitterShare" width="161" height="51"/>
-        <image name="wishlistTab" width="25" height="25"/>
+        <image name="wishlistIcon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="0oN-O5-VR8"/>
