@@ -17,7 +17,8 @@
     [super.leftBarButton setImage:[UIImage imageNamed:@"removeWish"] forState:UIControlStateNormal];
     [super.leftBarButton setBackgroundColor:[UIColor whiteColor]];
     
-    [super.middleBarButton.superview removeFromSuperview];
+    [super.middleBarButton setImage:[UIImage imageNamed:@"pearButton"] forState:UIControlStateNormal];
+    [super.middleBarButton addTarget:self action:@selector(makePear:) forControlEvents:UIControlEventTouchUpInside];
     
     return self;
 }

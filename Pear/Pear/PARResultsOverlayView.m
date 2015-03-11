@@ -476,9 +476,21 @@
     
     NSString *description = [pear stringByAppendingString:[NSString stringWithFormat:@" @ http://thepeargame.com/webapp/index.html?male=%@&female=%@", _maleID, _femaleID]];
     
-    NSArray *suggestedFriends = [[NSArray alloc] initWithObjects:
-                                 _maleID, _femaleID,
-                                 nil];
+    NSMutableArray *recipients = [NSMutableArray new];
+    
+    NSString *userFBID = [[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY];
+    
+    if ([userFBID caseInsensitiveCompare:_maleID] != NSOrderedSame)
+    {
+        [recipients addObject:_maleID];
+    }
+    
+    if ([userFBID caseInsensitiveCompare:_femaleID] != NSOrderedSame)
+    {
+        [recipients addObject:_femaleID];
+    }
+    
+    NSArray *suggestedFriends = [NSArray arrayWithArray:recipients];
     
     // Create a dictionary of key/value pairs which are the parameters of the dialog
     
