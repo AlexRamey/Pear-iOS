@@ -9,6 +9,7 @@
 #import "PARMatchDetailsViewController.h"
 #import "AppDelegate.h"
 #import "Parse.h"
+#import "PARNewCommentCard.h"
 
 @implementation PARMatchDetailsViewController
 
@@ -108,7 +109,7 @@
 
 -(void)loadComments
 {
-    yOffset = 0.0;
+    //yOffset = 0.0;
     
     if (_male && _female)
     {
@@ -122,14 +123,35 @@
             UIScrollView *strongScrollView = _scrollView;
             if (strongScrollView && !error)
             {
+                CGSize phoneScreenSize = [UIScreen mainScreen].bounds.size;
+                [strongScrollView setContentSize:CGSizeMake(phoneScreenSize.width, 0.0)];
+                float initialsDimension = (strongScrollView.frame.size.height - 16.0) / 3.0;
+                
+                float offset = 0.0;
+                int index = 0;
+                
                 for (PFObject *comment in objects)
                 {
-                    PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] authorLiked:comment[@"authorLiked"] offset:yOffset callback:self];
+                    PARNewCommentCard *commentCard = [[PARNewCommentCard alloc] initWithFrame:CGRectMake(0.0, offset, phoneScreenSize.width, initialsDimension) atIndex:index withAuthorName:comment[@"AuthorName"] commentText:comment[@"Text"]];
                     
-                    [_scrollView addSubview:commentCard];
+                    [self createDropShadow:commentCard];
+                    
+                    [strongScrollView addSubview:commentCard];
+                    
+                    offset += initialsDimension + 8.0;
+                    
+                    [strongScrollView setContentSize:CGSizeMake(strongScrollView.contentSize.width, offset)];
+                    
+                    index++;
                 }
+             
+                if ([objects count] > 0)
+                {
+                    [strongScrollView setContentSize:CGSizeMake(strongScrollView.contentSize.width, strongScrollView.contentSize.height - 8.0)];
+                }
+                
             }
-            if (strongScrollView && [objects count] == 0)
+            if (strongScrollView && [objects count] == 0) //if error and objects == nil, this will also be true b/c objects count will return 0
             {
                 UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, (strongScrollView.frame.size.height / 2.0) - 15.0, [UIScreen mainScreen].bounds.size.width, 30.0)];
                 label.textAlignment = NSTextAlignmentCenter;
@@ -140,7 +162,6 @@
             }
         }];
     }
-    
 }
 
 

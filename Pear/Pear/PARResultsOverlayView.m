@@ -11,6 +11,7 @@
 #import "PARGameViewController.h"
 #import "AppDelegate.h"
 #import "PARDataStore.h"
+#import "PARNewCommentCard.h"
 
 @interface PARResultsOverlayView () <UIAlertViewDelegate>
 {
@@ -84,11 +85,11 @@
     _femaleImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - .125 * screenSize.height - .05 * screenSize.width, .05 * screenSize.height, .125 * screenSize.height, .125 * screenSize.height)];
     [_femaleImage.layer setCornerRadius:_femaleImage.frame.size.width / 2];
     [_femaleImage.layer setMasksToBounds:YES];
-    _femaleName.textAlignment = NSTextAlignmentCenter;
     
     _femaleName = [[UILabel alloc] initWithFrame:CGRectMake(_femaleImage.frame.origin.x, .05 * screenSize.height + .125 * screenSize.height + 8, .125 * screenSize.height, 14.0)];
     _femaleName.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:12.0];
     _femaleName.textColor = [UIColor PARWhite];
+    _femaleName.textAlignment = NSTextAlignmentCenter;
     
     NSMutableAttributedString *percentText = [[NSMutableAttributedString alloc] initWithString:@"100%"];
     [percentText addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Superclarendon-Bold" size:52.0] range:NSMakeRange(0, percentText.length - 1)];
@@ -105,9 +106,7 @@
     [_cleverQuote setTextAlignment:NSTextAlignmentCenter];
     [_cleverQuote setFont:[UIFont fontWithName:@"HelveticaNeue-Italic" size:12]];
     [_cleverQuote setTextColor:[UIColor whiteColor]];
-    [_cleverQuote setText:@"\"Like pears in a pod.\""];
-    [_cleverQuote sizeToFit];
-    _cleverQuote.center = CGPointMake(self.frame.size.width / 2.0, _percentApproval.frame.origin.y + _percentApproval.frame.size.height + ((_topBackground.frame.size.height - (_percentApproval.frame.origin.y + _percentApproval.frame.size.height)) / 2.0));
+    _cleverQuote.center = CGPointMake(self.frame.size.width / 2.0, _percentApproval.frame.origin.y + _percentApproval.frame.size.height + 8.0);
     
     
     [_topBackground addSubview:_maleImage];
@@ -126,6 +125,7 @@
     _comments = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.frame.size.width, .345 * screenSize.height)];
     [_comments setBackgroundColor:[UIColor clearColor]];
     [_comments setPagingEnabled:YES];
+    [_comments setShowsVerticalScrollIndicator:YES];
     
     _watermarkBackground = [[UIImageView alloc] initWithFrame:_comments.frame];
     [_watermarkBackground setContentMode:UIViewContentModeScaleAspectFit];
@@ -250,9 +250,44 @@
     }
 }
 
-- (void)setQuoteTextForPercent:(CGFloat)percent
+- (void)setQuoteTextForUpvotes:(int)upvotes downvotes:(int)downvotes
 {
+    if (upvotes + downvotes > 0)
+    {
+        float percent = (1.0 * upvotes) / (upvotes + downvotes);
+        
+        if (percent <= .17)
+        {
+            _cleverQuote.text = @"Mix like fire and gasoline.";
+        }
+        else if (percent <= .34)
+        {
+            _cleverQuote.text = @"It's whatever.";
+        }
+        else if (percent <= .65)
+        {
+            _cleverQuote.text = @"Meh.";
+        }
+        else if (percent <= .83)
+        {
+            _cleverQuote.text = @"Roll Tide.";
+        }
+        else if (percent <=.95)
+        {
+            _cleverQuote.text = @"Like pears in a pod.";
+        }
+        else
+        {
+            _cleverQuote.text = @"Someone get these people a room.";
+        }
+    }
+    else
+    {
+        _cleverQuote.text = @"";
+    }
     
+    [_cleverQuote sizeToFit];
+    _cleverQuote.center = CGPointMake(self.frame.size.width / 2.0, _cleverQuote.center.y);
 }
 
 - (void)flyInAnimatingUpToPercent:(CGFloat)percent
@@ -318,18 +353,12 @@
         [view removeFromSuperview];
     }
     
+    [_comments setContentSize:CGSizeMake(_comments.frame.size.width, 0.0)];
+    
     [_commentCards removeAllObjects];
     
     //_moreComments.image = nil;
     
-    NSArray *backgroundReds = @[@0xEF, @0xD2, @0x66, @0x41, @0x87, @0xE8,
-                                @0xBE, @0x81, @0x87, @0xF4, @0xE0];
-    
-    NSArray *backgroundGreens = @[@0x48, @0x52, @0x33, @0x83, @0xD3, @0x7E,
-                                  @0x90, @0xCF, @0xD3, @0xD0, @0x82];
-    
-    NSArray *backgroundBlues = @[@0x36, @0x7F, @0x99, @0xD7, @0x7C, @0x04,
-                                 @0xD4, @0xE0, @0x7C, @0x3F, @0x83];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
     query.limit = 50;
@@ -349,56 +378,11 @@
             CGFloat offset = 0.0;
             for (PFObject *comment in objects)
             {
-                UIView *commentCard = [[UIView alloc] initWithFrame:CGRectMake(.9 * phoneScreenSize.width * pow(-1, i), offset, .9 * phoneScreenSize.width, .115 *  phoneScreenSize.height)];
-                if (i == 0)
-                {
-                    commentCard.backgroundColor = [UIColor colorWithRed:0xf9 / 255.0 green:0xf9 / 255.0 blue:0xf9 / 255.0 alpha:1.0];
-                }
-                else
-                {
-                    commentCard.backgroundColor = [UIColor whiteColor];
-                }
+                PARNewCommentCard *commentCard = [[PARNewCommentCard alloc] initWithFrame:CGRectMake(.9 * phoneScreenSize.width * pow(-1, i), offset, .9 * phoneScreenSize.width, .115 *  phoneScreenSize.height) atIndex:i withAuthorName:comment[@"AuthorName"] commentText:comment[@"Text"]];
                 
-                UILabel *initialsLabel = [[UILabel alloc] initWithFrame:CGRectMake(i * (.9 * phoneScreenSize.width - .115 * phoneScreenSize.height), 0.0, .115 * phoneScreenSize.height, .115 * phoneScreenSize.height)];
-                [initialsLabel setTextAlignment:NSTextAlignmentCenter];
-                [initialsLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:22.0]];
-                NSUInteger r = arc4random_uniform(2);
-                if (r == 0)
-                {
-                    [initialsLabel setTextColor:[UIColor whiteColor]];
-                    NSUInteger bc = arc4random_uniform(6);
-                    [initialsLabel setBackgroundColor:[UIColor colorWithRed:[backgroundReds[bc] intValue] / 255.0 green:[backgroundGreens[bc] intValue] / 255.0 blue:[backgroundBlues[bc] intValue] / 255.0 alpha:1.0]];
-                }
-                else
-                {
-                    [initialsLabel setTextColor:[UIColor blackColor]];
-                    NSUInteger bc = arc4random_uniform(5) + 6;
-                    [initialsLabel setBackgroundColor:[UIColor colorWithRed:[backgroundReds[bc] intValue] / 255.0 green:[backgroundGreens[bc] intValue] / 255.0 blue:[backgroundBlues[bc] intValue] / 255.0 alpha:1.0]];
-                }
-                NSString *authorName = comment[@"AuthorName"];
-                NSRange spaceRange = [authorName rangeOfString:@" " options:NSBackwardsSearch];
-                
-                if (spaceRange.location != NSNotFound && authorName.length > spaceRange.location + 1)
-                {
-                    [initialsLabel setText:[[NSString stringWithFormat:@"%@%@", [authorName substringToIndex:1], [authorName substringWithRange:NSMakeRange(spaceRange.location + 1, 1)]] uppercaseString]];
-                }
-                else
-                {
-                    [initialsLabel setText:[[authorName substringToIndex:1] uppercaseString]];
-                }
-                
-                UITextView *textContainer = [[UITextView alloc] initWithFrame:CGRectMake(((i + 1)%2) * .115 * phoneScreenSize.height, 0.0, .9 * phoneScreenSize.width - .115 * phoneScreenSize.height, .115 * phoneScreenSize.height)];
-                [textContainer setEditable:NO];
-                [textContainer setFont:[UIFont fontWithName:@"HelveticaNeue" size:14]];
-                [textContainer setTextColor:[UIColor blackColor]];
-                [textContainer setText:comment[@"Text"]];
-                [textContainer setSelectable:NO];
-                
-                [commentCard addSubview:initialsLabel];
-                [commentCard addSubview:textContainer];
                 [_commentCards addObject:commentCard];
                 offset += .115*phoneScreenSize.height;
-                i = (i+1) % 2;
+                i++;
             }
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
@@ -435,7 +419,7 @@
                 for (int j = 0; j < [_commentCards count]; j ++) {
                     if (j!=0)
                     {
-                        usleep(.7 * 1000000); // sleep in microseconds
+                        usleep(.2 * 1000000); // sleep in microseconds
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [UIView animateWithDuration:.5 animations:^{
@@ -449,7 +433,6 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     CGFloat bufferspace = (3 - ([_commentCards count] % 3)) * .115 *phoneScreenSize.height;
-                    NSLog(@"BufferSpace: %5.2f", bufferspace);
                     [_comments setContentSize:CGSizeMake(_comments.frame.size.width, _comments.contentSize.height + bufferspace)];
                     
                     if ([_commentCards count] > 3)

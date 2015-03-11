@@ -28,6 +28,7 @@
 		D03CDE951A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE941A5F39A900D11E9F /* PARCommunityCollectionViewFlowLayout.m */; };
 		D03CDE981A5F92E200D11E9F /* PARCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CDE971A5F92E200D11E9F /* PARCommentsViewController.m */; };
 		D0ACC3341AAF641F00FD2946 /* PARResultsOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ACC3331AAF641F00FD2946 /* PARResultsOverlayView.m */; };
+		D0ACC3391AB0B05A00FD2946 /* PARNewCommentCard.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ACC3381AB0B05A00FD2946 /* PARNewCommentCard.m */; };
 		D0BC21CB1A62E84C00C2D765 /* PARTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */; };
 		D0BC22121A635E4A00C2D765 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D0BC22111A635E4A00C2D765 /* Settings.bundle */; };
 		D0C2608B1A5F9AEC0068BCF3 /* PARTapRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C2608A1A5F9AEC0068BCF3 /* PARTapRecognizer.m */; };
@@ -104,6 +105,8 @@
 		D086602A1A6888C2008A7FDF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D0ACC3321AAF641F00FD2946 /* PARResultsOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARResultsOverlayView.h; sourceTree = "<group>"; };
 		D0ACC3331AAF641F00FD2946 /* PARResultsOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARResultsOverlayView.m; sourceTree = "<group>"; };
+		D0ACC3371AB0B05A00FD2946 /* PARNewCommentCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARNewCommentCard.h; sourceTree = "<group>"; };
+		D0ACC3381AB0B05A00FD2946 /* PARNewCommentCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARNewCommentCard.m; sourceTree = "<group>"; };
 		D0BC21C91A62E84C00C2D765 /* PARTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARTabBarController.h; sourceTree = "<group>"; };
 		D0BC21CA1A62E84C00C2D765 /* PARTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARTabBarController.m; sourceTree = "<group>"; };
 		D0BC22111A635E4A00C2D765 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -386,6 +389,8 @@
 			children = (
 				D031DBB31A48653F000C37C0 /* PARButton.h */,
 				D031DBB41A48653F000C37C0 /* PARButton.m */,
+				D0ACC3371AB0B05A00FD2946 /* PARNewCommentCard.h */,
+				D0ACC3381AB0B05A00FD2946 /* PARNewCommentCard.m */,
 				D0F5945719EC5F4C00B09260 /* PARCommentCard.h */,
 				D0F5945819EC5F4C00B09260 /* PARCommentCard.m */,
 				D0F5945B19EC5F6C00B09260 /* PARCommentCard.xib */,
@@ -546,6 +551,7 @@
 				D031DBBB1A4F29A1000C37C0 /* PARCommunityViewController.m in Sources */,
 				D03CDE981A5F92E200D11E9F /* PARCommentsViewController.m in Sources */,
 				D031DBB21A485FDA000C37C0 /* UIColor+Theme.m in Sources */,
+				D0ACC3391AB0B05A00FD2946 /* PARNewCommentCard.m in Sources */,
 				D0F5945219EC314C00B09260 /* PARGameViewController.m in Sources */,
 				D0F5944D19EB7BBA00B09260 /* PARDataStore.m in Sources */,
 				D03CDE921A5F1BE900D11E9F /* PARCommunityMatchCell.m in Sources */,

@@ -236,6 +236,8 @@
             
             if (user)
             {
+                user[@"lastVersionUsed"] = @"iPhone";
+                
                 NSArray *education = userData[@"education"];
                 if (education)
                 {

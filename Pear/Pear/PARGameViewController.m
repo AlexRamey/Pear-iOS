@@ -227,8 +227,8 @@
         }
     }];
     
-    _maleName.text = mName;
-    _femaleName.text = fName;
+    _maleName.text = [@" " stringByAppendingString:mName];
+    _femaleName.text = [@" " stringByAppendingString:fName];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -410,6 +410,8 @@
     [overlay setCallback:self];
     [overlay loadImagesForMale:maleId female:femaleId];
     [overlay setMaleNameText:mName femaleNameText:fName];
+    [overlay setQuoteTextForUpvotes:upVotes downvotes:downVotes];
+    [self createDropShadow:overlay];
     
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *bluredEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];

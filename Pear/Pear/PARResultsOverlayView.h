@@ -24,7 +24,7 @@
 
 - (void)setMaleNameText:(NSString *)maleName femaleNameText:(NSString *)femaleName;
 
-- (void)setQuoteTextForPercent:(CGFloat)percent;
+- (void)setQuoteTextForUpvotes:(int)upvotes downvotes:(int)downvotes;
 
 - (void)flyInAnimatingUpToPercent:(CGFloat)percent;
 

@@ -299,6 +299,8 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     
     //update wishlist score
     
+    _wishlistSwag.text = @"";
+    
     PFQuery *query = [PFUser query];
     
     [query whereKey:@"WishlistFBIDs" containsAllObjectsInArray:@[[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]]];
@@ -316,11 +318,11 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
             
             if ([[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"male"] == NSOrderedSame)
             {
-                oppositeGender = @"female";
+                oppositeGender = @"girl";
             }
             else
             {
-                oppositeGender = @"male";
+                oppositeGender = @"guy";
             }
             
             if (wishesCount != 1)
@@ -345,9 +347,11 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
                                             }
                                     range:NSMakeRange(loc, endLoc - loc)];
             
-            _wishlistSwag.attributedText = attributedText;
-            
-            [_wishlistSwag sizeToFit];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:.5 animations:^{
+                    _wishlistSwag.attributedText = attributedText;
+                }];
+            });
         }
         else
         {

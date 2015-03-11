@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "PARTapRecognizer.h"
 #import "PARMatchDetailsViewController.h"
+#import "PARNewCommentCard.h"
 
 @interface PARCommentsViewController ()
 
@@ -58,11 +59,21 @@
 
 -(void)loadComments
 {
-    yOffset = 0.0;
+    //yOffset = 0.0;
+    CGSize phoneScreenSize = [UIScreen mainScreen].bounds.size;
+    [_scrollView setContentSize:CGSizeMake(phoneScreenSize.width, 0.0)];
+    
+    float offset = 0.0;
+    
+    int index = 0;
     
     for (PFObject *comment in _comments)
     {
-        PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] authorLiked:comment[@"authorLiked"] offset:yOffset callback:self];
+        //PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] authorLiked:comment[@"authorLiked"] offset:yOffset callback:self];
+        
+        PARNewCommentCard *commentCard = [[PARNewCommentCard alloc] initWithFrame:CGRectMake(0.0, offset, phoneScreenSize.width, .115 *  phoneScreenSize.height) atIndex:index withAuthorName:comment[@"AuthorName"] commentText:comment[@"Text"]];
+        
+        [self createDropShadow:commentCard];
         
         PARTapRecognizer *tapRecognizer = [[PARTapRecognizer alloc] initWithTarget:self action:@selector(commentSelected:)];
         tapRecognizer.numberOfTouchesRequired = 1;
@@ -72,6 +83,12 @@
         [commentCard addGestureRecognizer:tapRecognizer];
         
         [_scrollView addSubview:commentCard];
+        
+        offset += .115 * phoneScreenSize.height + 8.0;
+        
+        [_scrollView setContentSize:CGSizeMake(_scrollView.contentSize.width, offset)];
+        
+         index++;
     }
     
     if ([_comments count] == 0)
@@ -82,6 +99,10 @@
         [label setFont:font];
         [label setText:@"No Comments"];
         [_scrollView addSubview:label];
+    }
+    else
+    {
+        [_scrollView setContentSize:CGSizeMake(_scrollView.contentSize.width, _scrollView.contentSize.height - 8.0)];
     }
 }
 
@@ -141,6 +162,18 @@
             [self performSegueWithIdentifier:@"CommentsToMatchDetails" sender:self];
         }
     }
+}
+
+-(void)createDropShadow:(UIView *)view
+{
+    [view setNeedsLayout];
+    [view layoutIfNeeded];
+    UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.masksToBounds = NO;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+    view.layer.shadowOpacity = 0.5f;
+    view.layer.shadowPath = shadowPath.CGPath;
 }
 
 #pragma mark - CommentCardCallback method
