@@ -38,7 +38,7 @@
     
     UILabel *initialsLabel = [[UILabel alloc] initWithFrame:CGRectMake(i * (self.frame.size.width - initialsDimension), 0.0, initialsDimension, initialsDimension)];
     [initialsLabel setTextAlignment:NSTextAlignmentCenter];
-    [initialsLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:22.0]];
+    [initialsLabel setFont:[UIFont fontWithName:@"Superclarendon" size:28.0]];
     NSUInteger r = arc4random_uniform(2);
     if (r == 0)
     {

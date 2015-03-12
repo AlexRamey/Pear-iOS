@@ -166,7 +166,7 @@
     {
         [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:PAR_IS_FIRST_LAUNCH_RESULTS_KEY];
         
-        UIAlertView *hint = [[UIAlertView alloc] initWithTitle:@"HINT" message:@"Side swipe to escape this screen" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView *hint = [[UIAlertView alloc] initWithTitle:@"HINT" message:@"You may swipe left to dismiss this view." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [hint show];
     }
 }

@@ -202,7 +202,7 @@
     //load images, opposite gender on top
     BOOL isMale = [[[NSUserDefaults standardUserDefaults] objectForKey:USER_GENDER_KEY] caseInsensitiveCompare:@"male"] == NSOrderedSame;
     
-    NSURL *malePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=300&height=300", maleId]];
+    NSURL *malePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=600&height=600", maleId]];
     
     NSURLRequest *malePictureRequest = [NSURLRequest requestWithURL:malePictureURL];
     
@@ -222,7 +222,7 @@
         }
     }];
     
-    NSURL *femalePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=300&height=300", femaleId]];
+    NSURL *femalePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=600&height=600", femaleId]];
     
     NSURLRequest *femalePictureRequest = [NSURLRequest requestWithURL:femalePictureURL];
     
@@ -266,7 +266,7 @@
     {
         [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:PAR_IS_FIRST_LAUNCH_GAME_KEY];
         
-        UIAlertView *hint = [[UIAlertView alloc] initWithTitle:@"HINT" message:@"Use the buttons or swipe up or down to cast your vote!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView *hint = [[UIAlertView alloc] initWithTitle:@"HINT" message:@"Swipe up to upvote the couple, swipe down to downvote." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [hint show];
     }
 }

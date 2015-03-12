@@ -282,7 +282,7 @@
     NSRange firstSpaceRange = [maleName rangeOfString:@" "];
     if (spaceRange.location != NSNotFound && [maleName length] > spaceRange.location + 1)
     {
-        _maleName.text = [[maleName substringToIndex:firstSpaceRange.location] stringByAppendingString:[maleName substringWithRange:NSMakeRange(spaceRange.location, 2)]];;
+        _maleName.text = [[[maleName substringToIndex:firstSpaceRange.location] stringByAppendingString:[maleName substringWithRange:NSMakeRange(spaceRange.location, 2)]] stringByAppendingString:@"."];
     }
     else
     {
@@ -293,7 +293,7 @@
     firstSpaceRange = [femaleName rangeOfString:@" "];
     if (spaceRange.location != NSNotFound && [femaleName length] > spaceRange.location + 1)
     {
-        _femaleName.text = [[femaleName substringToIndex:firstSpaceRange.location] stringByAppendingString:[femaleName substringWithRange:NSMakeRange(spaceRange.location, 2)]];;
+        _femaleName.text = [[[femaleName substringToIndex:firstSpaceRange.location] stringByAppendingString:[femaleName substringWithRange:NSMakeRange(spaceRange.location, 2)]] stringByAppendingString:@"."];
     }
     else
     {
@@ -534,13 +534,22 @@
                     CGFloat bufferspace = (3 - ([_commentCards count] % 3)) * .115 *phoneScreenSize.height;
                     [_comments setContentSize:CGSizeMake(_comments.frame.size.width, _comments.contentSize.height + bufferspace)];
                 });
-                
-                
-                
             });
         }
-        
-        [_activityIndicator stopAnimating];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [_activityIndicator stopAnimating];
+            
+            NSNumber *firstLaunch = [[NSUserDefaults standardUserDefaults] objectForKey:PAR_IS_FIRST_LAUNCH_RESULTS_KEY];
+            
+            if ([firstLaunch boolValue])
+            {
+                [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:PAR_IS_FIRST_LAUNCH_RESULTS_KEY];
+                
+                UIAlertView *hint = [[UIAlertView alloc] initWithTitle:@"HINT" message:@"You may swipe left to dismiss this view." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [hint show];
+            }
+        });
     }];
 }
 
