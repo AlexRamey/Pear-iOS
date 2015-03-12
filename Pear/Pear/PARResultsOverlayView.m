@@ -45,6 +45,8 @@
 
 @implementation PARResultsOverlayView
 
+#define IS_IPHONE_4 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )480) < DBL_EPSILON )
+
 - (id)initForGivenScreenSize:(CGSize)screenSize voteType:(VoteType)voteType
 {
     //Programmatic View Layout, My Favorite . . .
@@ -90,6 +92,8 @@
     _maleName.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:12.0];
     _maleName.textColor = [UIColor PARWhite];
     _maleName.textAlignment = NSTextAlignmentCenter;
+    [_maleName setMinimumScaleFactor:.75];
+    [_maleName setAdjustsFontSizeToFitWidth:YES];
     
     _femaleImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - .125 * screenSize.height - .05 * screenSize.width, .05 * screenSize.height, .125 * screenSize.height, .125 * screenSize.height)];
     [_femaleImage.layer setCornerRadius:_femaleImage.frame.size.width / 2];
@@ -99,6 +103,8 @@
     _femaleName.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:12.0];
     _femaleName.textColor = [UIColor PARWhite];
     _femaleName.textAlignment = NSTextAlignmentCenter;
+    [_femaleName setMinimumScaleFactor:.75];
+    [_femaleName setAdjustsFontSizeToFitWidth:YES];
     
     NSMutableAttributedString *percentText = [[NSMutableAttributedString alloc] initWithString:@"100%"];
     [percentText addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Superclarendon-Bold" size:52.0] range:NSMakeRange(0, percentText.length - 1)];
@@ -109,14 +115,31 @@
     [_percentApproval setTextAlignment:NSTextAlignmentCenter];
     _percentApproval.attributedText = percentText;
     [_percentApproval sizeToFit];
-    _percentApproval.center = CGPointMake(self.frame.size.width / 2.0, _maleName.frame.origin.y + _maleName.frame.size.height + .01 * screenSize.height + _percentApproval.frame.size.height / 2.0);
     
-    _cleverQuote = [[UILabel alloc] init];
+    if (IS_IPHONE_4)
+    {
+        _percentApproval.center = CGPointMake(self.frame.size.width / 2.0, _maleName.frame.origin.y + _maleName.frame.size.height + _percentApproval.frame.size.height / 3.0);
+    }
+    else
+    {
+        _percentApproval.center = CGPointMake(self.frame.size.width / 2.0, _maleName.frame.origin.y + _maleName.frame.size.height + _percentApproval.frame.size.height / 2.0);
+    }
+    
+    if (IS_IPHONE_4)
+    {
+        _cleverQuote = [[UILabel alloc] initWithFrame:CGRectMake(0.0, _percentApproval.frame.origin.y + _percentApproval.frame.size.height - 8.0, self.frame.size.width, 34.0)];
+    }
+    else
+    {
+        _cleverQuote = [[UILabel alloc] initWithFrame:CGRectMake(0.0, _percentApproval.frame.origin.y + _percentApproval.frame.size.height, self.frame.size.width, 34.0)];
+    }
+    
     [_cleverQuote setTextAlignment:NSTextAlignmentCenter];
-    [_cleverQuote setFont:[UIFont fontWithName:@"HelveticaNeue-Italic" size:12]];
+    [_cleverQuote setFont:[UIFont fontWithName:@"HelveticaNeue-Italic" size:14]];
     [_cleverQuote setTextColor:[UIColor whiteColor]];
-    _cleverQuote.center = CGPointMake(self.frame.size.width / 2.0, _percentApproval.frame.origin.y + _percentApproval.frame.size.height + 8.0);
-    
+    [_cleverQuote setMinimumScaleFactor:.75];
+    [_cleverQuote setAdjustsFontSizeToFitWidth:YES];
+    [_cleverQuote setNumberOfLines:2];
     
     [_topBackground addSubview:_maleImage];
     [_topBackground addSubview:_femaleImage];
@@ -256,9 +279,10 @@
 - (void)setMaleNameText:(NSString *)maleName femaleNameText:(NSString *)femaleName
 {
     NSRange spaceRange = [maleName rangeOfString:@" " options:NSBackwardsSearch];
+    NSRange firstSpaceRange = [maleName rangeOfString:@" "];
     if (spaceRange.location != NSNotFound && [maleName length] > spaceRange.location + 1)
     {
-        _maleName.text = [maleName substringToIndex:spaceRange.location + 2];
+        _maleName.text = [[maleName substringToIndex:firstSpaceRange.location] stringByAppendingString:[maleName substringWithRange:NSMakeRange(spaceRange.location, 2)]];;
     }
     else
     {
@@ -266,9 +290,10 @@
     }
     
     spaceRange = [femaleName rangeOfString:@" " options:NSBackwardsSearch];
+    firstSpaceRange = [femaleName rangeOfString:@" "];
     if (spaceRange.location != NSNotFound && [femaleName length] > spaceRange.location + 1)
     {
-        _femaleName.text = [femaleName substringToIndex:spaceRange.location + 2];
+        _femaleName.text = [[femaleName substringToIndex:firstSpaceRange.location] stringByAppendingString:[femaleName substringWithRange:NSMakeRange(spaceRange.location, 2)]];;
     }
     else
     {
@@ -278,7 +303,7 @@
 
 - (void)setQuoteTextForUpvotes:(int)upvotes downvotes:(int)downvotes
 {
-    if (upvotes + downvotes > 0)
+    if (upvotes + downvotes > 6)
     {
         NSArray *quotes = nil;
         float percent = (1.0 * upvotes) / (upvotes + downvotes);
@@ -362,11 +387,8 @@
     }
     else
     {
-        _cleverQuote.text = @"";
+        _cleverQuote.text = @"If social approval were grades, we'd have a messed up academic system.";
     }
-    
-    [_cleverQuote sizeToFit];
-    _cleverQuote.center = CGPointMake(self.frame.size.width / 2.0, _cleverQuote.center.y);
 }
 
 - (void)flyInAnimatingUpToPercent:(CGFloat)percent

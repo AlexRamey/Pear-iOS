@@ -13,7 +13,7 @@
 @interface PARCommunityViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, OverlayCallback>
 {
     PFObject *couple;
-    BOOL inProgress;
+    __block BOOL inProgress;
 }
 
 @property (nonatomic, weak) IBOutlet UICollectionView *topMatchesCollection;

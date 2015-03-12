@@ -96,6 +96,8 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
                                             options:NSLayoutFormatDirectionLeadingToTrailing
                                             metrics:nil
                                             views:NSDictionaryOfVariableBindings(userProfilePicture)]];
+    
+     _wishlistSwag.text = @"";
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -300,8 +302,6 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     
     //update wishlist score
     
-    _wishlistSwag.text = @"";
-    
     PFQuery *query = [PFUser query];
     
     [query whereKey:@"WishlistFBIDs" containsAllObjectsInArray:@[[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]]];
@@ -364,9 +364,14 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
                                     range:NSMakeRange(loc, endLoc - loc)];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:.5 animations:^{
-                    _wishlistSwag.attributedText = attributedText;
-                }];
+                    
+                    if ([_wishlistSwag.text caseInsensitiveCompare:attributedText.string] != NSOrderedSame)
+                    {
+                        [UIView animateWithDuration:.5 animations:^{
+                            _wishlistSwag.attributedText = attributedText;
+                         }];
+                    }
+               
             });
         }
         else

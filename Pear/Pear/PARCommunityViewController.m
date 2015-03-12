@@ -405,6 +405,7 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
      {
          inProgress = NO;
+         
          if (!error && [objects count] > 0)
          {
              couple = [objects firstObject];

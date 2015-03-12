@@ -62,7 +62,7 @@
 {
     //yOffset = 0.0;
     CGSize phoneScreenSize = [UIScreen mainScreen].bounds.size;
-    [_scrollView setContentSize:CGSizeMake(phoneScreenSize.width, 0.0)];
+    [_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, 0.0)];
     
     float offset = 0.0;
     
@@ -72,7 +72,7 @@
     {
         //PARCommentCard *commentCard = [[PARCommentCard alloc] initWithFacebookID:comment[@"AuthorFBID"] name:comment[@"AuthorName"] comment:comment[@"Text"] authorLiked:comment[@"authorLiked"] offset:yOffset callback:self];
         
-        PARNewCommentCard *commentCard = [[PARNewCommentCard alloc] initWithFrame:CGRectMake(0.0, offset, phoneScreenSize.width, .115 *  phoneScreenSize.height) atIndex:index withAuthorName:comment[@"AuthorName"] commentText:comment[@"Text"]];
+        PARNewCommentCard *commentCard = [[PARNewCommentCard alloc] initWithFrame:CGRectMake(0.0, offset, _scrollView.frame.size.width, .115 *  phoneScreenSize.height) atIndex:index withAuthorName:comment[@"AuthorName"] commentText:comment[@"Text"]];
         
         [self createDropShadow:commentCard];
         
@@ -87,7 +87,7 @@
         
         offset += .115 * phoneScreenSize.height + 8.0;
         
-        [_scrollView setContentSize:CGSizeMake(_scrollView.contentSize.width, offset)];
+        [_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, offset)];
         
          index++;
     }
