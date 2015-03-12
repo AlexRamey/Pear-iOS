@@ -387,7 +387,7 @@
     }
     else
     {
-        _cleverQuote.text = @"If social approval were grades, we'd have a messed up academic system.";
+        _cleverQuote.text = @"";
     }
 }
 
