@@ -280,31 +280,84 @@
 {
     if (upvotes + downvotes > 0)
     {
+        NSArray *quotes = nil;
         float percent = (1.0 * upvotes) / (upvotes + downvotes);
         
         if (percent <= .17)
         {
-            _cleverQuote.text = @"Mix like fire and gasoline.";
+            quotes = @[
+                       @"Probability of happening: fetch.",
+                       @"<3…people approve.",
+                       @"The odds: 3720:1",
+                       @"The tribe has spoken."
+                       ];
+            
+            _cleverQuote.text = quotes[arc4random_uniform(4)];
         }
         else if (percent <= .34)
         {
-            _cleverQuote.text = @"It's whatever.";
+            quotes = @[
+                       @"Meh.",
+                       @"It's raining downvotes!",
+                       @"k.",
+                       @"Haters...",
+                       @"The odds are NEVER in our favor.",
+                       @"Level: Taylor Swift + guy from Black Space."
+                       ];
+            _cleverQuote.text = quotes[arc4random_uniform(6)];
         }
         else if (percent <= .65)
         {
-            _cleverQuote.text = @"Meh.";
+            quotes = @[
+                       @"Jury's still out.",
+                       @":K",
+                       @"If social approval were grades, we'd have a messed up academic system.",
+                       @"Not bad. Not great...",
+                       @"Level: YA protagonist and secondary love interest.",
+                       @"Steal our quotes for YikYak. It's ok. What can we do?"
+                       ];
+            _cleverQuote.text = quotes[arc4random_uniform(6)];
         }
         else if (percent <= .83)
         {
-            _cleverQuote.text = @"Roll Tide.";
+            quotes = @[
+                       @";)",
+                       @"Not bad.",
+                       @"A solid pearing.",
+                       @":D",
+                       @"Level: Cleopatra + Julius Caesar."
+                       ];
+            
+            _cleverQuote.text = quotes[arc4random_uniform(5)];
         }
         else if (percent <=.95)
         {
-            _cleverQuote.text = @"Like pears in a pod.";
+            quotes = @[
+                       @"Like pears in a pod.",
+                       @"<3",
+                       @"These two...",
+                       @"Votes don't lie.",
+                       @"Level: Romeo + Juliet",
+                       @"Level: Cyrano + Roxane",
+                       @"Level: Cleopatra + Marc Antony"
+                       ];
+            
+            _cleverQuote.text = quotes[arc4random_uniform(7)];
         }
         else
         {
-            _cleverQuote.text = @"Someone get these people a room.";
+            quotes = @[
+                       @"A pearfect match!",
+                       @"A match without pearallel.",
+                       @"Together, forever, always... because we said so.",
+                       @"Most likely already dating.",
+                       @"Level: Gollum and the One Ring.",
+                       @"Level: peanut butter and Nutella.",
+                       @"Level: George Washington + Freedom",
+                       @"Level: Hunter Anjou + Alexis Forelle."
+                       ];
+            
+            _cleverQuote.text = quotes[arc4random_uniform(8)];
         }
     }
     else
