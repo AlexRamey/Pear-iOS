@@ -12,6 +12,7 @@
 #import <Social/Social.h>
 #import "PARButton.h"
 #import "UIColor+Theme.h"
+#import <FBSDKShareKit/FBSDKShareKit.h>
 
 @interface PARGameResultsViewController ()
 
@@ -44,8 +45,8 @@
     tapRecognizer.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:tapRecognizer];
     
-    maleView = [[FBProfilePictureView alloc] init];
-    femaleView = [[FBProfilePictureView alloc] init];
+    maleView = [FBSDKProfilePictureView new];
+    femaleView = [FBSDKProfilePictureView new];
     
     maleView.profileID = nil;
     femaleView.profileID = nil;
@@ -280,7 +281,8 @@
     //end editing in case user is typing a commment and taps outside to be done
     [self.view endEditing:YES];
 }
-
+/*
+ Sharing Removed --> Reimplementation will require update to conform to new FB API (use sharekit framework)
 -(IBAction)facebookShare:(id)sender
 {
     // Check if the Facebook app is installed and we can present the share dialog
@@ -394,10 +396,10 @@
         [alert show];
     }
 }
-
+*/
 -(IBAction)messageCouple:(id)sender
 {
-    NSString *name = @"The Pear Game";
+    //NSString *name = @"The Pear Game";
     NSString *pear = [[_maleName stringByAppendingString:@" + "] stringByAppendingString:_femaleName];
     
     NSString *description = [pear stringByAppendingString:[NSString stringWithFormat:@" @ http://thepeargame.com/webapp/index.html?male=%@&female=%@", _male, _female]];
@@ -406,35 +408,20 @@
                                  _male, _female,
                                  nil];
     
-    // Create a dictionary of key/value pairs which are the parameters of the dialog
+    FBSDKGameRequestDialog *gameRequest = [FBSDKGameRequestDialog new];
     
-    // 1. No additional parameters provided - enables generic Multi-friend selector
-    NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     // 2. Optionally provide a 'to' param to direct the request at a specific user
-                                     [suggestedFriends componentsJoinedByString:@","], @"to", // Ali
-                                     description, @"data",
-                                     nil];
+    FBSDKGameRequestContent *content = [[FBSDKGameRequestContent alloc] init];
+    content.actionType = FBSDKGameRequestActionTypeNone;
+    content.message = description;
+    content.suggestions = suggestedFriends;
+    content.title = pear;
     
-    [FBWebDialogs presentRequestsDialogModallyWithSession:nil
-                                                  message:description
-                                                    title:name
-                                               parameters:params
-                                                  handler:^(FBWebDialogResult result,
-                                                            NSURL *resultURL,
-                                                            NSError *error) {
-                                                      if (error) {
-                                                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not send request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                                                          [alert show];
-                                                      } else {
-                                                          if (result == FBWebDialogResultDialogNotCompleted) {
-                                                              // Case B: User clicked the "x" icon
-                                                              //NSLog(@"User canceled request.");
-                                                          } else {
-                                                              //NSLog(@"Request Sent.");
-                                                          }
-                                                      }
-                                                  }
-                                              friendCache:nil];
+    gameRequest.content = content;
+    
+    if ([gameRequest canShow])
+    {
+        [gameRequest show];
+    }
 }
 
 #pragma mark - CommentViewCallback protocol methods

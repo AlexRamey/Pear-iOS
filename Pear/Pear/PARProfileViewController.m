@@ -81,7 +81,9 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     _profileCard.backgroundColor = [UIColor whiteColor];
     
     
-    FBProfilePictureView *userProfilePicture = [[FBProfilePictureView alloc] initWithProfileID:[[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY]  pictureCropping:FBProfilePictureCroppingSquare];
+    FBSDKProfilePictureView *userProfilePicture = [FBSDKProfilePictureView new];
+    userProfilePicture.profileID = [[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY];
+    userProfilePicture.pictureMode = FBSDKProfilePictureModeSquare;
     
     [_profilePicFillerView addSubview:userProfilePicture];
     
@@ -573,7 +575,9 @@ static NSString * const reuseIdentifier = @"TopMatchCell";
     
     if (![_topMatchProfilePicViews objectForKey:matchKey])
     {
-        FBProfilePictureView *profilePic = [[FBProfilePictureView alloc] initWithProfileID:matchID pictureCropping:FBProfilePictureCroppingSquare];
+        FBSDKProfilePictureView *profilePic = [FBSDKProfilePictureView new];
+        profilePic.profileID = matchID;
+        profilePic.pictureMode = FBSDKProfilePictureModeSquare;
         [_topMatchProfilePicViews setObject:profilePic forKey:matchKey];
     }
     

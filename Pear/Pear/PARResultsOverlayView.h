@@ -26,6 +26,8 @@ typedef NS_ENUM(NSInteger, VoteType) {
 //Data
 @property (nonatomic, strong) NSString *maleID;
 @property (nonatomic, strong) NSString *femaleID;
+@property (nonatomic, strong) UIImage *maleProfileImage;
+@property (nonatomic, strong) UIImage *femaleProfileImage;
 @property (nonatomic, strong) NSString *maleNameText;
 @property (nonatomic, strong) NSString *femaleNameText;
 @property (nonatomic, strong) NSString *coupleObjectID;

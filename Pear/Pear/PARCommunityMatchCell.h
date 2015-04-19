@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "PARButton.h"
 
 @interface PARCommunityMatchCell : UICollectionViewCell
@@ -23,6 +23,6 @@
 
 -(void)setMaleName:(NSString *)maleName femaleName:(NSString *)femaleName matchRank:(int)rank;
 
--(void)setMalePicture:(FBProfilePictureView *)malePicture femalePicture:(FBProfilePictureView *)femalePicture;
+-(void)setMalePicture:(FBSDKProfilePictureView *)malePicture femalePicture:(FBSDKProfilePictureView *)femalePicture;
 
 @end

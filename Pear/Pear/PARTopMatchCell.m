@@ -60,13 +60,13 @@
     }
 }
 
--(void)setPicture:(FBProfilePictureView *)profilePic
+-(void)setPicture:(FBSDKProfilePictureView *)profilePic
 {
     // Remove old picture if one exists
     
     for (int i = 0; i < [[self subviews] count]; i++)
     {
-        if ([[[self subviews] objectAtIndex:i] class] == [FBProfilePictureView class])
+        if ([[[self subviews] objectAtIndex:i] class] == [FBSDKProfilePictureView class])
         {
             [[[self subviews] objectAtIndex:i] removeFromSuperview];
         }

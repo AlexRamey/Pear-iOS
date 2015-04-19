@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AD94528D00084332AC355532 /* libPods-Pear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C287D5BBFD4FE6AD6425C7 /* libPods-Pear.a */; };
+		D01D46001AE40E2100164A27 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031DBA71A474C65000C37C0 /* Social.framework */; };
 		D031DB881A3CBA2E000C37C0 /* PARProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DB871A3CBA2E000C37C0 /* PARProfileViewController.m */; };
 		D031DB971A3D223C000C37C0 /* PARWishlistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DB951A3D223C000C37C0 /* PARWishlistCell.m */; };
 		D031DB9B1A3D225E000C37C0 /* PARWishlistController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DB9A1A3D225E000C37C0 /* PARWishlistController.m */; };
@@ -15,7 +16,6 @@
 		D031DBA11A43609F000C37C0 /* PARWish.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBA01A43609F000C37C0 /* PARWish.m */; };
 		D031DBA31A43E343000C37C0 /* PARWishlistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D031DBA21A43E343000C37C0 /* PARWishlistCell.xib */; };
 		D031DBA61A43EB9E000C37C0 /* PARWishStatsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBA51A43EB9E000C37C0 /* PARWishStatsController.m */; };
-		D031DBA81A474C65000C37C0 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031DBA71A474C65000C37C0 /* Social.framework */; };
 		D031DBAF1A485F95000C37C0 /* PARTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBAE1A485F95000C37C0 /* PARTheme.m */; };
 		D031DBB21A485FDA000C37C0 /* UIColor+Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBB11A485FDA000C37C0 /* UIColor+Theme.m */; };
 		D031DBB51A48653F000C37C0 /* PARButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D031DBB41A48653F000C37C0 /* PARButton.m */; };
@@ -155,7 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D031DBA81A474C65000C37C0 /* Social.framework in Frameworks */,
+				D01D46001AE40E2100164A27 /* Social.framework in Frameworks */,
 				AD94528D00084332AC355532 /* libPods-Pear.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -717,6 +717,56 @@
 				INFOPLIST_FILE = Pear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-l\"Pods-Pear-Bolts\"",
+					"-l\"Pods-Pear-Facebook-iOS-SDK\"",
+					"-l\"Pods-Pear-Parse\"",
+					"-l\"Pods-Pear-ParseFacebookUtilsV4\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Parse\"",
+					"-framework",
+					"\"ParseFacebookUtilsV4\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"AudioToolbox\"",
+					"-weak_framework",
+					"\"CoreGraphics\"",
+					"-weak_framework",
+					"\"CoreLocation\"",
+					"-weak_framework",
+					"\"Foundation\"",
+					"-weak_framework",
+					"\"QuartzCore\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"${inherited}",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -734,6 +784,56 @@
 				INFOPLIST_FILE = Pear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-l\"Pods-Pear-Bolts\"",
+					"-l\"Pods-Pear-Facebook-iOS-SDK\"",
+					"-l\"Pods-Pear-Parse\"",
+					"-l\"Pods-Pear-ParseFacebookUtilsV4\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Parse\"",
+					"-framework",
+					"\"ParseFacebookUtilsV4\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"AudioToolbox\"",
+					"-weak_framework",
+					"\"CoreGraphics\"",
+					"-weak_framework",
+					"\"CoreLocation\"",
+					"-weak_framework",
+					"\"Foundation\"",
+					"-weak_framework",
+					"\"QuartzCore\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"${inherited}",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

@@ -29,8 +29,13 @@
 {
     [super viewDidLoad];
     
-    maleView = [[FBProfilePictureView alloc] initWithProfileID:_male pictureCropping:FBProfilePictureCroppingSquare];
-    femaleView = [[FBProfilePictureView alloc] initWithProfileID:_female pictureCropping:FBProfilePictureCroppingSquare];
+    maleView = [FBSDKProfilePictureView new];
+    maleView.profileID = _male;
+    maleView.pictureMode = FBSDKProfilePictureModeSquare;
+    
+    femaleView = [FBSDKProfilePictureView new];
+    femaleView.profileID = _female;
+    femaleView.pictureMode = FBSDKProfilePictureModeSquare;
     
     [_maleProfileFillerView addSubview:maleView];
     [_femaleProfileFillerView addSubview:femaleView];

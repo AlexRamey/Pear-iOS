@@ -7,7 +7,7 @@
 //
 
 #import "PARCommentCard.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation PARCommentCard
 
@@ -20,7 +20,9 @@
     
     self = [nibContents objectAtIndex:0];
     
-    FBProfilePictureView *commenterPic = [[FBProfilePictureView alloc] initWithProfileID:fbID pictureCropping:FBProfilePictureCroppingSquare];
+    FBSDKProfilePictureView *commenterPic = [FBSDKProfilePictureView new];
+    commenterPic.profileID = fbID;
+    commenterPic.pictureMode = FBSDKProfilePictureModeSquare;
     
     [_profilePictureFillerView addSubview:commenterPic];
     

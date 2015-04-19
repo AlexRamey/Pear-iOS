@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface PARTopMatchCell : UICollectionViewCell
 
 -(void)setMatchName:(NSString *)matchName matchRank:(int)rank;
 
--(void)setPicture:(FBProfilePictureView *)profilePic;
+-(void)setPicture:(FBSDKProfilePictureView *)profilePic;
 
 @end

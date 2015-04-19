@@ -3,9 +3,9 @@
 
 target "Pear" do
 
-pod 'Facebook-iOS-SDK', '~> 3.23'
-pod 'Parse', '~> 1.6'
-pod 'ParseFacebookUtils', '~> 1.6'
+pod 'Facebook-iOS-SDK', '~> 4.0'
+pod 'Parse', '~> 1.7'
+pod 'ParseFacebookUtilsV4', '~> 1.7'
 
 end
 

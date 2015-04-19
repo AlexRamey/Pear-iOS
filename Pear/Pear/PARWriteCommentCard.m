@@ -8,7 +8,7 @@
 
 #import "PARWriteCommentCard.h"
 #import "PARDataStore.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "Parse.h"
 #import "AppDelegate.h"
 
@@ -25,7 +25,9 @@
     
     NSString *userFBID = [[NSUserDefaults standardUserDefaults] objectForKey:USER_FB_ID_KEY];
     
-    FBProfilePictureView *commenterPic = [[FBProfilePictureView alloc] initWithProfileID:userFBID pictureCropping:FBProfilePictureCroppingSquare];
+    FBSDKProfilePictureView *commenterPic = [FBSDKProfilePictureView new];
+    commenterPic.profileID = userFBID;
+    commenterPic.pictureMode = FBSDKProfilePictureModeSquare;
     
     [_profilePicFillerView addSubview:commenterPic];
     

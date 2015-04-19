@@ -35,8 +35,8 @@
     // Do any additional setup after loading the view.
     [_removeFromWishlist drawWithPrimaryColor:[UIColor PARRed] secondaryColor:[UIColor PARRed]];
     
-    maleView = [[FBProfilePictureView alloc] init];
-    femaleView = [[FBProfilePictureView alloc] init];
+    maleView = [[FBSDKProfilePictureView alloc] init];
+    femaleView = [[FBSDKProfilePictureView alloc] init];
     
     maleView.profileID = nil;
     femaleView.profileID = nil;

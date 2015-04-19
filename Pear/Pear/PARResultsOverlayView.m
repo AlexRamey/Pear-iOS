@@ -12,7 +12,8 @@
 #import "AppDelegate.h"
 #import "PARDataStore.h"
 #import "PARNewCommentCard.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKShareKit/FBSDKShareKit.h>
 
 @interface PARResultsOverlayView () <UIAlertViewDelegate>
 {
@@ -223,8 +224,10 @@
     dismissContainer.layer.shadowRadius = 2.0;
     dismissContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dismissContainer.bounds cornerRadius:dismissContainer.frame.size.width/2.0].CGPath;
     
+    
+    //TODO: UNCOMMENT BELOW LINE ONCE APP IS A GAME
     [buttonsBar addSubview:leftContainer];
-    [buttonsBar addSubview:middleContainer];
+    //[buttonsBar addSubview:middleContainer];
     [buttonsBar addSubview:dismissContainer];
     
     [_bottomBackground addSubview:_watermarkBackground];
@@ -249,31 +252,45 @@
 {
     //load images
     
-    NSURL *malePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=100&height=100", maleID]];
+    if (_maleProfileImage)
+    {
+        _maleImage.image = _maleProfileImage;
+    }
+    else
+    {
+        NSURL *malePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=100&height=100", maleID]];
+        
+        NSURLRequest *malePictureRequest = [NSURLRequest requestWithURL:malePictureURL];
+        
+        [NSURLConnection sendAsynchronousRequest:malePictureRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            if (!connectionError)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    _maleImage.image = [UIImage imageWithData:data];
+                });
+            }
+        }];
+    }
     
-    NSURLRequest *malePictureRequest = [NSURLRequest requestWithURL:malePictureURL];
-    
-    [NSURLConnection sendAsynchronousRequest:malePictureRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        if (!connectionError)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _maleImage.image = [UIImage imageWithData:data];
-            });
-        }
-    }];
-    
-    NSURL *femalePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=100&height=100", femaleID]];
-    
-    NSURLRequest *femalePictureRequest = [NSURLRequest requestWithURL:femalePictureURL];
-    
-    [NSURLConnection sendAsynchronousRequest:femalePictureRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        if (!connectionError)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _femaleImage.image = [UIImage imageWithData:data];
-            });
-        }
-    }];
+    if (_femaleProfileImage)
+    {
+        _femaleImage.image = _femaleProfileImage;
+    }
+    else
+    {
+        NSURL *femalePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=100&height=100", femaleID]];
+        
+        NSURLRequest *femalePictureRequest = [NSURLRequest requestWithURL:femalePictureURL];
+        
+        [NSURLConnection sendAsynchronousRequest:femalePictureRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            if (!connectionError)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    _femaleImage.image = [UIImage imageWithData:data];
+                });
+            }
+        }];
+    }
 }
 
 - (void)setMaleNameText:(NSString *)maleName femaleNameText:(NSString *)femaleName
@@ -555,7 +572,8 @@
 
 -(IBAction)makePear:(id)sender
 {
-    NSString *name = @"The Pear Game";
+    /*
+    //NSString *name = @"The Pear Game";
     NSString *pear = [[_maleNameText stringByAppendingString:@" + "] stringByAppendingString:_femaleNameText];
     
     NSString *description = [pear stringByAppendingString:[NSString stringWithFormat:@" @ http://thepeargame.com/webapp/index.html?male=%@&female=%@", _maleID, _femaleID]];
@@ -576,35 +594,21 @@
     
     NSArray *suggestedFriends = [NSArray arrayWithArray:recipients];
     
-    // Create a dictionary of key/value pairs which are the parameters of the dialog
+    FBSDKGameRequestDialog *gameRequest = [FBSDKGameRequestDialog new];
     
-    // 1. No additional parameters provided - enables generic Multi-friend selector
-    NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     // 2. Optionally provide a 'to' param to direct the request at a specific user
-                                     [suggestedFriends componentsJoinedByString:@","], @"to", // Ali
-                                     description, @"data",
-                                     nil];
+    FBSDKGameRequestContent *content = [[FBSDKGameRequestContent alloc] init];
+    content.actionType = FBSDKGameRequestActionTypeNone;
+    content.message = description;
+    content.suggestions = suggestedFriends;
+    content.title = pear;
     
-    [FBWebDialogs presentRequestsDialogModallyWithSession:nil
-                                                  message:description
-                                                    title:name
-                                               parameters:params
-                                                  handler:^(FBWebDialogResult result,
-                                                            NSURL *resultURL,
-                                                            NSError *error) {
-                                                      if (error) {
-                                                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not send request." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                                                          [alert show];
-                                                      } else {
-                                                          if (result == FBWebDialogResultDialogNotCompleted) {
-                                                              // Case B: User clicked the "x" icon
-                                                              //NSLog(@"User canceled request.");
-                                                          } else {
-                                                              //NSLog(@"Request Sent.");
-                                                          }
-                                                      }
-                                                  }
-                                              friendCache:nil];
+    gameRequest.content = content;
+    
+    if ([gameRequest canShow])
+    {
+        [gameRequest show];
+    }
+  */
 }
 
 - (IBAction)makeComment:(id)sender

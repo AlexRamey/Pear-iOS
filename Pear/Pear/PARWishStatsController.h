@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "PARCommentCard.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "PARButton.h"
 
 @interface PARWishStatsController : UIViewController <CommentCardCallback>
 {
-    FBProfilePictureView *maleView;
-    FBProfilePictureView *femaleView;
+    FBSDKProfilePictureView *maleView;
+    FBSDKProfilePictureView *femaleView;
     CGFloat yOffset;
 }
 

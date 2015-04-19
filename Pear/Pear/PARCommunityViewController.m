@@ -358,12 +358,16 @@ static NSString * const reuseIdentifier = @"TopCommunityMatchCell";
     
     if (![_topMatchProfilePicViews objectForKey:femaleKey])
     {
-        FBProfilePictureView *profilePic = [[FBProfilePictureView alloc] initWithProfileID:femaleID pictureCropping:FBProfilePictureCroppingSquare];
+        FBSDKProfilePictureView *profilePic = [FBSDKProfilePictureView new];
+        profilePic.profileID = femaleID;
+        profilePic.pictureMode = FBSDKProfilePictureModeSquare;
         [_topMatchProfilePicViews setObject:profilePic forKey:femaleKey];
     }
     if (![_topMatchProfilePicViews objectForKey:maleKey])
     {
-        FBProfilePictureView *profilePic = [[FBProfilePictureView alloc] initWithProfileID:maleID pictureCropping:FBProfilePictureCroppingSquare];
+        FBSDKProfilePictureView *profilePic = [FBSDKProfilePictureView new];
+        profilePic.profileID = maleID;
+        profilePic.pictureMode = FBSDKProfilePictureModeSquare;
         [_topMatchProfilePicViews setObject:profilePic forKey:maleKey];
     }
     

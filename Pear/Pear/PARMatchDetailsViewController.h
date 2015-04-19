@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "PARCommentCard.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface PARMatchDetailsViewController : UIViewController <CommentCardCallback>
 {
-    FBProfilePictureView *maleView;
-    FBProfilePictureView *femaleView;
+    FBSDKProfilePictureView *maleView;
+    FBSDKProfilePictureView *femaleView;
     CGFloat yOffset;
 }
 

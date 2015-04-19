@@ -10,12 +10,16 @@
 #import "PARGameResultsViewController.h"
 #import "PARDataStore.h"
 #import "AppDelegate.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "AppDelegate.h"
 #import "UIColor+Theme.h"
 #import "PARGameResultsOverlayView.h"
 
 @interface PARGameViewController ()
+{
+    UIImage *maleProfileImage;
+    UIImage *femaleProfileImage;
+}
 
 @end
 
@@ -210,13 +214,14 @@
         if (!connectionError)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
+                maleProfileImage = [UIImage imageWithData:data];
                 if (isMale)
                 {
-                    femaleView.image = [UIImage imageWithData:data];
+                    femaleView.image = maleProfileImage;
                 }
                 else
                 {
-                    maleView.image = [UIImage imageWithData:data];
+                    maleView.image = maleProfileImage;
                 }
             });
         }
@@ -230,13 +235,14 @@
         if (!connectionError)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
+                femaleProfileImage = [UIImage imageWithData:data];
                 if (isMale)
                 {
-                    maleView.image = [UIImage imageWithData:data];
+                    maleView.image = femaleProfileImage;
                 }
                 else
                 {
-                    femaleView.image = [UIImage imageWithData:data];
+                    femaleView.image = femaleProfileImage;
                 }
             });
         }
@@ -427,6 +433,8 @@
     
     overlay.maleID = maleId;
     overlay.femaleID = femaleId;
+    overlay.maleProfileImage = maleProfileImage;
+    overlay.femaleProfileImage = femaleProfileImage;
     overlay.maleNameText = mName;
     overlay.femaleNameText = fName;
     overlay.coupleObjectID = objectId;

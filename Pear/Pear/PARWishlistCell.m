@@ -7,7 +7,7 @@
 //
 
 #import "PARWishlistCell.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation PARWishlistCell
 
@@ -26,7 +26,8 @@
         self.frame = frame;
         
         // Initialization code
-        FBProfilePictureView *profilePic = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
+        FBSDKProfilePictureView *profilePic = [FBSDKProfilePictureView new];
+        profilePic.pictureMode = FBSDKProfilePictureModeSquare;
         
         [self addSubview:profilePic];
         [self sendSubviewToBack:profilePic];
@@ -49,12 +50,12 @@
 
 -(void)loadProfilePictureForFBID:(NSString *)facebookID andWishName:(NSString *)wishName
 {
-    FBProfilePictureView *pic = nil;
+    FBSDKProfilePictureView *pic = nil;
     UILabel *wishNameLabel = nil;
     
     for (int i = 0; i < [[self subviews] count]; i++)
     {
-        if ([[[self subviews] objectAtIndex:i] class] == [FBProfilePictureView class])
+        if ([[[self subviews] objectAtIndex:i] class] == [FBSDKProfilePictureView class])
         {
             pic = [[self subviews] objectAtIndex:i];
         }

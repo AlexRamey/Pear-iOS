@@ -7,7 +7,7 @@
 //
 
 #import "PARDataStore.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "AppDelegate.h"
 
 @implementation PARDataStore
@@ -50,7 +50,7 @@
     NSMutableArray *maleFriendNames = [[NSMutableArray alloc] init];
     NSMutableArray *femaleFriendNames = [[NSMutableArray alloc] init];
     
-    for (NSDictionary<FBGraphUser>* friend in friendsList)
+    for (NSDictionary* friend in friendsList)
     {
         if ([[friend objectForKey:@"gender"] caseInsensitiveCompare:@"male"] == NSOrderedSame)
         {
@@ -657,6 +657,21 @@
         
         int exchangeIndex = i + arc4random_uniform(remainingCount);
         [_potentialCouples exchangeObjectAtIndex:i withObjectAtIndex:exchangeIndex];
+    }
+    
+    int bound = MIN(100, count); //only do this across first 100 couples --> save time
+    
+    for (int i = 0; i < bound; i+=5)
+    {
+        int exchangeIndex = arc4random_uniform(count);
+        while (exchangeIndex == i)
+        {
+            exchangeIndex = arc4random_uniform(count);
+        }
+        
+        NSDictionary *temp = [_potentialCouples objectAtIndex:i];
+        [_potentialCouples replaceObjectAtIndex:i withObject:[_potentialCouples objectAtIndex:exchangeIndex]];
+        [_potentialCouples replaceObjectAtIndex:exchangeIndex withObject:temp];
     }
     
     // END SMART COUPLES

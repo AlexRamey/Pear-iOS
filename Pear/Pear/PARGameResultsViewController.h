@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "PARCommentCard.h"
 #import "PARWriteCommentCard.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @class PARButton;
 
 @interface PARGameResultsViewController : UIViewController <CommentCardCallback, WriteCommentCardCallback>
 {
-    FBProfilePictureView *maleView;
-    FBProfilePictureView *femaleView;
+    FBSDKProfilePictureView *maleView;
+    FBSDKProfilePictureView *femaleView;
     CGFloat yOffset;
 }
 

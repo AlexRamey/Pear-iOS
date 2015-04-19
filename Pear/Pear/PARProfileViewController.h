@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PARButton.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "Parse.h"
 #import "PARResultsOverlayView.h"
 

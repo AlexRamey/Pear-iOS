@@ -79,7 +79,7 @@
     rank.text = [NSString stringWithFormat:@"#%d", rankNumber];
 }
 
--(void)setMalePicture:(FBProfilePictureView *)malePicture femalePicture:(FBProfilePictureView *)femalePicture
+-(void)setMalePicture:(FBSDKProfilePictureView *)malePicture femalePicture:(FBSDKProfilePictureView *)femalePicture
 {
     //Remove old pictures
     for (UIView *view in malePictureFiller.subviews)

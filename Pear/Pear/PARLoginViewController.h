@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FacebookSDK.h"
 #import "PARButton.h"
 
-@interface PARLoginViewController : UIViewController <FBLoginViewDelegate>
+@interface PARLoginViewController : UIViewController
 
 @property (nonatomic, weak) IBOutlet UIView *thePearGameLabel;
 @property (nonatomic, weak) IBOutlet UIView *pearLogo;

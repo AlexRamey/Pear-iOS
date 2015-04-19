@@ -61,28 +61,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Pear/PARLoginViewController.m"
-            timestampString = "445236948.864116"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
-            landmarkName = "-retrieveUserInfoAndTransition:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "445236999.491621"
+            timestampString = "451162198.979443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "929"
-            endingLineNumber = "929"
+            startingLineNumber = "944"
+            endingLineNumber = "944"
             landmarkName = "-saveCoupleVote:withStatus:completion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -94,11 +78,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pear/PARDataStore.m"
-            timestampString = "445237003.619878"
+            timestampString = "451162198.979443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "927"
-            endingLineNumber = "927"
+            startingLineNumber = "942"
+            endingLineNumber = "942"
             landmarkName = "-saveCoupleVote:withStatus:completion:"
             landmarkType = "5">
          </BreakpointContent>

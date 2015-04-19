@@ -7,9 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "FacebookSDK.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import "Parse.h"
-#import "PFFacebookUtils.h"
 #import "PARLoginViewController.h"
 #import "PARDataStore.h"
 #import "PARTheme.h"
@@ -63,11 +63,11 @@ NSString * const PAR_IS_FIRST_LAUNCH_PEAR_KEY = @"PAR_IS_FIRST_LAUNCH_PEAR_KEY";
     [Parse setApplicationId:@"6p8dKCeTQK9clHUwF5jyQLhG0Rcopat0AnfAzFbO"
                   clientKey:@"Anm9Sq6OsS9u5xjeqkF9FSSPk6dqj9ZoLp05O0na"];
     
+    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     PARLoginViewController *vc = [storyboard instantiateInitialViewController];
     self.window.rootViewController = vc;
-    
-    [PFFacebookUtils initializeFacebook];
     
     [PARTheme setupTheme];
     
@@ -90,14 +90,13 @@ NSString * const PAR_IS_FIRST_LAUNCH_PEAR_KEY = @"PAR_IS_FIRST_LAUNCH_PEAR_KEY";
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+    [FBSDKAppEvents activateApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
-    [[PFFacebookUtils session] close];
+    [PFFacebookUtils unlinkUserInBackground:[PFUser user]];
     [self saveContext];
 }
 
@@ -107,10 +106,10 @@ NSString * const PAR_IS_FIRST_LAUNCH_PEAR_KEY = @"PAR_IS_FIRST_LAUNCH_PEAR_KEY";
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    
-    return [FBAppCall handleOpenURL:url
-                  sourceApplication:sourceApplication
-                        withSession:[PFFacebookUtils session]];
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
 }
 
 #pragma mark - Core Data stack
